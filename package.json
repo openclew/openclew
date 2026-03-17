@@ -1,0 +1,35 @@
+{
+  "name": "openclew",
+  "version": "0.2.0",
+  "description": "Long Life Memory for LLMs — structured project knowledge for AI agents and humans",
+  "license": "MIT",
+  "bin": {
+    "openclew": "./bin/openclew.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "templates/",
+    "hooks/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "ai",
+    "llm",
+    "documentation",
+    "knowledge",
+    "memory",
+    "claude",
+    "cursor",
+    "copilot",
+    "agents"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openclew/openclew"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
