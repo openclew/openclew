@@ -80,141 +80,43 @@ Together, they form the thread. The living docs tell you where you are. The logs
 
 ---
 
-## Quick start (5 minutes)
+## Quick start (2 minutes)
 
-### 1. Create the structure
-
-```bash
-mkdir -p doc/log
-```
-
-### 2. Copy the templates
-
-Download from [`templates/`](templates/) or create manually:
-
-<details>
-<summary><b>templates/living.md</b> — for living knowledge</summary>
-
-```markdown
-<!-- L1_START -->
-# L1 - Metadata
-type: Reference | Architecture | Guide | Analysis
-subject: Short title (< 60 chars)
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
-short_story: 1-2 sentences. What this doc covers and what it concludes.
-status: Active | Stable | Archived
-category: Main domain (e.g. Auth, API, Database, UI...)
-keywords: [tag1, tag2, tag3]
-<!-- L1_END -->
-
----
-
-<!-- L2_START -->
-# L2 - Summary
-
-## Objective
-<!-- Why this document exists -->
-
-## Key points
-<!-- 3-5 essential takeaways -->
-
-## Solution
-<!-- Recommended approach or pattern -->
-<!-- L2_END -->
-
----
-
-<!-- L3_START -->
-# L3 - Details
-
-<!-- Full technical content: examples, code, references... -->
-
-## Changelog
-
-| Date | Change |
-|------|--------|
-| YYYY-MM-DD | Initial creation |
-<!-- L3_END -->
-```
-
-</details>
-
-<details>
-<summary><b>templates/log.md</b> — for frozen facts</summary>
-
-```markdown
-<!-- L1_START -->
-# L1 - Metadata
-date: YYYY-MM-DD
-type: Bug | Feature | Refactor | Doc | Deploy
-subject: Short title (< 60 chars)
-short_story: 1-2 sentences. What happened and what was the outcome.
-status: Done | In progress | Abandoned
-category: Main domain
-keywords: [tag1, tag2, tag3]
-<!-- L1_END -->
-
----
-
-<!-- L2_START -->
-# L2 - Summary
-
-## Problem
-<!-- What was observed -->
-
-## Solution
-<!-- How it was resolved -->
-<!-- L2_END -->
-
----
-
-<!-- L3_START -->
-# L3 - Details
-
-<!-- Technical details: code changes, debugging steps, references... -->
-<!-- L3_END -->
-```
-
-</details>
-
-### 3. Write your first doc
+### 1. Install
 
 ```bash
-cp templates/living.md doc/_ARCHITECTURE.md
+npx openclew init
 ```
 
-Edit it — describe your project's architecture. Fill in L1 (metadata), L2 (summary), skip L3 if you don't need it yet.
+This:
+- Creates `doc/` with a guide, an example doc, and an example log
+- Detects your instruction file (CLAUDE.md, .cursorrules, AGENTS.md...)
+- Injects a block that teaches your agent about the doc structure
+- Installs a pre-commit hook that auto-generates `doc/_INDEX.md`
 
-### 4. Point your agent to it
+### 2. Start a session with your agent
 
-Add this to your `CLAUDE.md`, `.cursorrules`, or `AGENTS.md`:
+Ask it:
 
-```markdown
-## Project knowledge
+> Read doc/_USING_OPENCLEW.md and document our architecture.
 
-Documentation lives in `doc/`. Each doc has 3 levels (L1/L2/L3).
-- Read L1 first to decide if you need more
-- Living docs: `doc/_*.md` (living knowledge, updated)
-- Logs: `doc/log/YYYY-MM-DD_*.md` (frozen facts, never modified)
-- Index: `doc/_INDEX.md` (auto-generated, start here)
-```
+Your agent reads the guide, understands the L1/L2/L3 format, and creates `doc/_ARCHITECTURE.md` with your project's actual architecture.
 
-### 5. Auto-generate the index (optional)
+### 3. There is no step 3
 
-Copy [`hooks/generate-index.py`](hooks/generate-index.py) to your project and add it as a pre-commit hook:
-
-```bash
-# Option A: git hook
-cp hooks/generate-index.py .git/hooks/generate-index.py
-echo 'python .git/hooks/generate-index.py && git add doc/_INDEX.md' >> .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-
-# Option B: pre-commit framework
-# See hooks/README.md for .pre-commit-config.yaml setup
-```
+Next session, your agent reads the index, finds the doc, has the context. No re-explanation needed. As your project evolves, your agent creates and updates docs during sessions — living docs for ongoing knowledge, logs for frozen facts.
 
 The index auto-regenerates on every commit. Never edit it manually.
+
+<details>
+<summary><b>Manual setup</b> — if you prefer not to use the CLI</summary>
+
+1. Create `doc/` and `doc/log/`
+2. Copy templates from [`templates/`](templates/) (living.md, log.md)
+3. Add the openclew block to your instruction file (see `doc/_USING_OPENCLEW.md` after init for the exact format)
+4. Copy [`hooks/generate-index.py`](hooks/generate-index.py) and wire it as a pre-commit hook
+
+</details>
 
 ---
 
