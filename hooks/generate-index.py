@@ -3,7 +3,7 @@
 openclew index generator.
 
 Scans doc/_*.md (living docs) and doc/log/*.md (logs),
-parses L1 metadata blocks, and generates doc/_INDEX.md.
+parses metadata line + L1 blocks, and generates doc/_INDEX.md.
 
 Usage:
     python generate-index.py              # from project root
@@ -34,23 +34,67 @@ def find_doc_dir():
     return doc_dir
 
 
-def parse_l1(filepath):
-    """Extract L1 metadata from a file."""
-    try:
-        content = filepath.read_text(encoding="utf-8")
-    except (OSError, UnicodeDecodeError):
-        return None
+def parse_metadata_line(content):
+    """Extract metadata from the first line (before L1_START).
 
+    Format: openclew@VERSION · key: value · key: value · ...
+    """
+    meta = {}
+    first_line = content.split("\n", 1)[0].strip()
+    if not first_line.startswith("openclew@"):
+        return meta
+
+    parts = first_line.split(" · ")
+    for part in parts:
+        part = part.strip()
+        if part.startswith("openclew@"):
+            meta["version"] = part.split("@", 1)[1]
+            continue
+        if ":" in part:
+            key, _, value = part.partition(":")
+            meta[key.strip().lower()] = value.strip()
+
+    return meta
+
+
+def parse_l1(content):
+    """Extract L1 fields (subject, doc_brief) from L1_START/L1_END block."""
+    meta = {}
     match = re.search(
         r"<!--\s*L1_START\s*-->(.+?)<!--\s*L1_END\s*-->",
         content,
         re.DOTALL,
     )
     if not match:
-        return None
+        return meta
 
     block = match.group(1)
+
+    # Extract **subject:** value
+    subject_match = re.search(r"\*\*subject:\*\*\s*(.+)", block)
+    if subject_match:
+        meta["subject"] = subject_match.group(1).strip()
+
+    # Extract **doc_brief:** value
+    brief_match = re.search(r"\*\*doc_brief:\*\*\s*(.+)", block)
+    if brief_match:
+        meta["doc_brief"] = brief_match.group(1).strip()
+
+    return meta
+
+
+def parse_l1_legacy(content):
+    """Fallback parser for old format (key: value lines inside L1 block)."""
     meta = {}
+    match = re.search(
+        r"<!--\s*L1_START\s*-->(.+?)<!--\s*L1_END\s*-->",
+        content,
+        re.DOTALL,
+    )
+    if not match:
+        return meta
+
+    block = match.group(1)
     for line in block.splitlines():
         line = line.strip()
         if line.startswith("#") or not line:
@@ -62,8 +106,33 @@ def parse_l1(filepath):
     return meta
 
 
+def parse_file(filepath):
+    """Parse a file and return combined metadata + L1 fields."""
+    try:
+        content = filepath.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError):
+        return None
+
+    # Try new format first
+    meta_line = parse_metadata_line(content)
+    l1 = parse_l1(content)
+
+    if l1.get("subject"):
+        # New format
+        meta_line.update(l1)
+        return meta_line
+
+    # Fallback to legacy format
+    legacy = parse_l1_legacy(content)
+    if legacy:
+        meta_line.update(legacy)
+        return meta_line
+
+    return None
+
+
 def collect_docs(doc_dir):
-    """Collect living docs and logs with their L1 metadata."""
+    """Collect living docs and logs with their metadata."""
     living_docs = []
     logs = []
 
@@ -71,7 +140,7 @@ def collect_docs(doc_dir):
     for f in sorted(doc_dir.glob("_*.md")):
         if f.name == "_INDEX.md":
             continue
-        meta = parse_l1(f)
+        meta = parse_file(f)
         if meta:
             living_docs.append((f, meta))
 
@@ -79,7 +148,7 @@ def collect_docs(doc_dir):
     log_dir = doc_dir / "log"
     if log_dir.is_dir():
         for f in sorted(log_dir.glob("*.md"), reverse=True):
-            meta = parse_l1(f)
+            meta = parse_file(f)
             if meta:
                 logs.append((f, meta))
 

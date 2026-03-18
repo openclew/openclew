@@ -1,13 +1,10 @@
 <!-- EXAMPLE: Fictitious log to demonstrate openclew doc format. Not real. -->
+openclew@0.2.0 · date: 2026-02-15 · type: Feature · status: Done · category: Performance · keywords: [redis, cache, performance, ttl]
+
 <!-- L1_START -->
-# L1 - Metadata
-date: 2026-02-15
-type: Feature
-subject: Redis cache layer for API responses
-short_story: "[EXAMPLE] Added Redis cache for expensive queries (user profiles, product listings). Cache-aside pattern with 5min TTL. Falls back to in-memory Map in dev when Redis is unavailable."
-status: Done
-category: Performance
-keywords: [redis, cache, performance, ttl]
+**subject:** Redis cache layer for API responses
+
+**doc_brief:** [EXAMPLE] Added Redis cache for expensive queries (user profiles, product listings). Cache-aside pattern with 5min TTL. Falls back to in-memory Map in dev when Redis is unavailable.
 <!-- L1_END -->
 
 ---

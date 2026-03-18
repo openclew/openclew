@@ -33,17 +33,17 @@ node bin/openclew.js help          # Show usage
 | `templates/living.md` | Reference template for living docs |
 | `templates/log.md` | Reference template for logs |
 
-## Doc format (L1/L2/L3)
+## Doc format
 
-Every doc has 3 delimited sections:
+Every doc has a metadata line + 3 levels:
 
 ```markdown
+openclew@0.2.0 · date: YYYY-MM-DD · type: Feature · status: Done · category: Auth · keywords: [tag1, tag2]
+
 <!-- L1_START -->
-type: Feature
-subject: One-line description
-short_story: What happened and what it means (1-2 sentences)
-status: Done
-keywords: [tag1, tag2]
+**subject:** One-line description
+
+**doc_brief:** What happened and what it means (1-2 sentences)
 <!-- L1_END -->
 
 <!-- L2_START -->
@@ -56,6 +56,11 @@ Human-readable overview.
 Full technical details.
 <!-- L3_END -->
 ```
+
+**Line 1** — metadata for indexing/triage (version, date, type, status, category, keywords).
+**L1** — subject + doc_brief: what the doc is about and what it concludes.
+**L2** — summary: objective, key points, decisions.
+**L3** — full technical details.
 
 **Two types of docs:**
 - `doc/_NAME.md` — living docs (updated over time, start with `_`)

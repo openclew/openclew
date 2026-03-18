@@ -1,13 +1,10 @@
 <!-- EXAMPLE: Fictitious log to demonstrate openclew doc format. Not real. -->
+openclew@0.2.0 · date: 2026-01-15 · type: Feature · status: Done · category: Auth · keywords: [jwt, auth, tokens, cookies]
+
 <!-- L1_START -->
-# L1 - Metadata
-date: 2026-01-15
-type: Feature
-subject: JWT authentication setup
-short_story: "[EXAMPLE] Implemented JWT auth with access/refresh token flow. Access tokens 15min, refresh tokens 7 days in httpOnly cookies. Middleware protects all /api routes."
-status: Done
-category: Auth
-keywords: [jwt, auth, tokens, cookies]
+**subject:** JWT authentication setup
+
+**doc_brief:** [EXAMPLE] Implemented JWT auth with access/refresh token flow. Access tokens 15min, refresh tokens 7 days in httpOnly cookies. Middleware protects all /api routes.
 <!-- L1_END -->
 
 ---

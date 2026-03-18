@@ -1,14 +1,10 @@
 <!-- EXAMPLE: Fictitious project to demonstrate openclew doc format. Not real. -->
+openclew@0.2.0 · created: 2026-02-01 · updated: 2026-03-05 · type: Architecture · status: Active · category: Architecture · keywords: [nextjs, supabase, vercel, tailwind, shadcn]
+
 <!-- L1_START -->
-# L1 - Metadata
-type: Architecture
-subject: SaaS Dashboard architecture
-created: 2026-02-01
-updated: 2026-03-05
-short_story: "[EXAMPLE] Next.js 14 App Router + Supabase (auth, DB, storage). Server Components by default, Client Components only for interactivity. Tailwind + shadcn/ui. Deployed on Vercel with preview deploys per PR."
-status: Active
-category: Architecture
-keywords: [nextjs, supabase, vercel, tailwind, shadcn]
+**subject:** SaaS Dashboard architecture
+
+**doc_brief:** [EXAMPLE] Next.js 14 App Router + Supabase (auth, DB, storage). Server Components by default, Client Components only for interactivity. Tailwind + shadcn/ui. Deployed on Vercel with preview deploys per PR.
 <!-- L1_END -->
 
 ---

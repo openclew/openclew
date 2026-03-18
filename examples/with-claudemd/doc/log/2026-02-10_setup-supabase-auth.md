@@ -1,13 +1,10 @@
 <!-- EXAMPLE: Fictitious log to demonstrate openclew doc format. Not real. -->
+openclew@0.2.0 · date: 2026-02-10 · type: Feature · status: Done · category: Auth · keywords: [supabase, auth, pkce, middleware]
+
 <!-- L1_START -->
-# L1 - Metadata
-date: 2026-02-10
-type: Feature
-subject: Supabase Auth setup with PKCE flow
-short_story: "[EXAMPLE] Configured Supabase Auth with PKCE flow. Middleware refreshes sessions automatically. Protected routes redirect to /login. Social auth (Google, GitHub) ready but not enabled yet."
-status: Done
-category: Auth
-keywords: [supabase, auth, pkce, middleware]
+**subject:** Supabase Auth setup with PKCE flow
+
+**doc_brief:** [EXAMPLE] Configured Supabase Auth with PKCE flow. Middleware refreshes sessions automatically. Protected routes redirect to /login. Social auth (Google, GitHub) ready but not enabled yet.
 <!-- L1_END -->
 
 ---

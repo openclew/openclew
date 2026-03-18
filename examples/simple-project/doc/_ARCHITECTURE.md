@@ -1,14 +1,10 @@
 <!-- EXAMPLE: Fictitious project to demonstrate openclew doc format. Not real. -->
+openclew@0.2.0 · created: 2026-01-10 · updated: 2026-03-01 · type: Architecture · status: Active · category: Architecture · keywords: [express, postgresql, jwt, railway]
+
 <!-- L1_START -->
-# L1 - Metadata
-type: Architecture
-subject: Simple Project architecture overview
-created: 2026-01-10
-updated: 2026-03-01
-short_story: "[EXAMPLE] Express.js API with PostgreSQL. Three-layer architecture (routes, services, repositories). Auth via JWT. Deployed on Railway."
-status: Active
-category: Architecture
-keywords: [express, postgresql, jwt, railway]
+**subject:** Simple Project architecture overview
+
+**doc_brief:** [EXAMPLE] Express.js API with PostgreSQL. Three-layer architecture (routes, services, repositories). Auth via JWT. Deployed on Railway.
 <!-- L1_END -->
 
 ---

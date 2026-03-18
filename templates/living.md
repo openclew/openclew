@@ -1,13 +1,9 @@
+openclew@VERSION · created: YYYY-MM-DD · updated: YYYY-MM-DD · type: Reference | Architecture | Guide | Analysis · status: Active | Stable | Archived · category: Main domain · keywords: [tag1, tag2, tag3]
+
 <!-- L1_START -->
-# L1 - Metadata
-type: Reference | Architecture | Guide | Analysis
-subject: Short title (< 60 chars)
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
-short_story: 1-2 sentences. What this doc covers and what it concludes. Must be enough to decide if you need to read further.
-status: Active | Stable | Archived
-category: Main domain (e.g. Auth, API, Database, UI...)
-keywords: [tag1, tag2, tag3]
+**subject:** Short title (< 60 chars)
+
+**doc_brief:** 1-2 sentences. What this doc covers and what it concludes. Must be enough to decide if you need to read further.
 <!-- L1_END -->
 
 ---
