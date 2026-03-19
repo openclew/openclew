@@ -10,7 +10,7 @@ openclew is a CLI tool (`npx openclew`) that sets up structured project document
 
 ```bash
 node bin/openclew.js init          # Initialize openclew in a project
-node bin/openclew.js new "Title"   # Create a living doc (_TITLE.md)
+node bin/openclew.js new "Title"   # Create a refdoc (_TITLE.md)
 node bin/openclew.js log "Title"   # Create a log (YYYY-MM-DD_title.md)
 node bin/openclew.js index         # Regenerate _INDEX.md
 node bin/openclew.js help          # Show usage
@@ -26,11 +26,11 @@ node bin/openclew.js help          # Show usage
 | `lib/inject.js` | Injects openclew block into instruction file via markers |
 | `lib/config.js` | Read/write `.openclew.json` (entry point config) |
 | `lib/templates.js` | Embedded templates + helpers (slugify, today) |
-| `lib/new-doc.js` | Creates `doc/_TITLE.md` from living doc template |
+| `lib/new-doc.js` | Creates `doc/_TITLE.md` from refdoc template |
 | `lib/new-log.js` | Creates `doc/log/YYYY-MM-DD_title.md` from log template |
 | `lib/index-gen.js` | Wrapper that calls `hooks/generate-index.py` |
 | `hooks/generate-index.py` | Parses L1 blocks, generates `doc/_INDEX.md` |
-| `templates/living.md` | Reference template for living docs |
+| `templates/refdoc.md` | Reference template for refdocs |
 | `templates/log.md` | Reference template for logs |
 
 ## Doc format
@@ -63,7 +63,7 @@ Full technical details.
 **L3** — full technical details.
 
 **Two types of docs:**
-- `doc/_NAME.md` — living docs (updated over time, start with `_`)
+- `doc/_NAME.md` — refdocs (updated over time, start with `_`)
 - `doc/log/YYYY-MM-DD_subject.md` — logs (immutable, frozen facts)
 
 ## Architecture

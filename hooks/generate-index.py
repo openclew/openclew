@@ -2,7 +2,7 @@
 """
 openclew index generator.
 
-Scans doc/_*.md (living docs) and doc/log/*.md (logs),
+Scans doc/_*.md (refdocs) and doc/log/*.md (logs),
 parses metadata line + L1 blocks, and generates doc/_INDEX.md.
 
 Usage:
@@ -132,17 +132,17 @@ def parse_file(filepath):
 
 
 def collect_docs(doc_dir):
-    """Collect living docs and logs with their metadata."""
-    living_docs = []
+    """Collect refdocs and logs with their metadata."""
+    refdocs = []
     logs = []
 
-    # Living docs: doc/_*.md
+    # Refdocs: doc/_*.md
     for f in sorted(doc_dir.glob("_*.md")):
         if f.name == "_INDEX.md":
             continue
         meta = parse_file(f)
         if meta:
-            living_docs.append((f, meta))
+            refdocs.append((f, meta))
 
     # Log docs: doc/log/*.md
     log_dir = doc_dir / "log"
@@ -152,10 +152,10 @@ def collect_docs(doc_dir):
             if meta:
                 logs.append((f, meta))
 
-    return living_docs, logs
+    return refdocs, logs
 
 
-def generate_index(doc_dir, living_docs, logs):
+def generate_index(doc_dir, refdocs, logs):
     """Generate _INDEX.md content."""
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     lines = [
@@ -166,13 +166,13 @@ def generate_index(doc_dir, living_docs, logs):
         f"",
     ]
 
-    # Living docs section
-    lines.append("## Living docs")
+    # Refdocs section
+    lines.append("## Refdocs")
     lines.append("")
-    if living_docs:
+    if refdocs:
         lines.append("| Document | Subject | Status | Category |")
         lines.append("|----------|---------|--------|----------|")
-        for f, meta in living_docs:
+        for f, meta in refdocs:
             name = f.name
             subject = meta.get("subject", "—")
             status = meta.get("status", "—")
@@ -180,7 +180,7 @@ def generate_index(doc_dir, living_docs, logs):
             rel_path = f.relative_to(doc_dir.parent)
             lines.append(f"| [{name}]({rel_path}) | {subject} | {status} | {category} |")
     else:
-        lines.append("_No living docs yet. Create one with `templates/living.md`._")
+        lines.append("_No refdocs yet. Create one with `templates/refdoc.md`._")
     lines.append("")
 
     # Logs section (last 20)
@@ -206,7 +206,7 @@ def generate_index(doc_dir, living_docs, logs):
 
     # Stats
     lines.append("---")
-    lines.append(f"**{len(living_docs)}** living docs, **{len(logs)}** logs.")
+    lines.append(f"**{len(refdocs)}** refdocs, **{len(logs)}** logs.")
     lines.append("")
 
     return "\n".join(lines)
@@ -214,12 +214,12 @@ def generate_index(doc_dir, living_docs, logs):
 
 def main():
     doc_dir = find_doc_dir()
-    living_docs, logs = collect_docs(doc_dir)
-    index_content = generate_index(doc_dir, living_docs, logs)
+    refdocs, logs = collect_docs(doc_dir)
+    index_content = generate_index(doc_dir, refdocs, logs)
 
     index_path = doc_dir / "_INDEX.md"
     index_path.write_text(index_content, encoding="utf-8")
-    print(f"Generated {index_path} ({len(living_docs)} living docs, {len(logs)} logs)")
+    print(f"Generated {index_path} ({len(refdocs)} refdocs, {len(logs)} logs)")
 
 
 if __name__ == "__main__":

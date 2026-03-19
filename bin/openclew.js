@@ -10,7 +10,7 @@ openclew — Long Life Memory for LLMs
 
 Usage:
   openclew init                    Set up openclew in the current project
-  openclew new <title>             Create a living doc (evolves with the project)
+  openclew new <title>             Create a refdoc (evolves with the project)
   openclew log <title>             Create a session log (frozen facts)
   openclew checkout                End-of-session summary + log creation
   openclew index                   Regenerate doc/_INDEX.md
@@ -23,7 +23,7 @@ Options:
 Getting started:
   npx openclew init                1. Set up doc/ + guide + examples + git hook
   # Edit doc/_ARCHITECTURE.md      2. Replace the example with your project's architecture
-  openclew new "API design"        3. Create your own living docs
+  openclew new "API design"        3. Create your own refdocs
   git commit                       4. Index auto-regenerates on commit
 
 Docs have 3 levels: L1 (metadata) → L2 (summary) → L3 (details).

@@ -70,13 +70,13 @@ L1 answers "should I read this?" L2 answers "what do I need to know?" L3 is ther
 
 | Type | Location | Role | Mutability |
 |------|----------|------|------------|
-| **Living** | `doc/_SUBJECT.md` | Living knowledge (architecture, conventions, decisions) | Updated over time |
+| **Refdoc** | `doc/_SUBJECT.md` | Reference knowledge (architecture, conventions, decisions) | Updated over time |
 | **Log** | `doc/log/YYYY-MM-DD_subject.md` | Frozen facts (what happened, what was decided) | Never modified |
 
-**Living docs** are your project's brain — they evolve as the project evolves.
+**Refdocs** are your project's brain — they evolve as the project evolves.
 **Logs** are your project's journal — immutable records of what happened and why.
 
-Together, they form the thread. The living docs tell you where you are. The logs tell you how you got here.
+Together, they form the thread. The refdocs tell you where you are. The logs tell you how you got here.
 
 ---
 
@@ -104,7 +104,7 @@ Your agent reads the guide, understands the L1/L2/L3 format, and creates `doc/_A
 
 ### 3. There is no step 3
 
-Next session, your agent reads the index, finds the doc, has the context. No re-explanation needed. As your project evolves, your agent creates and updates docs during sessions — living docs for ongoing knowledge, logs for frozen facts.
+Next session, your agent reads the index, finds the doc, has the context. No re-explanation needed. As your project evolves, your agent creates and updates docs during sessions — refdocs for ongoing knowledge, logs for frozen facts.
 
 The index auto-regenerates on every commit. Never edit it manually.
 
@@ -112,7 +112,7 @@ The index auto-regenerates on every commit. Never edit it manually.
 <summary><b>Manual setup</b> — if you prefer not to use the CLI</summary>
 
 1. Create `doc/` and `doc/log/`
-2. Copy templates from [`templates/`](templates/) (living.md, log.md)
+2. Copy templates from [`templates/`](templates/) (refdoc.md, log.md)
 3. Add the openclew block to your instruction file (see `doc/_USING_OPENCLEW.md` after init for the exact format)
 4. Copy [`hooks/generate-index.py`](hooks/generate-index.py) and wire it as a pre-commit hook
 
@@ -165,7 +165,7 @@ doc/
 - **Shared knowledge** — Same docs for humans and AI. One source, multiple readers.
 - **SSOT** (Single Source of Truth) — Each piece of information lives in one place.
 - **Logs are immutable** — Once written, never modified. Frozen facts.
-- **Living docs evolve** — They evolve as the project evolves.
+- **Refdocs evolve** — They evolve as the project evolves.
 - **Index is auto-generated** — Never edit `_INDEX.md` manually.
 
 ---
