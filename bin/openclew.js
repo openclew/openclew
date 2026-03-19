@@ -13,7 +13,10 @@ Usage:
   openclew new <title>             Create a refdoc (evolves with the project)
   openclew log <title>             Create a session log (frozen facts)
   openclew checkout                End-of-session summary + log creation
+  openclew search <query>          Search docs by keyword (L1/metadata)
+  openclew status                  Show documentation health dashboard
   openclew index                   Regenerate doc/_INDEX.md
+  openclew mcp                     Start MCP server (stdio JSON-RPC)
   openclew help                    Show this help
 
 Options:
@@ -41,7 +44,10 @@ const commands = {
   new: () => require("../lib/new-doc"),
   log: () => require("../lib/new-log"),
   checkout: () => require("../lib/checkout"),
+  search: () => require("../lib/search"),
+  status: () => require("../lib/status"),
   index: () => require("../lib/index-gen"),
+  mcp: () => require("../lib/mcp-server"),
 };
 
 if (!commands[command]) {
