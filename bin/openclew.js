@@ -9,36 +9,58 @@ const USAGE = `
 openclew — Long Life Memory for LLMs
 
 Usage:
-  openclew init                    Set up openclew in the current project
-  openclew new <title>             Create a refdoc (evolves with the project)
-  openclew log <title>             Create a session log (frozen facts)
-  openclew checkout                End-of-session summary + log creation
-  openclew search <query>          Search docs by keyword (L1/metadata)
-  openclew status                  Show documentation health dashboard
-  openclew index                   Regenerate doc/_INDEX.md
-  openclew mcp                     Start MCP server (stdio JSON-RPC)
-  openclew help                    Show this help
+  openclew init                    Set up openclew in your project
+  openclew add ref <title>         Create a refdoc (evolves with the project)
+  openclew add log <title>         Create a session log (frozen facts)
+  openclew search <query>          Search docs by keyword
+  openclew checkout                End-of-session summary
 
-Options:
-  --no-hook                        Skip pre-commit hook installation (init)
-  --no-inject                      Skip instruction file injection (init)
-
-Getting started:
-  npx openclew init                1. Set up doc/ + guide + examples + git hook
-  # Edit doc/_ARCHITECTURE.md      2. Replace the example with your project's architecture
-  openclew new "API design"        3. Create your own refdocs
-  git commit                       4. Index auto-regenerates on commit
-
-Docs have 3 levels: L1 (metadata) → L2 (summary) → L3 (details).
-Agents read L1 to decide what's relevant, then L2 for context.
+Run 'openclew help --all' for advanced commands.
 More at: https://github.com/openclew/openclew
 `.trim();
 
+const USAGE_ALL = `
+openclew — Long Life Memory for LLMs
+
+Usage:
+  openclew init                    Set up openclew in your project
+  openclew add ref <title>         Create a refdoc (evolves with the project)
+  openclew add log <title>         Create a session log (frozen facts)
+  openclew search <query>          Search docs by keyword
+  openclew checkout                End-of-session summary
+
+Advanced:
+  openclew status                  Documentation health dashboard
+  openclew index                   Regenerate doc/_INDEX.md
+  openclew mcp                     Start MCP server (stdio JSON-RPC)
+
+Options (init):
+  --no-hook                        Skip pre-commit hook installation
+  --no-inject                      Skip instruction file injection
+`.trim();
+
 if (!command || command === "help" || command === "--help" || command === "-h") {
-  console.log(USAGE);
+  const showAll = args.includes("--all");
+  console.log(showAll ? USAGE_ALL : USAGE);
   process.exit(0);
 }
 
+// Handle "add ref" / "add log" subcommands
+if (command === "add") {
+  const sub = args[1];
+  if (sub === "ref") {
+    require("../lib/new-doc");
+  } else if (sub === "log") {
+    require("../lib/new-log");
+  } else {
+    console.error(`Unknown type: ${sub || "(none)"}`);
+    console.error('Usage: openclew add ref <title>  or  openclew add log <title>');
+    process.exit(1);
+  }
+  process.exit(0);
+}
+
+// Legacy aliases
 const commands = {
   init: () => require("../lib/init"),
   new: () => require("../lib/new-doc"),
