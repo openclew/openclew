@@ -12,6 +12,7 @@
     "templates/",
     "skills/",
     "README.md",
+    "UPGRADING.md",
     "LICENSE"
   ],
   "keywords": [
