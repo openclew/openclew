@@ -3,7 +3,7 @@ openclew@VERSION · created: YYYY-MM-DD · updated: YYYY-MM-DD · type: Referenc
 <!-- L1_START -->
 **subject:** Short title (< 60 chars)
 
-**doc_brief:** 1-2 sentences. What this doc covers and what it concludes. Must be enough to decide if you need to read further.
+**doc_brief:** 1-2 sentences of assertions (what is true/decided), not narration (what was done). Must be enough to decide if you need to read further.
 <!-- L1_END -->
 
 ---

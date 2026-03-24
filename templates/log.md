@@ -3,7 +3,7 @@ openclew@VERSION · date: YYYY-MM-DD · type: Bug | Feature | Refactor | Doc | D
 <!-- L1_START -->
 **subject:** Short title (< 60 chars)
 
-**doc_brief:** 1-2 sentences. What happened and what was the outcome. Include conclusions, not just process.
+**doc_brief:** 1-2 sentences of assertions (what is true/decided), not narration (what was done). Remove "we did X" — state the result.
 <!-- L1_END -->
 
 ---

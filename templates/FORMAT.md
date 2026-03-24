@@ -91,14 +91,16 @@ Between `<!-- L1_START -->` and `<!-- L1_END -->` markers. Two fields only:
 <!-- L1_START -->
 **subject:** Short title (< 60 chars)
 
-**doc_brief:** 1-2 sentences. What this doc covers and what it concludes. Must be enough to decide if you need to read further.
+**doc_brief:** 1-2 sentences of **assertions** (what is true), not narration (what was done). Must be enough to decide if you need to read further.
 <!-- L1_END -->
 ```
 
 ### Rules
 
 - **subject** is the document's title. Keep it short and scannable.
-- **doc_brief** answers: "Should I read this?" Include conclusions, not just process. Don't write "Describes the auth system" — write "JWT-based auth with refresh tokens, sessions stored in Redis, 15-min expiry."
+- **doc_brief** answers: "Should I read this?" Write **assertions** — state what is true, decided, or concluded. Don't narrate what was done. Quick test: remove "we investigated" / "we compared" — if the sentence collapses, rewrite it.
+  - Bad: "Investigated memory leak in worker pool. Profiled with pprof, tested several fixes."
+  - Good: "Worker pool leaked memory via unclosed response bodies in retry path. Fixed with deferred close. Steady at 120MB under load."
 - Both fields use `**bold_key:**` syntax (not YAML `key: value`).
 - No other fields in L1. All metadata lives on line 1.
 
