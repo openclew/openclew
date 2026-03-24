@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" alt="openclew" width="200">
+</p>
+
 # openclew
 
 > Long Life Memory for LLMs
