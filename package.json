@@ -10,7 +10,7 @@
     "bin/",
     "lib/",
     "templates/",
-    "hooks/",
+    "skills/",
     "README.md",
     "LICENSE"
   ],
