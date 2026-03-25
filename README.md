@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" alt="openclew" width="200">
+  <img src="https://raw.githubusercontent.com/openclew/openclew/main/assets/logo.png" alt="openclew" width="200">
 </p>
 
 # openclew
@@ -118,7 +118,7 @@ The index auto-regenerates on every commit. Never edit it manually.
 1. Create `doc/` and `doc/log/`
 2. Copy templates from [`templates/`](templates/) (refdoc.md, log.md)
 3. Add the openclew block to your instruction file (see `doc/_USING_OPENCLEW.md` after init for the exact format)
-4. Copy [`hooks/generate-index.py`](hooks/generate-index.py) and wire it as a pre-commit hook
+4. Run `openclew index` to generate `doc/_INDEX.md` (or wire it as a pre-commit hook)
 
 </details>
 

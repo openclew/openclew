@@ -30,8 +30,6 @@ Usage:
   openclew checkout                End-of-session summary
 
 Advanced:
-  openclew migrate                 Upgrade legacy docs to openclew format
-  openclew migrate --write         Apply migration (dry-run by default)
   openclew status                  Documentation health dashboard
   openclew index                   Regenerate doc/_INDEX.md
   openclew mcp                     Start MCP server (stdio JSON-RPC)
@@ -70,7 +68,6 @@ const commands = {
   checkout: () => require("../lib/checkout"),
   search: () => require("../lib/search"),
   status: () => require("../lib/status"),
-  migrate: () => require("../lib/migrate"),
   index: () => require("../lib/index-gen"),
   mcp: () => require("../lib/mcp-server"),
 };

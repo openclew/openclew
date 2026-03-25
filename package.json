@@ -8,7 +8,18 @@
   },
   "files": [
     "bin/",
-    "lib/",
+    "lib/checkout.js",
+    "lib/config.js",
+    "lib/detect.js",
+    "lib/index-gen.js",
+    "lib/init.js",
+    "lib/inject.js",
+    "lib/mcp-server.js",
+    "lib/new-doc.js",
+    "lib/new-log.js",
+    "lib/search.js",
+    "lib/status.js",
+    "lib/templates.js",
     "templates/",
     "skills/",
     "README.md",
@@ -29,6 +40,15 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/openclew/openclew"
+  },
+  "author": "Raphaël Flambard <raphael@ralpha.fr>",
+  "contributors": [
+    "Adrien Cocuaud <adrien@ralpha.fr>",
+    "Victor Ripplinger"
+  ],
+  "homepage": "https://github.com/openclew/openclew#readme",
+  "bugs": {
+    "url": "https://github.com/openclew/openclew/issues"
   },
   "engines": {
     "node": ">=16"
