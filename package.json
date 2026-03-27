@@ -21,6 +21,7 @@
     "lib/status.js",
     "lib/templates.js",
     "templates/",
+    "commands/",
     "skills/",
     "README.md",
     "UPGRADING.md",

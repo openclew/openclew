@@ -4,7 +4,7 @@
 
 openclew is a CLI tool (`npx openclew`) that sets up structured project documentation for AI agents. It creates a `doc/` directory with L1/L2/L3 layered Markdown files and an auto-generated index.
 
-**Stack**: Node.js CLI (zero npm dependencies), Python 3.8+ for index generation.
+**Stack**: Node.js CLI (zero dependencies). Pure JavaScript — no Python required.
 
 ## Commands
 
@@ -28,8 +28,8 @@ node bin/openclew.js help          # Show usage
 | `lib/templates.js` | Embedded templates + helpers (slugify, today) |
 | `lib/new-doc.js` | Creates `doc/_TITLE.md` from refdoc template |
 | `lib/new-log.js` | Creates `doc/log/YYYY-MM-DD_title.md` from log template |
-| `lib/index-gen.js` | Wrapper that calls `hooks/generate-index.py` |
-| `hooks/generate-index.py` | Parses L1 blocks, generates `doc/_INDEX.md` |
+| `lib/index-gen.js` | Pure JS index generator — parses L1 blocks, generates `doc/_INDEX.md` |
+| `lib/search.js` | SSOT parsers (metadata, L1) — reused by index-gen, search, MCP |
 | `templates/refdoc.md` | Reference template for refdocs |
 | `templates/log.md` | Reference template for logs |
 
@@ -73,14 +73,12 @@ npx openclew <command>
     ↓
 bin/openclew.js (dispatcher)
     ↓
-lib/*.js (init, new-doc, new-log, index-gen, detect, inject, config, templates)
-    ↓
-hooks/generate-index.py (L1 parser → _INDEX.md)
+lib/*.js (init, new-doc, new-log, index-gen, search, detect, inject, config, templates)
 ```
 
 ## Conventions
 
-- Zero npm dependencies — Node 16+ and Python 3.8+ standard library only
+- Zero dependencies — Node 16+ only (no Python required since oc_0.3.0)
 - Idempotent: every command is safe to re-run
 - Entry point stored in `.openclew.json` (default: AGENTS.md, case-insensitive)
 - Injection via markers `<!-- openclew_START -->` / `<!-- openclew_END -->`

@@ -1,5 +1,5 @@
 ---
-name: openclew-init
+name: oc-init
 description: Set up openclew structured documentation in the current project. Creates doc/ with L1/L2/L3 knowledge base, auto-generated index, and injects context into your instruction file.
 user-invocable: true
 ---

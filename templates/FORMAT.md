@@ -1,7 +1,7 @@
 # openclew document format
 
 > SSOT — this file defines the canonical format for all openclew documents.
-> Templates (`refdoc.md`, `log.md`), embedded templates (`lib/templates.js`), and parsers (`generate-index.py`, `lib/search.js`) must conform to this spec.
+> Templates (`refdoc.md`, `log.md`), embedded templates (`lib/templates.js`), and parsers (`lib/index-gen.js`, `lib/search.js`) must conform to this spec.
 
 ---
 
@@ -178,7 +178,7 @@ Between `<!-- L3_START -->` and `<!-- L3_END -->` markers. Starts with `# L3 - D
 
 ## Parser compatibility
 
-The `generate-index.py` parser extracts:
+The `lib/index-gen.js` parser (via `lib/search.js`) extracts:
 1. **Line 1 metadata**: splits on ` · `, parses `key: value` pairs
 2. **L1 fields**: regex for `**subject:**` and `**doc_brief:**` between L1 markers
 

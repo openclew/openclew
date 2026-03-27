@@ -1,5 +1,5 @@
 ---
-name: openclew-search
+name: oc-search
 description: Search project documentation by keyword. Searches L1 metadata (subject, doc_brief, category, keywords) across all refdocs and logs. Returns results sorted by relevance.
 user-invocable: true
 ---

@@ -1,5 +1,5 @@
 ---
-name: openclew-checkpoint
+name: oc-checkpoint
 description: End-of-session checkpoint. Summarizes git activity, creates a session log, and regenerates the doc index. Use at the end of a work session to persist what was done.
 user-invocable: true
 ---
