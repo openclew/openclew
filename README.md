@@ -112,6 +112,18 @@ Next session, your agent reads the index, finds the doc, has the context. No re-
 
 The index auto-regenerates on every commit. Never edit it manually.
 
+### CLI commands
+
+```bash
+openclew init                    # Set up openclew in your project
+openclew add ref <title>         # Create a refdoc (evolves with the project)
+openclew add log <title>         # Create a session log (frozen facts)
+openclew search <query>          # Search docs by keyword
+openclew checkout                # End-of-session summary
+openclew status                  # Documentation health dashboard
+openclew mcp                     # Start MCP server (stdio JSON-RPC)
+```
+
 <details>
 <summary><b>Manual setup</b> — if you prefer not to use the CLI</summary>
 
@@ -180,7 +192,15 @@ doc/
 
 **Workflow frameworks:** BMAD, Spec Kit, or any methodology — openclew handles knowledge, your framework handles process.
 
-**It's just Markdown.** No runtime, no dependencies, no lock-in. Git-versioned, diffable, reviewable in PRs. If you stop using it, the docs are still useful — to humans and agents alike.
+**What the CLI does for you:**
+- Detects your instruction file (CLAUDE.md, .cursorrules, AGENTS.md, copilot-instructions...)
+- Injects a knowledge block that teaches your agent about the doc structure
+- Generates and regenerates the index on every commit (pre-commit hook)
+- Searches docs by keyword with weighted scoring (`openclew search`)
+- Exposes docs via MCP server for tool-aware agents (`openclew mcp`)
+- Produces a session summary at end of work (`openclew checkout`)
+
+**What you get:** plain Markdown files. Git-versioned, diffable, reviewable in PRs. Zero npm dependencies — Node 16+ is all you need. No lock-in: if you stop using the CLI, the docs are still useful — to humans and agents alike.
 
 ---
 
