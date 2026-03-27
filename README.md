@@ -124,6 +124,19 @@ openclew status                  # Documentation health dashboard
 openclew mcp                     # Start MCP server (stdio JSON-RPC)
 ```
 
+### Claude Code slash commands
+
+`openclew init` installs 4 slash commands into Claude Code:
+
+| Command | What it does |
+|---------|-------------|
+| `/oc-checkout` | End-of-session summary — review actions, create log, commit |
+| `/oc-search` | Search project docs by keyword |
+| `/oc-init` | Set up openclew in the current project |
+| `/oc-status` | Documentation health dashboard |
+
+These work like any Claude Code slash command — type `/oc-` and pick one. No `npx` needed.
+
 <details>
 <summary><b>Manual setup</b> — if you prefer not to use the CLI</summary>
 
