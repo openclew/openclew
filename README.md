@@ -235,4 +235,4 @@ doc/
 
 ## License
 
-MIT — use it however you want.
+Apache 2.0 — use it however you want. Patent protection included.

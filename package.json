@@ -2,7 +2,7 @@
   "name": "openclew",
   "version": "0.4.0",
   "description": "Long Life Memory for LLMs — structured project knowledge for AI agents and humans",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bin": {
     "openclew": "./bin/openclew.js"
   },
