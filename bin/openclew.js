@@ -13,6 +13,7 @@ Usage:
   openclew add ref <title>         Create a refdoc (evolves with the project)
   openclew add log <title>         Create a session log (frozen facts)
   openclew search <query>          Search docs by keyword
+  openclew peek                    List instruction file + all refdocs
   openclew checkout                End-of-session summary
 
 Run 'openclew help --all' for advanced commands.
@@ -27,6 +28,7 @@ Usage:
   openclew add ref <title>         Create a refdoc (evolves with the project)
   openclew add log <title>         Create a session log (frozen facts)
   openclew search <query>          Search docs by keyword
+  openclew peek                    List instruction file + all refdocs
   openclew checkout                End-of-session summary
 
 Advanced:
@@ -67,6 +69,7 @@ const commands = {
   log: () => require("../lib/new-log"),
   checkout: () => require("../lib/checkout"),
   search: () => require("../lib/search"),
+  peek: () => require("../lib/peek"),
   status: () => require("../lib/status"),
   index: () => require("../lib/index-gen"),
   mcp: () => require("../lib/mcp-server"),
