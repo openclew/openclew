@@ -133,6 +133,20 @@ openclew migrate            # should show "0 to migrate"
 
 ## Version-specific notes
 
+### → 0.5.0 (init guard + global config)
+
+`init` now creates `~/.openclew/config.json` on every run. If you are not inside
+a project directory (no `.git`, `package.json`, etc.), init stops after creating
+the global config — it no longer creates `doc/` or `AGENTS.md` in random
+directories.
+
+New command: `openclew peek` — displays the doc index.
+
+New: `scripts/qa.py` — QA checklist in box-drawing format (dev only, not
+published to npm).
+
+License changed from MIT to Apache 2.0.
+
 ### → 0.4.0 (format migration)
 
 First migration release. Converts from the legacy format (YAML frontmatter,
