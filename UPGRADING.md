@@ -133,6 +133,20 @@ openclew migrate            # should show "0 to migrate"
 
 ## Version-specific notes
 
+### → 0.5.2 (user-level Copilot prompts)
+
+`init` now installs Copilot prompt files at **two levels**:
+- Project: `.github/prompts/` (workspace-scoped)
+- User: VS Code profile `prompts/` folder (available in ALL projects)
+
+Victor (or anyone) just needs `npx openclew init` once — the `/oc-*` commands
+appear in Copilot Chat everywhere, even in projects without `.github/`.
+
+User prompt paths:
+- macOS: `~/Library/Application Support/Code/User/prompts/`
+- Windows: `%APPDATA%\Code\User\prompts\`
+- Linux: `~/.config/Code/User/prompts/`
+
 ### → 0.5.1 (Copilot prompts + bloc update + --version)
 
 `init` now installs Copilot prompt files in `.github/prompts/` — type `/` in Copilot
