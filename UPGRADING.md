@@ -133,6 +133,20 @@ openclew migrate            # should show "0 to migrate"
 
 ## Version-specific notes
 
+### → 0.5.1 (Copilot prompts + bloc update + --version)
+
+`init` now installs Copilot prompt files in `.github/prompts/` — type `/` in Copilot
+Chat to see `/oc-checkout`, `/oc-search`, `/oc-peek`, `/oc-status`, `/oc-init`.
+
+Re-running `init` now **updates** the openclew block in your instruction file
+(AGENTS.md, CLAUDE.md, etc.) instead of skipping it. New rules are applied
+automatically on upgrade.
+
+New: `openclew --version` shows the installed version.
+
+Injected block now includes critical rules: propose creating refdocs for complex
+tasks, ask instead of guessing when information is missing.
+
 ### → 0.5.0 (init guard + global config)
 
 `init` now creates `~/.openclew/config.json` on every run. If you are not inside

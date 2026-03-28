@@ -1,6 +1,6 @@
 {
   "name": "openclew",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Long Life Memory for LLMs — structured project knowledge for AI agents and humans",
   "license": "Apache-2.0",
   "bin": {
@@ -12,6 +12,7 @@
     "!lib/migrate.js",
     "templates/",
     "commands/",
+    "prompts/",
     "skills/",
     "README.md",
     "UPGRADING.md",

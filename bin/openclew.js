@@ -42,6 +42,12 @@ Options (init):
   --no-inject                      Skip instruction file injection
 `.trim();
 
+if (command === "--version" || command === "-v" || command === "version") {
+  const pkg = require("../package.json");
+  console.log(`openclew ${pkg.version}`);
+  process.exit(0);
+}
+
 if (!command || command === "help" || command === "--help" || command === "-h") {
   const showAll = args.includes("--all");
   console.log(showAll ? USAGE_ALL : USAGE);
