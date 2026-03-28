@@ -34,6 +34,7 @@ Usage:
 Advanced:
   openclew status                  Documentation health dashboard
   openclew index                   Regenerate doc/_INDEX.md
+  openclew session-header          Format session header line
   openclew mcp                     Start MCP server (stdio JSON-RPC)
 
 Options (init):
@@ -72,6 +73,7 @@ const commands = {
   peek: () => require("../lib/peek"),
   status: () => require("../lib/status"),
   index: () => require("../lib/index-gen"),
+  "session-header": () => require("../lib/session-header"),
   mcp: () => require("../lib/mcp-server"),
 };
 
