@@ -1,0 +1,69 @@
+/* openclew — VS Code markdown preview styling
+ * Injected by `openclew init` via .vscode/settings.json → markdown.styles
+ * Makes openclew docs (L1/L2/L3 format) readable in the preview pane.
+ */
+
+body {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1em 2em;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Headers — compact, not screaming */
+h1 { font-size: 1.5em; margin: 1em 0 0.4em; border-bottom: 1px solid #444; padding-bottom: 0.2em; }
+h2 { font-size: 1.25em; margin: 0.8em 0 0.3em; border-bottom: none; }
+h3 { font-size: 1.1em; margin: 0.6em 0 0.2em; }
+h4 { font-size: 1em; margin: 0.5em 0 0.2em; }
+
+/* Horizontal rules — subtle, not heavy */
+hr {
+  border: none;
+  border-top: 1px solid #333;
+  margin: 1em 0;
+}
+
+/* Paragraphs + lists — tighter */
+p { margin: 0.4em 0; }
+li { margin: 0.2em 0; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+
+/* Code — subtle */
+code {
+  font-size: 0.9em;
+  padding: 0.15em 0.35em;
+  border-radius: 3px;
+}
+
+pre {
+  padding: 0.8em 1em;
+  border-radius: 4px;
+  margin: 0.5em 0;
+  line-height: 1.4;
+}
+
+/* Tables — compact */
+table { border-collapse: collapse; margin: 0.5em 0; }
+th, td { padding: 0.3em 0.8em; border: 1px solid #444; }
+th { font-weight: 600; }
+
+/* L1 metadata — first line styling */
+p:first-child {
+  font-size: 0.85em;
+  opacity: 0.7;
+  font-family: monospace;
+}
+
+/* Bold fields in L1 (subject, doc_brief) */
+strong {
+  color: inherit;
+}
+
+/* Blockquotes — used for notes */
+blockquote {
+  border-left: 3px solid #555;
+  margin: 0.5em 0;
+  padding: 0.3em 1em;
+  opacity: 0.85;
+}
