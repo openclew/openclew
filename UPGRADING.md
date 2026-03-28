@@ -133,6 +133,12 @@ openclew migrate            # should show "0 to migrate"
 
 ## Version-specific notes
 
+### → 0.5.3 (fix: user prompts install outside projects)
+
+Fixed: `init` outside a project directory now installs Copilot user-level
+prompts correctly. Previously, the project guard blocked all prompt installation
+when no `.git` or `package.json` was present.
+
 ### → 0.5.2 (user-level Copilot prompts)
 
 `init` now installs Copilot prompt files at **two levels**:
