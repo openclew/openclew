@@ -38,7 +38,7 @@ Advanced:
   openclew mcp                     Start MCP server (stdio JSON-RPC)
 
 Options (init):
-  --no-hook                        Skip pre-commit hook installation
+  --hook                           Install pre-commit hook for _INDEX.md auto-generation
   --no-inject                      Skip instruction file injection
 `.trim();
 
