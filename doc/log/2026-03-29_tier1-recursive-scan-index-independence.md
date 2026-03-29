@@ -34,9 +34,10 @@ Résoudre les 3 items Tier 1 du TODO openclew : scan récursif, élimination de 
 
 17 tests manuels passés (scan, exclusions, peek, search, status, index, MCP, init, repoint).
 
-Prochaines étapes :
-- Nettoyer mentions _INDEX.md dans README.md, UPGRADING.md, commands/, skills/
-- Fixer bug pré-existant `openclew index` via dispatcher (process.argv[2])
+Suivi dans la même session :
+- ✅ Nettoyé 17 mentions _INDEX.md dans 8 fichiers (README, UPGRADING, commands, skills, templates)
+- ✅ Fixé bug `openclew index` dispatcher (process.argv[2] = "index" au lieu du path)
+- ✅ MAJ UPGRADING.md : limitations flat-only et repoint supprimées (maintenant résolues)
 <!-- L2_END -->
 
 ---
@@ -54,7 +55,16 @@ Prochaines étapes :
 | `lib/templates.js` | guideContent() : peek/search au lieu de _INDEX.md (5 mentions remplacées) |
 | `lib/init.js` | Hook pre-commit opt-in (`--hook` au lieu de `--no-hook`) |
 | `bin/openclew.js` | Help mis à jour (--hook) |
-| `CLAUDE.md` | TODO T1 cochés, fichiers clés mis à jour |
+| `CLAUDE.md` | TODO T1 cochés, fichiers clés mis à jour, IDE section → peek |
+| `lib/index-gen.js` | Fix bug CLI runner : argv parsing corrigé (pattern search.js) |
+| `README.md` | 5 mentions _INDEX.md → peek/search/optionnel |
+| `UPGRADING.md` | Mention _INDEX.md + limitations flat/repoint supprimées |
+| `commands/oc-init.md` | _INDEX.md → peek |
+| `commands/oc-checkout.md` | Exclusion _INDEX.md → inclusion subdirs |
+| `skills/oc-checkpoint/SKILL.md` | _INDEX.md → optionnel |
+| `skills/oc-init/SKILL.md` | 2 mentions + --no-hook → --hook |
+| `templates/onboarding/flow.md` | 5 mentions _INDEX.md → .openclew.json/peek |
+| `templates/FORMAT.md` | _INDEX.md → cache optionnel |
 
 ## Constantes partagées (search.js)
 

@@ -60,7 +60,7 @@ lib/*.js (init, new-doc, new-log, search, status, mcp-server, index-gen, detect,
 ### Intégration R.AlphA.IDE
 
 openclew est le **knowledge layer** qu'AlphABot (extension VS Code R.AlphA.IDE) utilise pour naviguer la documentation projet de manière token-efficiente. L'extension doit :
-- Lire `doc/_INDEX.md` au démarrage de session pour cartographier le knowledge disponible
+- Utiliser `openclew peek` ou `collectDocs()` au démarrage de session pour cartographier le knowledge disponible
 - Utiliser la navigation L1 → L2 → L3 pour minimiser la consommation de tokens
 - Proposer des réponses contextualisées par les docs pertinentes du projet
 
@@ -124,7 +124,7 @@ L'onboarding AlphABot (R.AlphA.PF) et openclew partagent le même objectif : str
 
 ### Tier 2 — Court terme
 - [ ] **Notification update** : À chaque commande, checker si une version plus récente existe sur npm (max 1x/jour, async, cache dans `~/.openclew/config.json`). Afficher un bandeau clair en fin de commande avec `npx openclew@latest init`. L'utilisateur ne doit pas avoir à chercher comment mettre à jour.
-- [ ] **Init sans friction** : Le problème = chaque projet nécessite `openclew init` pour avoir les prompt files Copilot, le CSS preview, etc. C'est pénible pour les utilisateurs multi-projets. Pistes à explorer : (1) `_USING_OPENCLEW.md` pourrait instruire l'agent de vérifier si les fichiers sont à jour et proposer de lancer `init` automatiquement, (2) un watcher global qui détecte les projets openclew et maintient les fichiers à jour, (3) des fichiers globaux (user-level prompts dans le profil VS Code) au lieu de per-project. **Décision à prendre.**
+- [ ] **Init sans friction** : Chaque projet nécessite `openclew init`. Pas de mécanisme "global instruction" universel (chaque agent a sa propre config). Le dénominateur commun = fichier d'instruction per-projet (AGENTS.md, CLAUDE.md, .cursorrules...), c'est ce qu'openclew fait déjà. **Pistes explorées et rejetées** : (1) global `~/.openclew/INSTRUCTIONS.md` injecté dans config agent → marche pour Claude Code, pas pour les autres, (2) MCP global → donne les tools mais pas l'instruction de les utiliser. **Décision : résoudre d'abord pour AlphABot** (fichier d'instructions à la racine comme CLAUDE.md), puis voir pour les autres éditeurs. Le per-projet reste la seule approche universelle.
 - [ ] **Améliorer CSS preview markdown** : Le CSS `.vscode/openclew-preview.css` injecté par `init` est un premier jet. Headers toujours trop gros, espacement à affiner, metadata ligne 1 à mieux styler. Itérer sur le rendu VS Code avec des vrais docs.
 - [ ] **Verbosité configurable** : Niveau concis/normal/détaillé. Stocké dans `.openclew.json`, injecté dans le bloc AGENTS.md. **Onboarding** : proposer spontanément dès la première session de régler la verbosité, avec une forte incitation vers "concis" (ex: "Most developers prefer concise — try it first"). Beaucoup d'utilisateurs se font spammer sans savoir que c'est configurable. Le défaut devrait être concis ou le choix forcé au setup.
 - [ ] **CLI migrate** : `openclew migrate` — upgrade legacy docs vers format openclew (line 1 condensee, L1 bold). Dry-run par defaut, `--write` pour appliquer. Code pret (`lib/migrate.js`), non publie. Ref : `R.AlphA.Doc/doc/log/2026-03-24_openclew-migrate-command.md`

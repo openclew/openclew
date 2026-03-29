@@ -19,7 +19,7 @@ npx openclew checkout
 1. Collects today's git activity (commits, changed files, uncommitted changes)
 2. Displays a summary table
 3. Creates a session log in `doc/log/YYYY-MM-DD_<topic>.md`
-4. Regenerates `doc/_INDEX.md`
+4. Optionally regenerates `doc/_INDEX.md` (human-friendly cache)
 
 ## When to use
 

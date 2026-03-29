@@ -54,7 +54,7 @@ Display the recap table for validation.
 
 ### Phase 3: Refdocs to update?
 
-1. List refdocs: all `doc/_*.md` files (excluding `_INDEX.md`) + project instruction file (CLAUDE.md, AGENTS.md, etc.)
+1. List refdocs: all `doc/_*.md` files (including subdirectories) + project instruction file (CLAUDE.md, AGENTS.md, etc.)
 2. Filter those related to session actions (by name only — don't read yet)
 3. For each related doc: read and assign status:
    - ☑️ No update needed (verified, up to date)

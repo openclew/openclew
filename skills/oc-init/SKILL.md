@@ -14,8 +14,8 @@ Run this to add structured documentation to your project.
 2. Detects your existing instruction file (AGENTS.md, CLAUDE.md, .cursorrules, etc.)
 3. Injects a knowledge block so agents automatically consult project docs
 4. Creates starter docs: guide, architecture template, example log
-5. Generates `doc/_INDEX.md` (auto-rebuilt on every commit)
-6. Installs a git pre-commit hook for index regeneration
+5. Generates initial `doc/_INDEX.md` (optional human-friendly cache)
+6. Optionally installs a git pre-commit hook (`--hook` flag)
 
 ## Command
 
@@ -26,11 +26,11 @@ npx openclew init
 ## Options
 
 - `--no-inject` — Skip injection into instruction file
-- `--no-hook` — Skip git hook installation
+- `--hook` — Install git pre-commit hook for index auto-generation
 
 ## After setup
 
-Your agent will now read `doc/_INDEX.md` before starting tasks. To add knowledge:
+Your agent will now run `openclew peek` to discover docs before starting tasks. To add knowledge:
 
 - `npx openclew add ref "Title"` — Create a reference doc (architecture, conventions, decisions)
 - `npx openclew add log "Title"` — Create a session log (frozen facts)

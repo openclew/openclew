@@ -96,7 +96,7 @@ This:
 - Creates `doc/` with a guide, an example doc, and an example log
 - Detects your instruction file (CLAUDE.md, .cursorrules, AGENTS.md...)
 - Injects a block that teaches your agent about the doc structure
-- Installs a pre-commit hook that auto-generates `doc/_INDEX.md`
+- Teaches agents to run `openclew peek` to discover docs dynamically
 
 ### 2. Start a session with your agent
 
@@ -143,7 +143,7 @@ These work like any Claude Code slash command — type `/oc-` and pick one. No `
 1. Create `doc/` and `doc/log/`
 2. Copy templates from [`templates/`](templates/) (refdoc.md, log.md)
 3. Add the openclew block to your instruction file (see `doc/_USING_OPENCLEW.md` after init for the exact format)
-4. Run `openclew index` to generate `doc/_INDEX.md` (or wire it as a pre-commit hook)
+4. Optionally run `openclew index` to generate `doc/_INDEX.md` (human-friendly cache, not required by agents)
 
 </details>
 
@@ -161,7 +161,7 @@ doc/
 
 **Session 5** — New agent session, different feature:
 ```
-Agent reads doc/_INDEX.md (auto-generated)
+Agent runs `openclew peek` (scans doc/ dynamically)
   → Scans all L1s: "Should I read this?"
   → _ARCHITECTURE.md → yes → reads L2
   → setup-auth log → relevant → reads L2
@@ -172,7 +172,6 @@ Agent reads doc/_INDEX.md (auto-generated)
 **Session 20** — Your project has grown:
 ```
 doc/
-├── _INDEX.md                      # Auto-generated, 30 entries
 ├── _ARCHITECTURE.md               # Updated 12 times
 ├── _AUTH.md                       # Extracted when auth got complex
 ├── _API_CONVENTIONS.md            # Team conventions
@@ -195,7 +194,7 @@ doc/
 - **SSOT** (Single Source of Truth) — Each piece of information lives in one place.
 - **Logs are immutable** — Once written, never modified. Frozen facts.
 - **Refdocs evolve** — They evolve as the project evolves.
-- **Index is auto-generated** — Never edit `_INDEX.md` manually.
+- **Agents use dynamic scan** — `peek` and `search` scan `doc/` at runtime. `_INDEX.md` is an optional cache for humans (`openclew index`).
 
 ---
 

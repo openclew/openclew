@@ -16,7 +16,7 @@ Initialize structured documentation so AI agents and humans navigate project kno
 
 ## After setup
 
-The agent will now consult `doc/_INDEX.md` before starting tasks. Available commands:
+The agent will now run `npx openclew peek` to discover docs before starting tasks. Available commands:
 
 - `/oc-search <query>` — Search existing docs
 - `/oc-status` — Health dashboard
