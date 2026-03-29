@@ -1,6 +1,6 @@
 {
   "name": "openclew",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Long Life Memory for LLMs — structured project knowledge for AI agents and humans",
   "license": "Apache-2.0",
   "bin": {
@@ -41,6 +41,9 @@
   "homepage": "https://github.com/openclew/openclew#readme",
   "bugs": {
     "url": "https://github.com/openclew/openclew/issues"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
   },
   "engines": {
     "node": ">=16"

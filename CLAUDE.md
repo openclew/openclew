@@ -11,6 +11,10 @@ Stack : Node.js (CLI), Markdown (templates). Zero dépendances — ni npm, ni Py
 
 **Documentation** : `doc/` généré par `openclew init` (dogfooding). Logs et refdocs internes vivent aussi dans `R.AlphA.Doc/doc/` (logs openclew préfixés `openclew-*`).
 
+## Règle de session
+
+**Doc-first obligatoire** : En début de session, lancer `/oc-peek` (ou lire `doc/_INDEX.md`) pour cartographier les refdocs disponibles avant toute exploration de code.
+
 ## Commandes
 
 ```bash
@@ -28,6 +32,9 @@ npm publish                            # Publier sur npm
 Pas de build — JavaScript exécuté directement.
 
 ## Règles projet
+
+### Langue
+- Tout le contenu du projet (code, docs, comments, L1/L2/L3, doc_brief) est en **anglais**. Ne jamais écrire en français même si la conversation l'est.
 
 ### Préfixe version
 
@@ -130,7 +137,7 @@ L'onboarding AlphABot (R.AlphA.PF) et openclew partagent le même objectif : str
 - [ ] **CLI migrate** : `openclew migrate` — upgrade legacy docs vers format openclew (line 1 condensee, L1 bold). Dry-run par defaut, `--write` pour appliquer. Code pret (`lib/migrate.js`), non publie. Ref : `R.AlphA.Doc/doc/log/2026-03-24_openclew-migrate-command.md`
 - [ ] **Auto-génération L1** : Option `--auto` sur `new`/`log` — appel LLM pour pré-remplir `doc_brief` + `subject` depuis contenu L3
 - [x] **CLI status** : `openclew status` — dashboard santé (stats, missing brief, stale, distribution) (2026-03-19)
-- [ ] **Tests automatisés** : Ajouter tests unitaires CLI + index generator
+- [x] **Tests automatisés** : 54 tests (search parsers, slugify, inject, collectDocs, searchDocs). `npm test` via `node:test` (2026-03-31)
 
 ### Tier 3 — Moyen terme
 - [ ] **Session memory** : Extraction auto des faits importants en fin de session
