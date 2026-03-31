@@ -117,6 +117,70 @@ describe("parseL1", () => {
 <!--   L1_END   -->`);
     assert.equal(meta.subject, "Spaced");
   });
+
+  it("parses div format with list items", () => {
+    const meta = parseL1(`openclew@0.5.4
+<div class="oc-l1">
+
+- **subject:** Auth architecture
+- **doc_brief:** JWT-based auth with Redis session storage.
+
+</div>`);
+    assert.equal(meta.subject, "Auth architecture");
+    assert.equal(meta.doc_brief, "JWT-based auth with Redis session storage.");
+  });
+
+  it("prefers div format over comment markers when both present", () => {
+    const meta = parseL1(`<div class="oc-l1">
+
+- **subject:** From div
+- **doc_brief:** Div brief
+
+</div>
+<!-- L1_START -->
+**subject:** From comments
+**doc_brief:** Comment brief
+<!-- L1_END -->`);
+    assert.equal(meta.subject, "From div");
+    assert.equal(meta.doc_brief, "Div brief");
+  });
+
+  it("handles div format without list prefix", () => {
+    const meta = parseL1(`<div class="oc-l1">
+
+**subject:** No list prefix
+**doc_brief:** Still works
+
+</div>`);
+    assert.equal(meta.subject, "No list prefix");
+    assert.equal(meta.doc_brief, "Still works");
+  });
+
+  it("parses positional format (no markers, L1 between line 1 and first ---)", () => {
+    const meta = parseL1(`openclew@0.6.0 · type: Reference · status: Active
+
+- **subject:** Pure Markdown doc
+- **doc_brief:** No wrappers, just Markdown.
+
+---
+
+# Summary
+Some content here.`);
+    assert.equal(meta.subject, "Pure Markdown doc");
+    assert.equal(meta.doc_brief, "No wrappers, just Markdown.");
+  });
+
+  it("positional fallback ignores content after ---", () => {
+    const meta = parseL1(`openclew@0.6.0 · type: Reference · status: Active
+
+- **subject:** Before separator
+
+---
+
+**doc_brief:** This is after the separator and should not be parsed.`);
+    assert.equal(meta.subject, "Before separator");
+    assert.equal(meta.doc_brief, undefined);
+  });
 });
 
 // ── parseL1Legacy ──────────────────────────────────────────────────
@@ -204,6 +268,41 @@ just some random text
 <!-- L1_END -->`);
     assert.equal(parseFile(fp), null);
   });
+
+  it("parses div format (new oc-l1 wrapper)", () => {
+    const fp = writeDoc(dir, "_DIV.md",
+      `openclew@0.5.4 · type: Guide · status: Active · category: Test
+
+<div class="oc-l1">
+
+- **subject:** Div format doc
+- **doc_brief:** Testing the new div-based L1 format.
+
+</div>`);
+    const meta = parseFile(fp);
+    assert.equal(meta.type, "Guide");
+    assert.equal(meta.subject, "Div format doc");
+    assert.equal(meta.doc_brief, "Testing the new div-based L1 format.");
+  });
+
+  it("parses positional format (new pure Markdown)", () => {
+    const fp = writeDoc(dir, "_POSITIONAL.md",
+      `openclew@0.6.0 · type: Reference · status: Active · category: Format
+
+- **subject:** Pure Markdown doc
+- **doc_brief:** No wrappers, just Markdown.
+
+---
+
+# Summary
+Some detailed content here.`);
+    const meta = parseFile(fp);
+    assert.equal(meta.type, "Reference");
+    assert.equal(meta.status, "Active");
+    assert.equal(meta.category, "Format");
+    assert.equal(meta.subject, "Pure Markdown doc");
+    assert.equal(meta.doc_brief, "No wrappers, just Markdown.");
+  });
 });
 
 // ── walkDir ────────────────────────────────────────────────────────
@@ -251,16 +350,22 @@ describe("collectDocs", () => {
   afterEach(() => { fs.rmSync(dir, { recursive: true, force: true }); });
 
   const REFDOC = `openclew@0.5.4 · type: Reference · status: Active
-<!-- L1_START -->
-**subject:** Test ref
-**doc_brief:** A refdoc
-<!-- L1_END -->`;
+
+<div class="oc-l1">
+
+- **subject:** Test ref
+- **doc_brief:** A refdoc
+
+</div>`;
 
   const LOG = `openclew@0.5.4 · date: 2026-03-30 · type: Feature · status: Done
-<!-- L1_START -->
-**subject:** Test log
-**doc_brief:** A log
-<!-- L1_END -->`;
+
+<div class="oc-l1">
+
+- **subject:** Test log
+- **doc_brief:** A log
+
+</div>`;
 
   it("separates refdocs (kind=refdoc) from logs (kind=log)", () => {
     writeDoc(dir, "_ARCH.md", REFDOC);
@@ -319,22 +424,31 @@ describe("searchDocs", () => {
   function seedDocs() {
     writeDoc(dir, "_AUTH.md",
       `openclew@0.5.4 · type: Reference · status: Active · category: Security · keywords: [JWT, OAuth]
-<!-- L1_START -->
-**subject:** Authentication architecture
-**doc_brief:** JWT-based auth with Redis session storage.
-<!-- L1_END -->`);
+
+<div class="oc-l1">
+
+- **subject:** Authentication architecture
+- **doc_brief:** JWT-based auth with Redis session storage.
+
+</div>`);
     writeDoc(dir, "_DEPLOY.md",
       `openclew@0.5.4 · type: Guide · status: Active · category: Infra · keywords: [docker, CI]
-<!-- L1_START -->
-**subject:** Deploy pipeline
-**doc_brief:** CI/CD setup using GitHub Actions and Docker.
-<!-- L1_END -->`);
+
+<div class="oc-l1">
+
+- **subject:** Deploy pipeline
+- **doc_brief:** CI/CD setup using GitHub Actions and Docker.
+
+</div>`);
     writeDoc(dir, "_API.md",
       `openclew@0.5.4 · type: Reference · status: Active · category: API · keywords: [REST, auth]
-<!-- L1_START -->
-**subject:** API reference
-**doc_brief:** REST endpoints including auth routes.
-<!-- L1_END -->`);
+
+<div class="oc-l1">
+
+- **subject:** API reference
+- **doc_brief:** REST endpoints including auth routes.
+
+</div>`);
   }
 
   it("subject match (weight 3) ranks higher than keyword match (weight 2)", () => {
@@ -367,16 +481,22 @@ describe("searchDocs", () => {
   it("exact word match gets bonus over substring match", () => {
     writeDoc(dir, "_REST.md",
       `openclew@0.5.4 · type: Reference · status: Active
-<!-- L1_START -->
-**subject:** REST API design
-**doc_brief:** RESTful endpoints
-<!-- L1_END -->`);
+
+<div class="oc-l1">
+
+- **subject:** REST API design
+- **doc_brief:** RESTful endpoints
+
+</div>`);
     writeDoc(dir, "_RESTORE.md",
       `openclew@0.5.4 · type: Reference · status: Active
-<!-- L1_START -->
-**subject:** Restore backup procedure
-**doc_brief:** How to restore from backup
-<!-- L1_END -->`);
+
+<div class="oc-l1">
+
+- **subject:** Restore backup procedure
+- **doc_brief:** How to restore from backup
+
+</div>`);
     const results = searchDocs(dir, "rest");
     // _REST.md has exact word "REST" → gets bonus
     // _RESTORE.md has "restore" which contains "rest" as substring only

@@ -1,15 +1,11 @@
 openclew@VERSION · created: YYYY-MM-DD · updated: YYYY-MM-DD · type: Reference | Architecture | Guide | Analysis · status: Active | Stable | Archived · category: Main domain · keywords: [tag1, tag2, tag3]
 
-<!-- L1_START -->
-**subject:** Short title (< 60 chars)
-
-**doc_brief:** 1-2 sentences of assertions (what is true/decided), not narration (what was done). Must be enough to decide if you need to read further.
-<!-- L1_END -->
+- **subject:** Short title (< 60 chars)
+- **doc_brief:** 1-2 sentences of assertions (what is true/decided), not narration (what was done). Must be enough to decide if you need to read further.
 
 ---
 
-<!-- L2_START -->
-# L2 - Summary
+# Summary
 
 ## Objective
 <!-- Why this document exists, what need it covers -->
@@ -22,12 +18,10 @@ openclew@VERSION · created: YYYY-MM-DD · updated: YYYY-MM-DD · type: Referenc
 
 ## Watch out
 <!-- Common pitfalls, edge cases, things to be aware of -->
-<!-- L2_END -->
 
 ---
 
-<!-- L3_START -->
-# L3 - Details
+# Details
 
 <!-- Full technical content: code examples, diagrams, references, deep dives... -->
 
@@ -38,4 +32,3 @@ openclew@VERSION · created: YYYY-MM-DD · updated: YYYY-MM-DD · type: Referenc
 | Date | Change |
 |------|--------|
 | YYYY-MM-DD | Initial creation |
-<!-- L3_END -->

@@ -61,8 +61,16 @@ lib/*.js (init, new-doc, new-log, search, status, mcp-server, index-gen, detect,
 - `init` crée toujours : guide (`_USING_OPENCLEW.md`), exemple refdoc (`_ARCHITECTURE.md`), exemple log, index. Pas de flag `--demo`
 - Injection via markers `<!-- openclew_START -->` / `<!-- openclew_END -->`
 - Templates embarqués dans `lib/templates.js` (standalone) + fichiers dans `templates/` (référence)
-- **Format doc** : ligne 1 = métadonnées condensées (`openclew@VERSION · date · type · status · category · keywords`), L1 = `**subject:**` + `**doc_brief:**` entre markers L1_START/L1_END
-- **Parser rétrocompatible** : supporte l'ancien format (key:value dans L1) en fallback
+- **Format doc** : ligne 1 = métadonnées condensées (`openclew@VERSION · date · type · status · category · keywords`), L1 = `- **subject:**` + `- **doc_brief:**` (liste Markdown entre ligne 1 et premier `---`). SSOT : `templates/FORMAT.md`
+- **Parser rétrocompatible** : `findL1Block()` avec 3 fallbacks (div → commentaires HTML → positionnel). Supporte aussi l'ancien format key:value en fallback
+
+### Documentation (dogfooding)
+
+- openclew documente openclew : créer docs via `openclew add ref/log`
+- Tout en **anglais**, autonome (zéro référence à des projets externes)
+- Logs immutables, committés dans `doc/log/`
+- `doc_brief` obligatoire : décrit ce qui a été fait et pourquoi, pas ce que le doc contient
+- Headings L2/L3 : `# Summary` et `# Details` (pas de préfixe "L2 -" / "L3 -")
 
 ### Intégration R.AlphA.IDE
 
@@ -132,12 +140,16 @@ L'onboarding AlphABot (R.AlphA.PF) et openclew partagent le même objectif : str
 ### Tier 2 — Court terme
 - [ ] **Notification update** : À chaque commande, checker si une version plus récente existe sur npm (max 1x/jour, async, cache dans `~/.openclew/config.json`). Afficher un bandeau clair en fin de commande avec `npx openclew@latest init`. L'utilisateur ne doit pas avoir à chercher comment mettre à jour.
 - [ ] **Init sans friction** : Chaque projet nécessite `openclew init`. Pas de mécanisme "global instruction" universel (chaque agent a sa propre config). Le dénominateur commun = fichier d'instruction per-projet (AGENTS.md, CLAUDE.md, .cursorrules...), c'est ce qu'openclew fait déjà. **Pistes explorées et rejetées** : (1) global `~/.openclew/INSTRUCTIONS.md` injecté dans config agent → marche pour Claude Code, pas pour les autres, (2) MCP global → donne les tools mais pas l'instruction de les utiliser. **Décision : résoudre d'abord pour AlphABot** (fichier d'instructions à la racine comme CLAUDE.md), puis voir pour les autres éditeurs. Le per-projet reste la seule approche universelle.
-- [ ] **Améliorer CSS preview markdown** : Le CSS `.vscode/openclew-preview.css` injecté par `init` est un premier jet. Headers toujours trop gros, espacement à affiner, metadata ligne 1 à mieux styler. Itérer sur le rendu VS Code avec des vrais docs.
+- [x] **Format pur Markdown L1** : Divs testés puis abandonnés (piège lignes vides, bots écrivent du MD pas du HTML). L1 = liste Markdown entre ligne 1 et `---`. Parser positionnel `findL1Block()`. `# Summary` / `# Details`. (2026-04-01)
 - [ ] **Verbosité configurable** : Niveau concis/normal/détaillé. Stocké dans `.openclew.json`, injecté dans le bloc AGENTS.md. **Onboarding** : proposer spontanément dès la première session de régler la verbosité, avec une forte incitation vers "concis" (ex: "Most developers prefer concise — try it first"). Beaucoup d'utilisateurs se font spammer sans savoir que c'est configurable. Le défaut devrait être concis ou le choix forcé au setup.
 - [ ] **CLI migrate** : `openclew migrate` — upgrade legacy docs vers format openclew (line 1 condensee, L1 bold). Dry-run par defaut, `--write` pour appliquer. Code pret (`lib/migrate.js`), non publie. Ref : `R.AlphA.Doc/doc/log/2026-03-24_openclew-migrate-command.md`
 - [ ] **Auto-génération L1** : Option `--auto` sur `new`/`log` — appel LLM pour pré-remplir `doc_brief` + `subject` depuis contenu L3
 - [x] **CLI status** : `openclew status` — dashboard santé (stats, missing brief, stale, distribution) (2026-03-19)
 - [x] **Tests automatisés** : 54 tests (search parsers, slugify, inject, collectDocs, searchDocs). `npm test` via `node:test` (2026-03-31)
+- [ ] **Tester onboarding post-init** : Vérifier le flow "Try it now" sur un projet vierge (message post-init, example log actionnable, _ARCHITECTURE.md template). Test en isolation `/tmp/openclew-test/`
+- [ ] **Dogfooding — doc migration** : Un-gitignore `doc/log/`, traduire 21 logs FR → EN depuis R.AlphA.Doc, purger les refs internes
+- [ ] **UPGRADING.md** : Documenter le passage au format pur Markdown (divs → positionnel)
+- [ ] **Publish oc_0.7.0** : Inclut format pur Markdown, parser positionnel, templates sans divs
 
 ### Tier 3 — Moyen terme
 - [ ] **Session memory** : Extraction auto des faits importants en fin de session
@@ -145,7 +157,6 @@ L'onboarding AlphABot (R.AlphA.PF) et openclew partagent le même objectif : str
 - [ ] **Intégration AlphABot** : Implémenter la lecture L1/L2/L3 côté extension VS Code (R.AlphA.IDE)
 
 ### Backlog
-- [ ] **Dogfooding** : Utiliser openclew dans openclew lui-même (`doc/` avec L1/L2/L3)
 - [ ] **Propagation doc_brief** : Propager doc_brief → doc_brief dans R.AlphA.Doc (templates, hooks, conventions globales)
 - [x] **npm publish** : Publié oc_0.3.0 — logo v1, author/homepage/bugs, migrate exclu, fix README (2026-03-25)
 - [x] **Zero Python** : Index generator réécrit en JS natif, réutilise parsers de search.js. `hooks/generate-index.py` supprimé (2026-03-24)

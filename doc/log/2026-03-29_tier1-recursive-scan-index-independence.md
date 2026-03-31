@@ -9,7 +9,7 @@ openclew@0.5.3 · date: 2026-03-29 · type: Feature · status: Done · category:
 ---
 
 <!-- L2_START -->
-# L2 - Summary
+# Summary
 
 ## Objective
 Résoudre les 3 items Tier 1 du TODO openclew : scan récursif, élimination de la dépendance à _INDEX.md, repointing related_docs.
@@ -43,7 +43,7 @@ Suivi dans la même session :
 ---
 
 <!-- L3_START -->
-# L3 - Details
+# Details
 
 ## Fichiers modifiés
 

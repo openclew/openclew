@@ -48,11 +48,46 @@ table { border-collapse: collapse; margin: 0.5em 0; }
 th, td { padding: 0.3em 0.8em; border: 1px solid #444; }
 th { font-weight: 600; }
 
-/* L1 metadata — first line styling */
+/* ── Metadata line 1 — monospace, dimmed ──────────────────────────── */
 p:first-child {
   font-size: 0.85em;
   opacity: 0.7;
   font-family: monospace;
+}
+
+/* ── L1 — Subject + Brief card ────────────────────────────────────── */
+.oc-l1 {
+  background: rgba(66, 135, 245, 0.08);
+  border-left: 3px solid #4287f5;
+  padding: 0.4em 1em;
+  margin: 0.5em 0 1em;
+  border-radius: 4px;
+}
+
+.oc-l1 ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.oc-l1 li {
+  margin: 0.3em 0;
+  line-height: 1.4;
+}
+
+/* ── L2 — Summary section ─────────────────────────────────────────── */
+.oc-l2 {
+  border-left: 3px solid #2ea043;
+  padding-left: 1em;
+  margin: 0.5em 0;
+}
+
+/* ── L3 — Details section ─────────────────────────────────────────── */
+.oc-l3 {
+  border-left: 3px solid #666;
+  padding-left: 1em;
+  margin: 0.5em 0;
+  opacity: 0.9;
 }
 
 /* Bold fields in L1 (subject, doc_brief) */
