@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const { resolve } = require("path");
+const { checkForUpdate } = require("../lib/update-notifier");
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -66,27 +67,28 @@ if (command === "add") {
     console.error('Usage: openclew add ref <title>  or  openclew add log <title>');
     process.exit(1);
   }
-  process.exit(0);
+  checkForUpdate().catch(() => {});
+} else {
+  // Command dispatch
+  const commands = {
+    init: () => require("../lib/init"),
+    new: () => require("../lib/new-doc"),
+    log: () => require("../lib/new-log"),
+    checkout: () => require("../lib/checkout"),
+    search: () => require("../lib/search"),
+    peek: () => require("../lib/peek"),
+    status: () => require("../lib/status"),
+    index: () => require("../lib/index-gen"),
+    "session-header": () => require("../lib/session-header"),
+    mcp: () => require("../lib/mcp-server"),
+  };
+
+  if (!commands[command]) {
+    console.error(`Unknown command: ${command}`);
+    console.error(`Run 'openclew help' for usage.`);
+    process.exit(1);
+  }
+
+  commands[command]();
+  checkForUpdate().catch(() => {});
 }
-
-// Legacy aliases
-const commands = {
-  init: () => require("../lib/init"),
-  new: () => require("../lib/new-doc"),
-  log: () => require("../lib/new-log"),
-  checkout: () => require("../lib/checkout"),
-  search: () => require("../lib/search"),
-  peek: () => require("../lib/peek"),
-  status: () => require("../lib/status"),
-  index: () => require("../lib/index-gen"),
-  "session-header": () => require("../lib/session-header"),
-  mcp: () => require("../lib/mcp-server"),
-};
-
-if (!commands[command]) {
-  console.error(`Unknown command: ${command}`);
-  console.error(`Run 'openclew help' for usage.`);
-  process.exit(1);
-}
-
-commands[command]();
