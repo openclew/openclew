@@ -127,6 +127,7 @@ L'onboarding AlphABot (R.AlphA.PF) et openclew partagent le même objectif : str
 |-------|----------|
 | Hook pre-commit des anciennes versions appelle Python | `init` nettoie automatiquement `doc/generate-index.py` legacy |
 | npm publish demande 2 auth (login + OTP 2FA) | Utiliser `rocpublish` (alias zsh = cd + login + publish). Toujours 2 validations navigateur, c'est normal côté npm |
+| Node.js et Rust binary coexistent dans le PATH | `openclew --version` affiche `(node)` ou `(rust)`. `openclew status` détecte les doublons. Le Rust ne supporte que init/index/mcp |
 
 ## TODO
 
@@ -142,15 +143,15 @@ L'onboarding AlphABot (R.AlphA.PF) et openclew partagent le même objectif : str
 - [ ] **Init sans friction** : Chaque projet nécessite `openclew init`. Pas de mécanisme "global instruction" universel (chaque agent a sa propre config). Le dénominateur commun = fichier d'instruction per-projet (AGENTS.md, CLAUDE.md, .cursorrules...), c'est ce qu'openclew fait déjà. **Pistes explorées et rejetées** : (1) global `~/.openclew/INSTRUCTIONS.md` injecté dans config agent → marche pour Claude Code, pas pour les autres, (2) MCP global → donne les tools mais pas l'instruction de les utiliser. **Décision : résoudre d'abord pour AlphABot** (fichier d'instructions à la racine comme CLAUDE.md), puis voir pour les autres éditeurs. Le per-projet reste la seule approche universelle.
 - [x] **Format pur Markdown L1** : Divs testés puis abandonnés (piège lignes vides, bots écrivent du MD pas du HTML). L1 = liste Markdown entre ligne 1 et `---`. Parser positionnel `findL1Block()`. `# Summary` / `# Details`. (2026-04-01)
 - [ ] **Verbosité configurable** : Niveau concis/normal/détaillé. Stocké dans `.openclew.json`, injecté dans le bloc AGENTS.md. **Onboarding** : proposer spontanément dès la première session de régler la verbosité, avec une forte incitation vers "concis" (ex: "Most developers prefer concise — try it first"). Beaucoup d'utilisateurs se font spammer sans savoir que c'est configurable. Le défaut devrait être concis ou le choix forcé au setup.
-- [ ] **CLI migrate** : `openclew migrate` — upgrade legacy docs vers format openclew (line 1 condensee, L1 bold, `clw_ref@`/`clw_log@` prefix). Dry-run par defaut, `--write` pour appliquer. Code pret (`lib/migrate.js`), non publie. Ref : `R.AlphA.Doc/doc/log/2026-03-24_openclew-migrate-command.md`
+- [x] **CLI migrate** : `openclew migrate` — upgrade legacy docs vers format openclew. Préfixe `clw_ref@`/`clw_log@`, swap `openclew@` semi-legacy, inclus dans npm (plus exclu). Ajouté au dispatcher CLI. UPGRADING.md réécrit. (2026-04-07)
 - [ ] **CLI migrate --move** : Déplacement atomique fichier + repoint refs. Ex: `openclew migrate --move doc/_FOO.md doc/ref/FOO.md [--write]`. Nécessaire pour la migration `doc/_*.md` → `doc/ref/`
 - [ ] **Auto-génération L1** : Option `--auto` sur `new`/`log` — appel LLM pour pré-remplir `doc_brief` + `subject` depuis contenu L3
 - [x] **CLI status** : `openclew status` — dashboard santé (stats, missing brief, stale, distribution) (2026-03-19)
 - [x] **Tests automatisés** : 54 tests (search parsers, slugify, inject, collectDocs, searchDocs). `npm test` via `node:test` (2026-03-31)
 - [ ] **Tester onboarding post-init** : Vérifier le flow "Try it now" sur un projet vierge (message post-init, example log actionnable, _ARCHITECTURE.md template). Test en isolation `/tmp/openclew-test/`
 - [ ] **Dogfooding — doc migration** : Un-gitignore `doc/log/`, traduire 21 logs FR → EN depuis R.AlphA.Doc, purger les refs internes
-- [ ] **UPGRADING.md** : Documenter le passage au format pur Markdown (divs → positionnel)
-- [ ] **Publish oc_0.7.0** : Inclut format pur Markdown, parser positionnel, templates sans divs, préfixe `clw_ref@`/`clw_log@`, nommage `doc/ref/`
+- [x] **UPGRADING.md** : Réécrit — format cible clw_ref@/clw_log@, mapping statuts FR→EN, coexistence Node/Rust, section version-specific 0.7.0 (2026-04-07)
+- [ ] **Publish oc_0.7.0** : Inclut format pur Markdown, parser positionnel, templates sans divs, préfixe `clw_ref@`/`clw_log@`, nommage `doc/ref/`, commande `migrate` incluse, détection coexistence Node/Rust
 
 ### Tier 3 — Moyen terme
 - [ ] **Session memory** : Extraction auto des faits importants en fin de session

@@ -34,6 +34,9 @@ Usage:
 
 Advanced:
   openclew status                  Documentation health dashboard
+  openclew migrate                 Upgrade legacy docs to current format (dry-run)
+  openclew migrate --write         Apply migration
+  openclew migrate --repoint A B   Update related_docs paths after file moves
   openclew index                   Regenerate doc/_INDEX.md
   openclew session-header          Format session header line
   openclew mcp                     Start MCP server (stdio JSON-RPC)
@@ -45,7 +48,7 @@ Options (init):
 
 if (command === "--version" || command === "-v" || command === "version") {
   const pkg = require("../package.json");
-  console.log(`openclew ${pkg.version}`);
+  console.log(`openclew ${pkg.version} (node)`);
   process.exit(0);
 }
 
@@ -80,6 +83,7 @@ if (command === "add") {
     status: () => require("../lib/status"),
     index: () => require("../lib/index-gen"),
     "session-header": () => require("../lib/session-header"),
+    migrate: () => require("../lib/migrate"),
     mcp: () => require("../lib/mcp-server"),
   };
 
