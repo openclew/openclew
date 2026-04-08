@@ -52,6 +52,10 @@ bin/openclew.js (dispatcher)
 lib/*.js (init, new-doc, new-log, search, status, mcp-server, index-gen, detect, inject, config, templates)
 ```
 
+### Principe directeur : l'agent guide l'utilisateur
+
+openclew doit être **proactif** : c'est l'agent (via le bloc injecté) qui suggère les actions — créer un doc, migrer un format, externaliser les TODO, configurer une option. L'utilisateur ne devrait jamais avoir à deviner quoi faire. Chaque fonctionnalité doit être auto-découvrable via les commandes, le bloc injecté, ou les messages de `status`.
+
 ### Conventions
 
 - Zero dépendances — Node 16+ uniquement (plus de Python requis depuis oc_0.3.0)
@@ -131,6 +135,9 @@ L'onboarding AlphABot (R.AlphA.PF) et openclew partagent le même objectif : str
 
 ## TODO
 
+Voir [`TODO.md`](TODO.md)
+
+<!-- Legacy tiers below — to be migrated to TODO.md -->
 ### Tier 1 — Urgent
 - [x] **Éliminer la dépendance à `_INDEX.md`** : Bloc injecté → `peek`/`search` (scan dynamique). Hook pre-commit opt-in (`--hook`). `_INDEX.md` reste disponible via `openclew index` comme cache humain-friendly (2026-03-29)
 - [x] **Scan recursif `doc/`** : `collectDocs()` + `walkDir()` dans search.js scannent récursivement. `doc/ref/_*.md` etc. sont trouvés. `migrate.js` utilise `walkDir()` via import (SSOT) (2026-03-29)

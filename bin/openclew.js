@@ -36,6 +36,7 @@ Advanced:
   openclew status                  Documentation health dashboard
   openclew migrate                 Upgrade legacy docs to current format (dry-run)
   openclew migrate --write         Apply migration
+  openclew migrate --todo          Extract TODO section from instruction file → TODO.md
   openclew migrate --repoint A B   Update related_docs paths after file moves
   openclew index                   Regenerate doc/_INDEX.md
   openclew session-header          Format session header line
