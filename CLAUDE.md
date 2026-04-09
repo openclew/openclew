@@ -137,38 +137,3 @@ L'onboarding AlphABot (R.AlphA.PF) et openclew partagent le même objectif : str
 
 Voir [`TODO.md`](TODO.md)
 
-<!-- Legacy tiers below — to be migrated to TODO.md -->
-### Tier 1 — Urgent
-- [x] **Éliminer la dépendance à `_INDEX.md`** : Bloc injecté → `peek`/`search` (scan dynamique). Hook pre-commit opt-in (`--hook`). `_INDEX.md` reste disponible via `openclew index` comme cache humain-friendly (2026-03-29)
-- [x] **Scan recursif `doc/`** : `collectDocs()` + `walkDir()` dans search.js scannent récursivement. `doc/ref/_*.md` etc. sont trouvés. `migrate.js` utilise `walkDir()` via import (SSOT) (2026-03-29)
-- [x] **CLI migrate : repointing `related_docs`** : `openclew migrate --repoint <old> <new> [--write]`. Scanne tous les docs, remplace les chemins (2026-03-29)
-- [x] **CLI search** : `openclew search <query>` — recherche keyword L1/metadata, scoring pondéré (2026-03-19)
-- [x] **MCP server** : `openclew mcp` — stdio JSON-RPC, 3 tools: search_docs, read_doc, list_docs (2026-03-19)
-
-### Tier 2 — Court terme
-- [x] **Notification update** : Check npm 1x/jour, bandeau en fin de commande, comparaison semver. Cache `~/.openclew/update-check.json` (2026-04-01)
-- [ ] **Init sans friction** : Chaque projet nécessite `openclew init`. Pas de mécanisme "global instruction" universel (chaque agent a sa propre config). Le dénominateur commun = fichier d'instruction per-projet (AGENTS.md, CLAUDE.md, .cursorrules...), c'est ce qu'openclew fait déjà. **Pistes explorées et rejetées** : (1) global `~/.openclew/INSTRUCTIONS.md` injecté dans config agent → marche pour Claude Code, pas pour les autres, (2) MCP global → donne les tools mais pas l'instruction de les utiliser. **Décision : résoudre d'abord pour AlphABot** (fichier d'instructions à la racine comme CLAUDE.md), puis voir pour les autres éditeurs. Le per-projet reste la seule approche universelle.
-- [x] **Format pur Markdown L1** : Divs testés puis abandonnés (piège lignes vides, bots écrivent du MD pas du HTML). L1 = liste Markdown entre ligne 1 et `---`. Parser positionnel `findL1Block()`. `# Summary` / `# Details`. (2026-04-01)
-- [ ] **Verbosité configurable** : Niveau concis/normal/détaillé. Stocké dans `.openclew.json`, injecté dans le bloc AGENTS.md. **Onboarding** : proposer spontanément dès la première session de régler la verbosité, avec une forte incitation vers "concis" (ex: "Most developers prefer concise — try it first"). Beaucoup d'utilisateurs se font spammer sans savoir que c'est configurable. Le défaut devrait être concis ou le choix forcé au setup.
-- [x] **CLI migrate** : `openclew migrate` — upgrade legacy docs vers format openclew. Préfixe `clw_ref@`/`clw_log@`, swap `openclew@` semi-legacy, inclus dans npm (plus exclu). Ajouté au dispatcher CLI. UPGRADING.md réécrit. (2026-04-07)
-- [ ] **CLI migrate --move** : Déplacement atomique fichier + repoint refs. Ex: `openclew migrate --move doc/_FOO.md doc/ref/FOO.md [--write]`. Nécessaire pour la migration `doc/_*.md` → `doc/ref/`
-- [ ] **Auto-génération L1** : Option `--auto` sur `new`/`log` — appel LLM pour pré-remplir `doc_brief` + `subject` depuis contenu L3
-- [x] **CLI status** : `openclew status` — dashboard santé (stats, missing brief, stale, distribution) (2026-03-19)
-- [x] **Tests automatisés** : 54 tests (search parsers, slugify, inject, collectDocs, searchDocs). `npm test` via `node:test` (2026-03-31)
-- [ ] **Tester onboarding post-init** : Vérifier le flow "Try it now" sur un projet vierge (message post-init, example log actionnable, _ARCHITECTURE.md template). Test en isolation `/tmp/openclew-test/`
-- [ ] **Dogfooding — doc migration** : Un-gitignore `doc/log/`, traduire 21 logs FR → EN depuis R.AlphA.Doc, purger les refs internes
-- [x] **UPGRADING.md** : Réécrit — format cible clw_ref@/clw_log@, mapping statuts FR→EN, coexistence Node/Rust, section version-specific 0.7.0 (2026-04-07)
-- [ ] **Publish oc_0.7.0** : Inclut format pur Markdown, parser positionnel, templates sans divs, préfixe `clw_ref@`/`clw_log@`, nommage `doc/ref/`, commande `migrate` incluse, détection coexistence Node/Rust
-
-### Tier 3 — Moyen terme
-- [ ] **Session memory** : Extraction auto des faits importants en fin de session
-- [ ] **Semantic search** : Embeddings locaux optionnels (pas de serveur)
-- [ ] **Intégration AlphABot** : Implémenter la lecture L1/L2/L3 côté extension VS Code (R.AlphA.IDE)
-
-### Backlog
-- [ ] **Propagation doc_brief** : Propager doc_brief → doc_brief dans R.AlphA.Doc (templates, hooks, conventions globales)
-- [x] **npm publish** : Publié oc_0.3.0 — logo v1, author/homepage/bugs, migrate exclu, fix README (2026-03-25)
-- [x] **Zero Python** : Index generator réécrit en JS natif, réutilise parsers de search.js. `hooks/generate-index.py` supprimé (2026-03-24)
-- [x] **Skills OpenClaw** : 3 skills renommés `oc-init`, `oc-search`, `oc-checkpoint` (2026-03-27, ex-`openclew-*`)
-- [x] **Slash commands Claude Code** : 4 commands `oc-checkout`, `oc-search`, `oc-init`, `oc-status` installées par `init` dans `~/.claude/commands/` (2026-03-27)
-- [x] **Coexistence OpenClaw** : Section ajoutée dans template `_USING_OPENCLEW.md` expliquant la complémentarité (2026-03-24)
