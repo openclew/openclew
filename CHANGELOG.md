@@ -2,7 +2,7 @@
 
 All notable changes to openclew are documented here.
 
-## [Unreleased] — towards 0.7.0
+## [0.7.0] — 2026-04-10
 
 ### Added
 - **`migrate` command in CLI** — `openclew migrate` available from the dispatcher (`help --all`)
@@ -21,10 +21,12 @@ All notable changes to openclew are documented here.
 - **`clw_ref@`/`clw_log@` prefixes** — categorical prefix encodes doc type (replaces `openclew@`)
 - **Pure Markdown L1** — list items replace div wrappers and comment markers
 - **L2/L3 headers** — `# Summary` and `# Details` (no `L2 -`/`L3 -` prefix)
-- **`doc/ref/` naming** — refdocs move from `doc/_*.md` to `doc/ref/SUBJECT.md` (convention, not enforced)
+- **`doc/ref/` naming** — `init` and `add ref` create refdocs in `doc/ref/SUBJECT.md`. Legacy `doc/_*.md` still detected
+- **`checkout` log format** — uses `clw_log@` prefix and positional Markdown L1 (was `openclew@` + comment markers)
 
 ### Fixed
 - **Parser recognizes `clw_ref@`/`clw_log@`** as current format (was only `openclew@`)
+- **`collectDocs` scans `doc/ref/`** — refdocs in both `doc/ref/*.md` (new) and `doc/_*.md` (legacy) are found
 - **Rust parser accepts 3 prefixes** — `openclew@`, `clw_ref@`, `clw_log@`
 
 ## [0.6.0] — 2026-04-01

@@ -1,29 +1,23 @@
-clw_ref@VERSION · created: YYYY-MM-DD · updated: YYYY-MM-DD · type: Reference | Architecture | Guide | Analysis · status: Active | Stable | Archived · category: Main domain · keywords: [tag1, tag2, tag3]
+clw_ref@0.7.0 · created: 2026-04-10 · updated: 2026-04-10 · type: Reference · status: Active · category: · keywords: []
 
-- **subject:** Short title (< 60 chars)
-- **doc_brief:** 1-2 sentences of assertions (what is true/decided), not narration (what was done). Must be enough to decide if you need to read further.
+- **subject:** TITLE
+- **doc_brief:**
 
 ---
 
 # Summary
 
 ## Objective
-<!-- Why this document exists, what need it covers -->
+<!-- Why this document exists -->
 
 ## Key points
 <!-- 3-5 essential takeaways -->
-
-## Solution
-<!-- Recommended approach or pattern -->
-
-## Watch out
-<!-- Common pitfalls, edge cases, things to be aware of -->
 
 ---
 
 # Details
 
-<!-- Full technical content: code examples, diagrams, references, deep dives... -->
+<!-- Full technical content -->
 
 ---
 
@@ -31,4 +25,4 @@ clw_ref@VERSION · created: YYYY-MM-DD · updated: YYYY-MM-DD · type: Reference
 
 | Date | Change |
 |------|--------|
-| YYYY-MM-DD | Initial creation |
+| 2026-04-10 | Initial creation |

@@ -111,7 +111,7 @@ L'onboarding AlphABot (R.AlphA.PF) et openclew partagent le même objectif : str
 | `lib/inject.js` | Injection bloc openclew dans le entry point |
 | `lib/config.js` | Lecture/écriture `.openclew.json` (entryPoint) |
 | `lib/templates.js` | Templates embarqués + helpers (slugify, today, ocVersion) |
-| `lib/new-doc.js` | Création refdoc `_TITLE.md` |
+| `lib/new-doc.js` | Création refdoc `doc/ref/TITLE.md` |
 | `lib/new-log.js` | Création log `YYYY-MM-DD_title.md` |
 | `lib/search.js` | Recherche keyword dans L1/metadata + parsers JS + `collectDocs()`/`walkDir()` (SSOT scan récursif, réutilisés par index-gen, MCP, migrate, peek, status) |
 | `lib/status.js` | Dashboard santé docs (stats, missing brief, stale) |

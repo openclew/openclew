@@ -74,7 +74,7 @@ L1 answers "should I read this?" L2 answers "what do I need to know?" L3 is ther
 
 | Type | Location | Role | Mutability |
 |------|----------|------|------------|
-| **Refdoc** | `doc/_SUBJECT.md` | Reference knowledge (architecture, conventions, decisions) | Updated over time |
+| **Refdoc** | `doc/ref/SUBJECT.md` | Reference knowledge (architecture, conventions, decisions) | Updated over time |
 | **Log** | `doc/log/YYYY-MM-DD_subject.md` | Frozen facts (what happened, what was decided) | Never modified |
 
 **Refdocs** are your project's brain — they evolve as the project evolves.
@@ -102,9 +102,9 @@ This:
 
 Ask it:
 
-> Read doc/_USING_OPENCLEW.md and document our architecture.
+> Read doc/ref/USING_OPENCLEW.md and document our architecture.
 
-Your agent reads the guide, understands the L1/L2/L3 format, and creates `doc/_ARCHITECTURE.md` with your project's actual architecture.
+Your agent reads the guide, understands the L1/L2/L3 format, and creates `doc/ref/ARCHITECTURE.md` with your project's actual architecture.
 
 ### 3. There is no step 3
 
@@ -140,9 +140,9 @@ These work like any Claude Code slash command — type `/oc-` and pick one. No `
 <details>
 <summary><b>Manual setup</b> — if you prefer not to use the CLI</summary>
 
-1. Create `doc/` and `doc/log/`
+1. Create `doc/ref/` and `doc/log/`
 2. Copy templates from [`templates/`](templates/) (refdoc.md, log.md)
-3. Add the openclew block to your instruction file (see `doc/_USING_OPENCLEW.md` after init for the exact format)
+3. Add the openclew block to your instruction file (see `doc/ref/USING_OPENCLEW.md` after init for the exact format)
 4. Optionally run `openclew index` to generate `doc/_INDEX.md` (human-friendly cache, not required by agents)
 
 </details>
