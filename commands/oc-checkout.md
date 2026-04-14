@@ -16,10 +16,12 @@ Generates a structured summary of the session and persists it as a log.
 | ✅    | Status | Done |
 | 🚧    | Status | In progress / partial |
 | ❌    | Status | Not done |
-| 📗    | Doc    | Documented (log, refdoc, or instruction file) |
-| 📕    | Doc    | Not documented |
+| 📗    | Doc    | Refdoc written (`doc/ref/*.md` or legacy `doc/_*.md`) |
+| 📕    | Doc    | No refdoc |
 | 🟢    | Commit | Already committed |
 | 🟡    | Commit | To be committed |
+
+**Strict Doc column rule**: 📗 = only a **refdoc** written to disk under `doc/ref/*.md` (or legacy `doc/_*.md`). Code files (`.py`, `.ts`, `.sh`, ...), logs (`doc/log/*.md`), `CLAUDE.md`, and `TODO.md` do NOT count as 📗. If the action produces no refdoc, Doc stays 📕 and the File column points to whatever was actually modified.
 
 ## Sequence
 
