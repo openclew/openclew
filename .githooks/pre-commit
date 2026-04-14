@@ -1,0 +1,16 @@
+#!/bin/bash
+# Pre-commit hook openclew
+# Valide que les fichiers stagés ne contiennent pas de drift terminologique
+# SSOT du scope : R.AlphA.Doc/doc/_OPENCLEW_BRIDGE.md § Terminology
+# SSOT du checker : R.AlphA.Doc/scripts/bridge_check.py
+
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+BRIDGE_SCRIPT="../R.AlphA.Doc/scripts/bridge_check.py"
+
+if [ ! -f "$BRIDGE_SCRIPT" ]; then
+    # R.AlphA.Doc absent = dev hors monorepo, skip silencieusement
+    exit 0
+fi
+
+python3 "$BRIDGE_SCRIPT" || exit $?

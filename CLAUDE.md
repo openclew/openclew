@@ -132,6 +132,7 @@ L'onboarding AlphABot (R.AlphA.PF) et openclew partagent le même objectif : str
 | Hook pre-commit des anciennes versions appelle Python | `init` nettoie automatiquement `doc/generate-index.py` legacy |
 | npm publish demande 2 auth (login + OTP 2FA) | Utiliser `rocpublish` (alias zsh = cd + login + publish). Toujours 2 validations navigateur, c'est normal côté npm |
 | Node.js et Rust binary coexistent dans le PATH | `openclew --version` affiche `(node)` ou `(rust)`. `openclew status` détecte les doublons. Le Rust ne supporte que init/index/mcp |
+| Hook pre-commit bridge_check pas activé après clone | `git config core.hooksPath .githooks` (local, non commité). Active le hook `.githooks/pre-commit` qui appelle `R.AlphA.Doc/scripts/bridge_check.py` |
 
 ## TODO
 
