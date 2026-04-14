@@ -14,5 +14,5 @@
 - [ ] **Propagation doc_brief** : Propager doc_brief → doc_brief dans R.AlphA.Doc (templates, hooks, conventions globales)
 - [ ] **Amendement de logs** : Prévoir une méthodologie pour modifier des logs existants (aujourd'hui immutables). Cas d'usage : info factuellement fausse, statut périmé, refs cassées. Approche envisagée : amend daté (section `## Amendement YYYY-MM-DD` en fin de log) pour garder la traçabilité sans figer des erreurs
 - [ ] **npm publish oc_0.7.0** : Lancer `rocpublish` (login + OTP 2FA). Commit release prêt (a21822c)
-- [ ] **MAJ docs R.AlphA.Doc post-0.7.0** : 3 refdocs stale — `_OPENCLEW_INSTALL_TEST_PROCEDURE.md` (13+ refs `doc/_*.md` → `doc/ref/`), `_OPENCLEW_ONBOARDING_TEST.md` (6+ refs), `_MAKE_RALPHA_DOC_AUTONOMOUS_FROM_RALPHA_FOR_OPENCLEW.md` (7+ refs, préfixe `openclew@` → `clw_ref@`). Bridge et Rust Port déjà à jour
+- [x] **MAJ docs R.AlphA.Doc post-0.7.0** : 3 refdocs migrés au format clw_ref@ + chemins `doc/ref/` + cmds `add ref`/`add log`. Commit R.AlphA.Doc 5cf74fa (2026-04-14)
 - [ ] **doc/_FORMAT.md fantôme dans git** : Le blob existe en objet loose (accessible via `git show HEAD:doc/_FORMAT.md`) mais n'est ni dans le tree HEAD ni dans l'index. Artefact probable d'un filter-branch. Investiguer et nettoyer
