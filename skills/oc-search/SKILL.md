@@ -1,6 +1,6 @@
 ---
 name: oc-search
-description: Search project documentation by keyword. Searches L1 metadata (subject, doc_brief, category, keywords) across all refdocs and logs. Returns results sorted by relevance.
+description: Search project documentation by keyword. Searches L1 metadata (subject, doc_brief, category, keywords) across all refs and logs. Returns results sorted by relevance.
 user-invocable: true
 ---
 
@@ -34,7 +34,7 @@ npx openclew search "bug"            # Find bug-related logs
 ## Reading results
 
 Each result shows:
-- Icon: 📘 refdoc or 📝 log
+- Icon: 📘 ref or 📝 log
 - Subject and status
 - File path (relative)
 - Brief description

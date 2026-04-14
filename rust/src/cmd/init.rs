@@ -6,7 +6,7 @@ use std::path::{Path, PathBuf};
 use crate::config;
 use crate::detect;
 use crate::inject;
-use crate::template::{guide, log, refdoc};
+use crate::template::{guide, log, refs as ref_tpl};
 use crate::util::{oc_version, today};
 
 const PROJECT_MARKERS: &[&str] = &[
@@ -164,7 +164,7 @@ fn create_docs(_root: &Path, doc_dir: &Path, log_dir: &Path, entry_point_path: O
     if !arch_path.exists() {
         let existing = entry_point_path
             .and_then(|p| fs::read_to_string(p).ok());
-        fs::write(&arch_path, refdoc::example_refdoc_content(existing.as_deref()))?;
+        fs::write(&arch_path, ref_tpl::example_ref_content(existing.as_deref()))?;
         eprintln!("  Created doc/_ARCHITECTURE.md");
     }
 

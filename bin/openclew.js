@@ -11,10 +11,10 @@ openclew — Long Life Memory for LLMs
 
 Usage:
   openclew init                    Set up openclew in your project
-  openclew add ref <title>         Create a refdoc (evolves with the project)
+  openclew add ref <title>         Create a ref (evolves with the project)
   openclew add log <title>         Create a session log (frozen facts)
   openclew search <query>          Search docs by keyword
-  openclew peek                    List instruction file + all refdocs
+  openclew peek                    List instruction file + all refs
   openclew checkout                End-of-session summary
 
 Run 'openclew help --all' for advanced commands.
@@ -26,10 +26,10 @@ openclew — Long Life Memory for LLMs
 
 Usage:
   openclew init                    Set up openclew in your project
-  openclew add ref <title>         Create a refdoc (evolves with the project)
+  openclew add ref <title>         Create a ref (evolves with the project)
   openclew add log <title>         Create a session log (frozen facts)
   openclew search <query>          Search docs by keyword
-  openclew peek                    List instruction file + all refdocs
+  openclew peek                    List instruction file + all refs
   openclew checkout                End-of-session summary
 
 Advanced:

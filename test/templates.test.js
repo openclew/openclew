@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 
 const { slugify, slugifyLog } = require("../lib/templates");
 
-// ── slugify (refdoc filenames: _UPPER_SNAKE.md) ────────────────────
+// ── slugify (ref filenames: _UPPER_SNAKE.md) ──────────────────────
 
 describe("slugify", () => {
   it("basic: spaces → underscores, uppercase", () => {

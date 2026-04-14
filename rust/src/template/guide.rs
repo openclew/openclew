@@ -6,7 +6,7 @@ pub fn guide_content() -> String {
     let date = today();
     let ver = oc_version();
     format!(
-        r#"clw_ref@{ver} · created: {date} · updated: {date} · type: Guide · status: Active · category: Documentation · keywords: [openclew, L1, L2, L3, index, refdoc, log]
+        r#"clw_ref@{ver} · created: {date} · updated: {date} · type: Guide · status: Active · category: Documentation · keywords: [openclew, L1, L2, L3, index, ref, log]
 
 - **subject:** How openclew works
 - **doc_brief:** How openclew structures project knowledge in 3 levels (L1/L2/L3) so AI agents and humans navigate efficiently.
@@ -25,7 +25,7 @@ Before starting any task, run `openclew peek` to list all docs with their subjec
 
 ## Two types of docs
 
-**Refdocs** (`doc/ref/*.md`): knowledge that evolves with the project.
+**Refs** (`doc/ref/*.md`): knowledge that evolves with the project.
 Architecture decisions, conventions, known pitfalls — anything that stays relevant over time.
 Naming: `doc/ref/UPPER_SNAKE_CASE.md` (e.g. `doc/ref/AUTH_DESIGN.md`)
 
@@ -55,7 +55,7 @@ An optional `doc/_INDEX.md` can be generated with `openclew index` for human bro
 
 # Details
 
-## Creating a refdoc
+## Creating a ref
 
 Create `doc/ref/TITLE.md` (uppercase snake_case) with this structure:
 
@@ -117,7 +117,7 @@ Logs are immutable — once the session ends, the log is never modified.
 3. Read L1 (subject + brief) of relevant docs to confirm relevance
 4. Read L2 for context
 5. Only read L3 when you need implementation details
-6. After significant work: propose creating or updating a refdoc
+6. After significant work: propose creating or updating a ref
 
 ---
 

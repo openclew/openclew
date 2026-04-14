@@ -1,7 +1,7 @@
 use crate::util::{oc_version, today};
 
-/// Template for a new refdoc
-pub fn refdoc_content(title: &str) -> String {
+/// Template for a new ref
+pub fn ref_content(title: &str) -> String {
     let date = today();
     let ver = oc_version();
     format!(
@@ -37,8 +37,8 @@ pub fn refdoc_content(title: &str) -> String {
     )
 }
 
-/// Template for a refdoc with pre-filled content (used by MCP create_ref)
-pub fn refdoc_content_filled(_title: &str, subject: &str, brief: &str, content: &str) -> String {
+/// Template for a ref with pre-filled content (used by MCP create_ref)
+pub fn ref_content_filled(_title: &str, subject: &str, brief: &str, content: &str) -> String {
     let date = today();
     let ver = oc_version();
     format!(
@@ -70,8 +70,8 @@ pub fn refdoc_content_filled(_title: &str, subject: &str, brief: &str, content: 
     )
 }
 
-/// Example architecture refdoc (created by init)
-pub fn example_refdoc_content(existing_instructions: Option<&str>) -> String {
+/// Example architecture ref (created by init)
+pub fn example_ref_content(existing_instructions: Option<&str>) -> String {
     let date = today();
     let ver = oc_version();
 

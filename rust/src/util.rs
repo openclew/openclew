@@ -10,7 +10,7 @@ pub fn oc_version() -> &'static str {
     env!("CARGO_PKG_VERSION")
 }
 
-/// Slugify for refdocs: UPPERCASE, underscores
+/// Slugify for refs: UPPERCASE, underscores
 /// "Auth Design" → "AUTH_DESIGN"
 pub fn slugify(title: &str) -> String {
     let s: String = title

@@ -349,12 +349,12 @@ describe("collectDocs", () => {
   beforeEach(() => { dir = tmpDir(); });
   afterEach(() => { fs.rmSync(dir, { recursive: true, force: true }); });
 
-  const REFDOC = `openclew@0.5.4 · type: Reference · status: Active
+  const REF_DOC = `openclew@0.5.4 · type: Reference · status: Active
 
 <div class="oc-l1">
 
 - **subject:** Test ref
-- **doc_brief:** A refdoc
+- **doc_brief:** A ref
 
 </div>`;
 
@@ -367,33 +367,33 @@ describe("collectDocs", () => {
 
 </div>`;
 
-  it("separates refdocs (kind=refdoc) from logs (kind=log)", () => {
-    writeDoc(dir, "_ARCH.md", REFDOC);
+  it("separates refs (kind=ref) from logs (kind=log)", () => {
+    writeDoc(dir, "_ARCH.md", REF_DOC);
     writeDoc(dir, "log/2026-03-30_test.md", LOG);
     const docs = collectDocs(dir);
-    assert.equal(docs.filter(d => d.kind === "refdoc").length, 1);
+    assert.equal(docs.filter(d => d.kind === "ref").length, 1);
     assert.equal(docs.filter(d => d.kind === "log").length, 1);
   });
 
   it("always skips _INDEX.md (auto-generated, not a real doc)", () => {
-    writeDoc(dir, "_INDEX.md", REFDOC);
-    writeDoc(dir, "_REAL.md", REFDOC);
+    writeDoc(dir, "_INDEX.md", REF_DOC);
+    writeDoc(dir, "_REAL.md", REF_DOC);
     const docs = collectDocs(dir);
     assert.equal(docs.length, 1);
     assert.equal(docs[0].filename, "_REAL.md");
   });
 
-  it("finds refdocs in doc/ subdirs (e.g. doc/ref/_SUB.md)", () => {
-    writeDoc(dir, "ref/_SUB.md", REFDOC);
-    const refdocs = collectDocs(dir).filter(d => d.kind === "refdoc");
-    assert.equal(refdocs.length, 1);
-    assert.equal(refdocs[0].filename, "_SUB.md");
+  it("finds refs in doc/ subdirs (e.g. doc/ref/_SUB.md)", () => {
+    writeDoc(dir, "ref/_SUB.md", REF_DOC);
+    const refs = collectDocs(dir).filter(d => d.kind === "ref");
+    assert.equal(refs.length, 1);
+    assert.equal(refs[0].filename, "_SUB.md");
   });
 
-  it("does NOT treat _*.md in log/ as refdocs", () => {
-    writeDoc(dir, "log/_NOT_A_REFDOC.md", REFDOC);
-    const refdocs = collectDocs(dir).filter(d => d.kind === "refdoc");
-    assert.equal(refdocs.length, 0);
+  it("does NOT treat _*.md in log/ as refs", () => {
+    writeDoc(dir, "log/_NOT_A_REF_DOC.md", REF_DOC);
+    const refs = collectDocs(dir).filter(d => d.kind === "ref");
+    assert.equal(refs.length, 0);
   });
 
   it("sorts logs newest first (reverse alphabetical = reverse chronological)", () => {
@@ -406,7 +406,7 @@ describe("collectDocs", () => {
   });
 
   it("skips unparseable files silently", () => {
-    writeDoc(dir, "_GOOD.md", REFDOC);
+    writeDoc(dir, "_GOOD.md", REF_DOC);
     writeDoc(dir, "_BAD.md", "# No metadata at all");
     const docs = collectDocs(dir);
     assert.equal(docs.length, 1);

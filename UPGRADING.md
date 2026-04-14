@@ -7,6 +7,16 @@ are backward-compatible. But new features expect the current format.
 
 ---
 
+## Vocabulary changes — oc_0.9.0
+
+Phase 2 of the `refdoc` → `ref` rename: internal code now matches the user-facing vocabulary. `lib/**` identifiers, the Rust port, tests, skills, prompts, and onboarding templates all use `ref`. The MCP `list_docs` tool enum is now `{kind: "ref"}` (was `"refdoc"`) — **breaking** for MCP clients that pass `kind` explicitly.
+
+`lib/migrate.js` intentionally still recognizes `refdoc` — that's how it migrates legacy docs forward.
+
+**Nothing to do on existing projects.** Parsers still accept legacy forms. The breaking change only affects MCP clients that hardcode `kind: "refdoc"` — update to `"ref"`.
+
+---
+
 ## Vocabulary changes — oc_0.8.0
 
 `refdoc` → `ref`. The long form is retired from user-facing prose, templates, commands, and documentation. The short form `ref` was already the CLI verb (`openclew add ref`), this release aligns the rest of the vocabulary.

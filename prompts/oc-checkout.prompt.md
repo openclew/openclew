@@ -9,7 +9,7 @@ Then generate a structured summary:
 1. List all actions from the session (features, fixes, refactors)
 2. For each action, check: is it documented? is it committed?
 3. Display a recap table
-4. List refdocs related to the session — flag those that need updating
+4. List refs related to the session — flag those that need updating
 5. Propose creating logs for undocumented actions — **logs MUST use the openclew format below**
 6. Wait for user validation before committing
 

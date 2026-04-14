@@ -2,6 +2,16 @@
 
 All notable changes to openclew are documented here.
 
+## [0.9.0] — 2026-04-14
+
+### Changed
+- **Terminology rename (phase 2): internal code** — completes the `refdoc` → `ref` rename started in 0.8.0. Affected: `lib/**` (identifiers, `kind: "ref"`, exports `refContent`/`exampleRefContent`, constants `REF_EXTRA_SKIP`), `bin/openclew.js` (help text), `test/**`, `skills/**`, `prompts/**`, `templates/onboarding/**`, full Rust port (`rust/src/template/refs.rs`, `DocKind::Ref`).
+- **MCP `list_docs` kind enum** — `{kind: "ref"}` replaces `{kind: "refdoc"}`. Breaking for MCP clients that pass `kind` explicitly; omitting `kind` (or passing `"log"`) is unchanged.
+- **Rust template module rename** — `rust/src/template/refdoc.rs` → `rust/src/template/refs.rs` (module `refs`, functions `ref_content`/`ref_content_filled`/`example_ref_content`). `refs` plural because `ref` is a Rust keyword.
+
+### Preserved
+- **`lib/migrate.js` keeps `refdoc`** — it's the migration tool's job to recognize the legacy form.
+
 ## [0.8.0] — 2026-04-14
 
 ### Changed

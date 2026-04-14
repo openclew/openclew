@@ -7,18 +7,18 @@ use super::metadata::Metadata;
 
 const SKIP_DIRS: &[&str] = &["_archive", "old", ".Rproj.user"];
 const SKIP_FILES: &[&str] = &["_INDEX.md", "_INDEX_NOTES.md"];
-const REFDOC_EXTRA_SKIP: &[&str] = &["log", "notes", "verify_logs"];
+const REF_EXTRA_SKIP: &[&str] = &["log", "notes", "verify_logs"];
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum DocKind {
-    Refdoc,
+    Ref,
     Log,
 }
 
 impl DocKind {
     pub fn as_str(&self) -> &'static str {
         match self {
-            DocKind::Refdoc => "refdoc",
+            DocKind::Ref => "ref",
             DocKind::Log => "log",
         }
     }
@@ -69,19 +69,19 @@ pub fn collect_docs(doc_dir: &Path) -> Vec<Doc> {
     let mut docs = Vec::new();
     let skip_files: HashSet<&str> = SKIP_FILES.iter().copied().collect();
 
-    // Refdocs: _*.md recursively under doc_dir (excluding log/, notes/, verify_logs/)
+    // Refs: _*.md recursively under doc_dir (excluding log/, notes/, verify_logs/)
     if doc_dir.exists() {
-        let refdoc_skip: HashSet<&str> = REFDOC_EXTRA_SKIP.iter().copied().collect();
-        let mut refdocs: Vec<PathBuf> = walk_dir(doc_dir, &refdoc_skip)
+        let ref_skip: HashSet<&str> = REF_EXTRA_SKIP.iter().copied().collect();
+        let mut refs: Vec<PathBuf> = walk_dir(doc_dir, &ref_skip)
             .into_iter()
             .filter(|f| {
                 let name = f.file_name().unwrap_or_default().to_string_lossy();
                 name.starts_with('_') && name.ends_with(".md") && !skip_files.contains(name.as_ref())
             })
             .collect();
-        refdocs.sort();
+        refs.sort();
 
-        for filepath in refdocs {
+        for filepath in refs {
             if let Some(meta) = parse_file(&filepath) {
                 let filename = filepath
                     .file_name()
@@ -91,7 +91,7 @@ pub fn collect_docs(doc_dir: &Path) -> Vec<Doc> {
                 docs.push(Doc {
                     filepath,
                     filename,
-                    kind: DocKind::Refdoc,
+                    kind: DocKind::Ref,
                     meta,
                 });
             }

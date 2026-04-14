@@ -3,7 +3,7 @@ openclew@1.0.0 · created: {{DATE}} · updated: {{DATE}} · type: Reference · s
 <!-- L1_START -->
 **subject:** {{PROJECT_NAME}} — Documentation index
 
-**doc_brief:** Point d'entrée documentation du projet {{PROJECT_NAME}}. Liste les refdocs disponibles avec leur sujet et statut.
+**doc_brief:** Point d'entrée documentation du projet {{PROJECT_NAME}}. Liste les refs disponibles avec leur sujet et statut.
 <!-- L1_END -->
 
 ---
@@ -17,11 +17,11 @@ openclew@1.0.0 · created: {{DATE}} · updated: {{DATE}} · type: Reference · s
 - **Stack**: {{STACK}}
 - **Description**: {{DESCRIPTION}}
 
-## Refdocs
+## Refs
 
 | Document | Subject | Status |
 |----------|---------|--------|
-{{REFDOCS_TABLE}}
+{{REFS_TABLE}}
 
 ## Logs
 

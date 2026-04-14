@@ -8,7 +8,7 @@ use serde_json::{json, Value};
 use crate::parse::collect::{collect_docs, DocKind};
 use crate::parse::l1::extract_level;
 use crate::parse::search::search_docs;
-use crate::template::{log as log_tpl, refdoc as refdoc_tpl};
+use crate::template::{log as log_tpl, refs as ref_tpl};
 use crate::util::{oc_version, slugify, slugify_log, today};
 
 fn project_root() -> PathBuf {
@@ -102,7 +102,7 @@ fn tool_list_docs(params: &Value) -> Value {
     let items: Vec<Value> = docs
         .iter()
         .filter(|d| match kind_filter {
-            Some("refdoc") => d.kind == DocKind::Refdoc,
+            Some("ref") => d.kind == DocKind::Ref,
             Some("log") => d.kind == DocKind::Log,
             _ => true,
         })
@@ -188,9 +188,9 @@ fn tool_create_ref(params: &Value) -> Value {
     }
 
     let file_content = if content.is_empty() {
-        refdoc_tpl::refdoc_content(title)
+        ref_tpl::ref_content(title)
     } else {
-        refdoc_tpl::refdoc_content_filled(title, subject, brief, content)
+        ref_tpl::ref_content_filled(title, subject, brief, content)
     };
 
     if let Err(e) = fs::write(&filepath, &file_content) {
@@ -199,7 +199,7 @@ fn tool_create_ref(params: &Value) -> Value {
 
     json!({
         "path": format!("doc/ref/{filename}"),
-        "message": format!("Created refdoc: doc/ref/{filename}"),
+        "message": format!("Created ref: doc/ref/{filename}"),
     })
 }
 
@@ -235,7 +235,7 @@ const TOOLS: &str = r#"[
     "inputSchema": {
       "type": "object",
       "properties": {
-        "kind": { "type": "string", "enum": ["refdoc", "log"], "description": "Filter by type. Omit to list all." }
+        "kind": { "type": "string", "enum": ["ref", "log"], "description": "Filter by type. Omit to list all." }
       }
     }
   },
@@ -255,11 +255,11 @@ const TOOLS: &str = r#"[
   },
   {
     "name": "create_ref",
-    "description": "Create a refdoc with pre-filled content. The file is generated with proper L1/L2/L3 structure in doc/ref/.",
+    "description": "Create a ref with pre-filled content. The file is generated with proper L1/L2/L3 structure in doc/ref/.",
     "inputSchema": {
       "type": "object",
       "properties": {
-        "title": { "type": "string", "description": "Refdoc title (used for filename slug)" },
+        "title": { "type": "string", "description": "Ref title (used for filename slug)" },
         "subject": { "type": "string", "description": "Subject line (defaults to title)" },
         "brief": { "type": "string", "description": "One-line doc_brief" },
         "content": { "type": "string", "description": "Summary content (inserted in L2 section)" }

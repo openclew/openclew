@@ -85,7 +85,7 @@ pub fn example_log_content() -> String {
 
 A log captures what happened in one session. It's frozen — you never edit it later.
 
-For knowledge that evolves (architecture, conventions, decisions), use refdocs.
+For knowledge that evolves (architecture, conventions, decisions), use refs.
 
 Each doc has 4 layers:
 - **Metadata** (line 1) — for machines and indexing

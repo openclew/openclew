@@ -8,7 +8,7 @@ This project uses [openclew](https://github.com/openclew/openclew) to structure 
 **Before any task:** check `doc/_INDEX.md` or run `openclew peek` to list available docs. Read the relevant ones before exploring code.
 
 **Doc types:**
-- **Refdocs** (`doc/ref/*.md` or `doc/_*.md`): knowledge that evolves with the project (architecture, conventions, decisions)
+- **Refs** (`doc/ref/*.md` or `doc/_*.md`): knowledge that evolves with the project (architecture, conventions, decisions)
 - **Logs** (`doc/log/YYYY-MM-DD_*.md`): frozen facts from a work session (immutable after creation)
 
 **Document format:** Each doc has a metadata line + 3 levels (L1 brief → L2 summary → L3 details). Read only what you need.

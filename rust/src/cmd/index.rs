@@ -7,7 +7,7 @@ use crate::parse::collect::{collect_docs, DocKind};
 /// Generate _INDEX.md content from parsed docs
 fn generate_index(doc_dir: &Path) -> String {
     let docs = collect_docs(doc_dir);
-    let refdocs: Vec<_> = docs.iter().filter(|d| d.kind == DocKind::Refdoc).collect();
+    let refs: Vec<_> = docs.iter().filter(|d| d.kind == DocKind::Ref).collect();
     let logs: Vec<_> = docs.iter().filter(|d| d.kind == DocKind::Log).collect();
 
     let timestamp = chrono::Local::now().format("%Y-%m-%d %H:%M").to_string();
@@ -21,13 +21,13 @@ fn generate_index(doc_dir: &Path) -> String {
         String::new(),
     ];
 
-    // Refdocs section
-    lines.push("## Refdocs".to_string());
+    // Refs section
+    lines.push("## Refs".to_string());
     lines.push(String::new());
-    if !refdocs.is_empty() {
+    if !refs.is_empty() {
         lines.push("| Document | Subject | Status | Category |".to_string());
         lines.push("|----------|---------|--------|----------|".to_string());
-        for doc in &refdocs {
+        for doc in &refs {
             let name = &doc.filename;
             let subject = if doc.meta.subject().is_empty() { "—" } else { doc.meta.subject() };
             let status = if doc.meta.status().is_empty() { "—" } else { doc.meta.status() };
@@ -37,7 +37,7 @@ fn generate_index(doc_dir: &Path) -> String {
             lines.push(format!("| [{name}]({rel_str}) | {subject} | {status} | {category} |"));
         }
     } else {
-        lines.push("_No refdocs yet. Create one with `openclew add ref \"Title\"`._".to_string());
+        lines.push("_No refs yet. Create one with `openclew add ref \"Title\"`._".to_string());
     }
     lines.push(String::new());
 
@@ -72,7 +72,7 @@ fn generate_index(doc_dir: &Path) -> String {
 
     // Stats
     lines.push("---".to_string());
-    lines.push(format!("**{}** refdocs, **{}** logs.", refdocs.len(), logs.len()));
+    lines.push(format!("**{}** refs, **{}** logs.", refs.len(), logs.len()));
     lines.push(String::new());
 
     lines.join("\n")
@@ -92,9 +92,9 @@ pub fn run() -> Result<(), String> {
     fs::write(&index_path, &content).map_err(|e| format!("Cannot write _INDEX.md: {e}"))?;
 
     let docs = collect_docs(&doc_dir);
-    let refdocs = docs.iter().filter(|d| d.kind == DocKind::Refdoc).count();
+    let refs = docs.iter().filter(|d| d.kind == DocKind::Ref).count();
     let logs = docs.iter().filter(|d| d.kind == DocKind::Log).count();
-    eprintln!("Generated doc/_INDEX.md ({refdocs} refdocs, {logs} logs)");
+    eprintln!("Generated doc/_INDEX.md ({refs} refs, {logs} logs)");
 
     Ok(())
 }
