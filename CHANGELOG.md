@@ -2,6 +2,15 @@
 
 All notable changes to openclew are documented here.
 
+## [0.8.0] — 2026-04-14
+
+### Changed
+- **Terminology rename: `refdoc` → `ref`** — user-facing strings across templates, commands, README, CLAUDE.md, AGENTS.md, UPGRADING.md now use the short form `ref`. The CLI command was already `openclew add ref <title>` — this release aligns the rest of the vocabulary. Parsers and `migrate.js` still recognize `refdoc` as a legacy form, so existing user docs keep working without any change. Internal code identifiers (`lib/**`, Rust port, tests, examples) remain on `refdoc` for one more minor bump — see `R.AlphA.Doc/doc/_OPENCLEW_BRIDGE.md` Terminology section for the scope roadmap.
+- **Template file rename** — `templates/refdoc.md` → `templates/ref.md`.
+
+### Added
+- **Bridge terminology check** — `R.AlphA.Doc/scripts/bridge_check.py` validates that legacy vocabulary has been purged from declared scope. Non-exported (internal R.AlphA tooling), mentioned here for transparency.
+
 ## [0.7.0] — 2026-04-10
 
 ### Added
@@ -21,12 +30,12 @@ All notable changes to openclew are documented here.
 - **`clw_ref@`/`clw_log@` prefixes** — categorical prefix encodes doc type (replaces `openclew@`)
 - **Pure Markdown L1** — list items replace div wrappers and comment markers
 - **L2/L3 headers** — `# Summary` and `# Details` (no `L2 -`/`L3 -` prefix)
-- **`doc/ref/` naming** — `init` and `add ref` create refdocs in `doc/ref/SUBJECT.md`. Legacy `doc/_*.md` still detected
+- **`doc/ref/` naming** — `init` and `add ref` create refs in `doc/ref/SUBJECT.md`. Legacy `doc/_*.md` still detected
 - **`checkout` log format** — uses `clw_log@` prefix and positional Markdown L1 (was `openclew@` + comment markers)
 
 ### Fixed
 - **Parser recognizes `clw_ref@`/`clw_log@`** as current format (was only `openclew@`)
-- **`collectDocs` scans `doc/ref/`** — refdocs in both `doc/ref/*.md` (new) and `doc/_*.md` (legacy) are found
+- **`collectDocs` scans `doc/ref/`** — refs in both `doc/ref/*.md` (new) and `doc/_*.md` (legacy) are found
 - **Rust parser accepts 3 prefixes** — `openclew@`, `clw_ref@`, `clw_log@`
 
 ## [0.6.0] — 2026-04-01
@@ -40,7 +49,7 @@ All notable changes to openclew are documented here.
 ### Changed
 - L1 block: div wrappers → plain Markdown list items
 - L2/L3 headers: `# Summary` / `# Details`
-- Refdoc-first rule in injected block
+- Ref-first rule in injected block
 
 ## [0.5.2] — 2026-03-25
 
@@ -100,4 +109,4 @@ All notable changes to openclew are documented here.
 ## [0.1.0] — 2026-03-15
 
 ### Added
-- Initial repo — FORMAT.md, templates (refdoc, log), README
+- Initial repo — FORMAT.md, templates (ref, log), README

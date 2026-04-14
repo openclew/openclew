@@ -9,11 +9,11 @@ Stack : Node.js (CLI), Markdown (templates). Zero dépendances — ni npm, ni Py
 
 **Version actuelle** : voir `package.json` → `version`
 
-**Documentation** : `doc/` généré par `openclew init` (dogfooding). Logs et refdocs internes vivent aussi dans `R.AlphA.Doc/doc/` (logs openclew préfixés `openclew-*`).
+**Documentation** : `doc/` généré par `openclew init` (dogfooding). Logs et refs internes vivent aussi dans `R.AlphA.Doc/doc/` (logs openclew préfixés `openclew-*`).
 
 ## Règle de session
 
-**Doc-first obligatoire** : En début de session, lancer `/oc-peek` (ou lire `doc/_INDEX.md`) pour cartographier les refdocs disponibles avant toute exploration de code.
+**Doc-first obligatoire** : En début de session, lancer `/oc-peek` (ou lire `doc/_INDEX.md`) pour cartographier les refs disponibles avant toute exploration de code.
 
 ## Commandes
 
@@ -21,7 +21,7 @@ Stack : Node.js (CLI), Markdown (templates). Zero dépendances — ni npm, ni Py
 node bin/openclew.js help              # Usage CLI
 node bin/openclew.js help --all        # Usage CLI + commandes avancées
 node bin/openclew.js init              # Test init dans un projet
-node bin/openclew.js add ref "Title"   # Test création refdoc
+node bin/openclew.js add ref "Title"   # Test création ref
 node bin/openclew.js add log "Title"   # Test création log
 node bin/openclew.js search "auth"     # Test recherche docs
 node bin/openclew.js checkout          # Test résumé fin de session
@@ -62,10 +62,10 @@ openclew doit être **proactif** : c'est l'agent (via le bloc injecté) qui sugg
 - Idempotence stricte : chaque commande ré-exécutable sans effet de bord
 - **Entry point** : un seul fichier d'instruction est le point d'entrée openclew, stocké dans `.openclew.json`. Par défaut AGENTS.md (case-insensitive). Si absent, l'utilisateur choisit parmi les instruction files détectés ou un AGENTS.md est créé
 - Détection instruction files : CLAUDE.md, .cursorrules, .cursor/rules, .github/copilot-instructions.md, .windsurfrules, .windsurf/rules, .clinerules, AGENTS.md (case-insensitive), .antigravity/rules.md, .gemini/GEMINI.md, CONVENTIONS.md
-- `init` crée toujours : guide (`ref/USING_OPENCLEW.md`), exemple refdoc (`ref/ARCHITECTURE.md`), exemple log, index. Pas de flag `--demo`
+- `init` crée toujours : guide (`ref/USING_OPENCLEW.md`), exemple ref (`ref/ARCHITECTURE.md`), exemple log, index. Pas de flag `--demo`
 - Injection via markers `<!-- openclew_START -->` / `<!-- openclew_END -->`
 - Templates embarqués dans `lib/templates.js` (standalone) + fichiers dans `templates/` (référence)
-- **Format doc** : ligne 1 = métadonnées condensées (`clw_ref@VERSION` pour refdocs, `clw_log@VERSION` pour logs, suivi de ` · date · type · status · category · keywords`), L1 = `- **subject:**` + `- **doc_brief:**` (liste Markdown entre ligne 1 et premier `---`). SSOT : `templates/FORMAT.md`
+- **Format doc** : ligne 1 = métadonnées condensées (`clw_ref@VERSION` pour refs, `clw_log@VERSION` pour logs, suivi de ` · date · type · status · category · keywords`), L1 = `- **subject:**` + `- **doc_brief:**` (liste Markdown entre ligne 1 et premier `---`). SSOT : `templates/FORMAT.md`
 - **Parser rétrocompatible** : `findL1Block()` avec 3 fallbacks (div → commentaires HTML → positionnel). Supporte aussi l'ancien format key:value en fallback
 
 ### Documentation (dogfooding)
@@ -111,7 +111,7 @@ L'onboarding AlphABot (R.AlphA.PF) et openclew partagent le même objectif : str
 | `lib/inject.js` | Injection bloc openclew dans le entry point |
 | `lib/config.js` | Lecture/écriture `.openclew.json` (entryPoint) |
 | `lib/templates.js` | Templates embarqués + helpers (slugify, today, ocVersion) |
-| `lib/new-doc.js` | Création refdoc `doc/ref/TITLE.md` |
+| `lib/new-doc.js` | Création ref `doc/ref/TITLE.md` |
 | `lib/new-log.js` | Création log `YYYY-MM-DD_title.md` |
 | `lib/search.js` | Recherche keyword dans L1/metadata + parsers JS + `collectDocs()`/`walkDir()` (SSOT scan récursif, réutilisés par index-gen, MCP, migrate, peek, status) |
 | `lib/status.js` | Dashboard santé docs (stats, missing brief, stale) |
@@ -119,7 +119,7 @@ L'onboarding AlphABot (R.AlphA.PF) et openclew partagent le même objectif : str
 | `lib/index-gen.js` | Génération `_INDEX.md` en JS natif (réutilise parsers de search.js) |
 | `lib/migrate.js` | Migration legacy → format openclew + `--repoint` pour related_docs |
 | `UPGRADING.md` | Guide upgrade user-facing (version notes, étapes, limitations) |
-| `templates/refdoc.md` | Template référence refdoc |
+| `templates/ref.md` | Template référence ref |
 | `templates/log.md` | Template référence log |
 | `commands/oc-*.md` | Slash commands Claude Code (installées par `init`) |
 | `skills/oc-*/` | Skills OpenClaw (SKILL.md) pour onboarding agents |

@@ -7,6 +7,25 @@ are backward-compatible. But new features expect the current format.
 
 ---
 
+## Vocabulary changes — oc_0.8.0
+
+`refdoc` → `ref`. The long form is retired from user-facing prose, templates, commands, and documentation. The short form `ref` was already the CLI verb (`openclew add ref`), this release aligns the rest of the vocabulary.
+
+**Nothing to do on existing projects.** Parsers and `migrate` still recognize `refdoc` everywhere — in front matter, prose, related_docs, and legacy file paths. Your existing docs keep working as-is.
+
+If you want to align your own prose with the new vocabulary, a future `openclew migrate --prose` flag will offer opt-in rewriting. Until then, the rename is purely cosmetic for downstream projects.
+
+**What moved** :
+- `templates/refdoc.md` → `templates/ref.md` (the shipped reference template)
+- All user-visible strings in `README.md`, `AGENTS.md`, `CLAUDE.md`, `commands/oc-*.md`, `UPGRADING.md`
+
+**What stayed** (on purpose, removed in oc_0.9.0) :
+- Internal identifiers in `lib/**` (function names, variables)
+- Rust port mirror (`rust/src/template/refdoc.rs`, identifiers)
+- Tests, examples, skills, prompts
+
+---
+
 ## Quick version
 
 ```bash
@@ -49,7 +68,7 @@ It is **safe by default**:
 
 | Before | After |
 |--------|-------|
-| `R.AlphA.Doc@7.0.0` (line 1) | `clw_ref@0.6.0 · created: ... · type: ... · ...` (refdoc) |
+| `R.AlphA.Doc@7.0.0` (line 1) | `clw_ref@0.6.0 · created: ... · type: ... · ...` (ref) |
 | `R.AlphA.Doc@7.0.0` (line 1, log) | `clw_log@0.6.0 · date: ... · type: ... · ...` (log) |
 | `openclew@0.3.0` (line 1) | `clw_ref@0.6.0` or `clw_log@0.6.0` (prefix swap) |
 | `subject: Title` (plain L1) | `- **subject:** Title` (bold Markdown list) |
@@ -182,7 +201,7 @@ openclew migrate            # should show "0 to migrate"
 
 **Breaking changes:**
 
-1. **Prefix change**: `openclew@` → `clw_ref@` (refdocs) / `clw_log@` (logs).
+1. **Prefix change**: `openclew@` → `clw_ref@` (refs) / `clw_log@` (logs).
    The categorical prefix encodes document type directly. Old `openclew@` docs
    still parse correctly but `openclew migrate --write` converts them.
 
@@ -200,7 +219,7 @@ openclew migrate            # should show "0 to migrate"
 5. **`migrate` command included**: Previously excluded from npm. Now ships with
    the package. Run `openclew migrate` after upgrading.
 
-6. **Naming convention**: Refdocs move from `doc/_SUBJECT.md` to
+6. **Naming convention**: Refs move from `doc/_SUBJECT.md` to
    `doc/ref/SUBJECT.md`. This is a convention change, not enforced — migrate
    at your own pace. Use `--repoint` to update cross-references.
 

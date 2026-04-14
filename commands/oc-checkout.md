@@ -16,12 +16,12 @@ Generates a structured summary of the session and persists it as a log.
 | ✅    | Status | Done |
 | 🚧    | Status | In progress / partial |
 | ❌    | Status | Not done |
-| 📗    | Doc    | Refdoc written (`doc/ref/*.md` or legacy `doc/_*.md`) |
-| 📕    | Doc    | No refdoc |
+| 📗    | Doc    | Ref written (`doc/ref/*.md` or legacy `doc/_*.md`) |
+| 📕    | Doc    | No ref |
 | 🟢    | Commit | Already committed |
 | 🟡    | Commit | To be committed |
 
-**Strict Doc column rule**: 📗 = only a **refdoc** written to disk under `doc/ref/*.md` (or legacy `doc/_*.md`). Code files (`.py`, `.ts`, `.sh`, ...), logs (`doc/log/*.md`), `CLAUDE.md`, and `TODO.md` do NOT count as 📗. If the action produces no refdoc, Doc stays 📕 and the File column points to whatever was actually modified.
+**Strict Doc column rule**: 📗 = only a **ref** written to disk under `doc/ref/*.md` (or legacy `doc/_*.md`). Code files (`.py`, `.ts`, `.sh`, ...), logs (`doc/log/*.md`), `CLAUDE.md`, and `TODO.md` do NOT count as 📗. If the action produces no ref, Doc stays 📕 and the File column points to whatever was actually modified.
 
 ## Sequence
 
@@ -54,23 +54,23 @@ Display the recap table for validation.
 └─────┴──────────────────────────────────────┴─────┴────────────────────────┴─────┘
 ```
 
-### Phase 3: Refdocs to update?
+### Phase 3: Refs to update?
 
-1. List refdocs: all `doc/_*.md` files (including subdirectories) + project instruction file (CLAUDE.md, AGENTS.md, etc.)
+1. List refs: all `doc/_*.md` files (including subdirectories) + project instruction file (CLAUDE.md, AGENTS.md, etc.)
 2. Filter those related to session actions (by name only — don't read yet)
 3. For each related doc: read and assign status:
    - ☑️ No update needed (verified, up to date)
    - ✅ Already updated during session
    - 📒 Needs update (proposed in Phase 4)
 4. **Instruction file**: always evaluated. Flag 📒 if:
-   - New refdoc created during session (needs reference)
+   - New ref created during session (needs reference)
    - Useful info discovered (pitfall, convention, command)
    - Stale context (abandoned topic, modified rule)
    - File missing (needs creation)
 5. Display all related docs with status:
 
 ```
-📚 Refdocs:
+📚 Refs:
    ✅ _AUTH_DESIGN.md       — updated (session section)
    ☑️ _ARCHITECTURE.md      — verified, up to date
    📒 _INSTALL_GUIDE.md     — new deploy step to document

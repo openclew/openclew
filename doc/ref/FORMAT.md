@@ -92,8 +92,8 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 | Source | Role |
 |--------|------|
 | `templates/FORMAT.md` | **SSOT** — canonical spec (this file) |
-| `templates/refdoc.md` | Template for `openclew add ref` |
+| `templates/ref.md` | Template for `openclew add ref` |
 | `templates/log.md` | Template for `openclew add log` |
 | `lib/templates.js` | Embedded templates (standalone CLI, no filesystem read) |
 
-This document (`doc/ref/FORMAT.md`) is a refdoc **about** the format, written **in** the format — dogfooding.
+This document (`doc/ref/FORMAT.md`) is a ref **about** the format, written **in** the format — dogfooding.

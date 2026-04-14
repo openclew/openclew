@@ -74,13 +74,13 @@ L1 answers "should I read this?" L2 answers "what do I need to know?" L3 is ther
 
 | Type | Location | Role | Mutability |
 |------|----------|------|------------|
-| **Refdoc** | `doc/ref/SUBJECT.md` | Reference knowledge (architecture, conventions, decisions) | Updated over time |
+| **Ref** | `doc/ref/SUBJECT.md` | Reference knowledge (architecture, conventions, decisions) | Updated over time |
 | **Log** | `doc/log/YYYY-MM-DD_subject.md` | Frozen facts (what happened, what was decided) | Never modified |
 
-**Refdocs** are your project's brain — they evolve as the project evolves.
+**Refs** are your project's brain — they evolve as the project evolves.
 **Logs** are your project's journal — immutable records of what happened and why.
 
-Together, they form the thread. The refdocs tell you where you are. The logs tell you how you got here.
+Together, they form the thread. The refs tell you where you are. The logs tell you how you got here.
 
 ---
 
@@ -108,7 +108,7 @@ Your agent reads the guide, understands the L1/L2/L3 format, and creates `doc/re
 
 ### 3. There is no step 3
 
-Next session, your agent reads the index, finds the doc, has the context. No re-explanation needed. As your project evolves, your agent creates and updates docs during sessions — refdocs for ongoing knowledge, logs for frozen facts.
+Next session, your agent reads the index, finds the doc, has the context. No re-explanation needed. As your project evolves, your agent creates and updates docs during sessions — refs for ongoing knowledge, logs for frozen facts.
 
 The index auto-regenerates on every commit. Never edit it manually.
 
@@ -116,7 +116,7 @@ The index auto-regenerates on every commit. Never edit it manually.
 
 ```bash
 openclew init                    # Set up openclew in your project
-openclew add ref <title>         # Create a refdoc (evolves with the project)
+openclew add ref <title>         # Create a ref (evolves with the project)
 openclew add log <title>         # Create a session log (frozen facts)
 openclew search <query>          # Search docs by keyword
 openclew checkout                # End-of-session summary
@@ -141,7 +141,7 @@ These work like any Claude Code slash command — type `/oc-` and pick one. No `
 <summary><b>Manual setup</b> — if you prefer not to use the CLI</summary>
 
 1. Create `doc/ref/` and `doc/log/`
-2. Copy templates from [`templates/`](templates/) (refdoc.md, log.md)
+2. Copy templates from [`templates/`](templates/) (ref.md, log.md)
 3. Add the openclew block to your instruction file (see `doc/ref/USING_OPENCLEW.md` after init for the exact format)
 4. Optionally run `openclew index` to generate `doc/_INDEX.md` (human-friendly cache, not required by agents)
 
@@ -193,7 +193,7 @@ doc/
 - **Shared knowledge** — Same docs for humans and AI. One source, multiple readers.
 - **SSOT** (Single Source of Truth) — Each piece of information lives in one place.
 - **Logs are immutable** — Once written, never modified. Frozen facts.
-- **Refdocs evolve** — They evolve as the project evolves.
+- **Refs evolve** — They evolve as the project evolves.
 - **Agents use dynamic scan** — `peek` and `search` scan `doc/` at runtime. `_INDEX.md` is an optional cache for humans (`openclew index`).
 
 ---
