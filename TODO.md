@@ -2,6 +2,7 @@
 
 - [ ] **Budget tokens knowledge injecté** : Le bloc [Project Knowledge] (L1 index + L2 auto-injectés) peut dépasser 10k tokens sur les gros projets. Mesurer le poids réel de chaque composant, fixer un budget max configurable (`.openclew.json`), prioriser ce qui entre dans le budget. Impacte R.AlphA.IDE `knowledgeProvider.ts` et `openclew inject`
 - [ ] **Init sans friction** : Chaque projet nécessite `openclew init`. Décision : résoudre d'abord pour AlphABot (fichier d'instructions per-projet), puis voir pour les autres éditeurs
+- [ ] **Parité port Rust** : Rust supporte init/index/mcp (3/12). Manque : add ref, add log, search, peek, checkout, status, migrate, session-header. Bloquant pour distribuer un binaire natif autosuffisant (no Node required). Cible : `cargo-dist` → releases GitHub multi-OS + `curl | sh` installer
 - [ ] **Verbosité configurable** : Niveau concis/normal/détaillé dans `.openclew.json`, injecté dans le bloc AGENTS.md. Défaut concis ou choix forcé au setup
 - [ ] **CLI migrate --move** : Déplacement atomique fichier + repoint refs. Ex: `openclew migrate --move doc/_FOO.md doc/ref/FOO.md [--write]`. Prioritaire maintenant que doc/ref/ est le défaut
 - [ ] **Auto-génération L1** : Option `--auto` sur `new`/`log` — appel LLM pour pré-remplir `doc_brief` + `subject` depuis contenu L3

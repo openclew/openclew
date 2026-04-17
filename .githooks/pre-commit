@@ -6,11 +6,11 @@
 
 cd "$(git rev-parse --show-toplevel)" || exit 1
 
+# Check 1: version sync (package.json ↔ rust/Cargo.toml) — local, no external dep
+bash scripts/check_version_sync.sh || exit $?
+
+# Check 2: terminology bridge (R.AlphA.Doc ↔ openclew) — monorepo-only
 BRIDGE_SCRIPT="../R.AlphA.Doc/scripts/bridge_check.py"
-
-if [ ! -f "$BRIDGE_SCRIPT" ]; then
-    # R.AlphA.Doc absent = dev hors monorepo, skip silencieusement
-    exit 0
+if [ -f "$BRIDGE_SCRIPT" ]; then
+    python3 "$BRIDGE_SCRIPT" || exit $?
 fi
-
-python3 "$BRIDGE_SCRIPT" || exit $?

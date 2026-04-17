@@ -1,6 +1,6 @@
 [package]
 name = "openclew"
-version = "0.6.0"
+version = "0.9.1"
 edition = "2021"
 license = "Apache-2.0"
 description = "Long Life Memory for LLMs — structured project knowledge for AI agents and humans"
