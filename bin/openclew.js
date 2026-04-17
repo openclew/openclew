@@ -45,6 +45,7 @@ Advanced:
 Options (init):
   --hook                           Install pre-commit hook for _INDEX.md auto-generation
   --no-inject                      Skip instruction file injection
+  --private-logs                   Add doc/log/ to .gitignore (for public repos; default: logs versioned)
 `.trim();
 
 if (command === "--version" || command === "-v" || command === "version") {

@@ -26,6 +26,10 @@ enum Commands {
         /// Skip instruction file injection
         #[arg(long)]
         no_inject: bool,
+
+        /// Add doc/log/ to .gitignore (opt-in; default: logs are versioned)
+        #[arg(long)]
+        private_logs: bool,
     },
 
     /// Regenerate doc/_INDEX.md
@@ -39,7 +43,7 @@ fn main() {
     let cli = Cli::parse();
 
     let result = match cli.command {
-        Commands::Init { hook, no_inject } => cmd::init::run(hook, no_inject),
+        Commands::Init { hook, no_inject, private_logs } => cmd::init::run(hook, no_inject, private_logs),
         Commands::Index => cmd::index::run(),
         Commands::Mcp => cmd::mcp::run(),
     };

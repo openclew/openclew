@@ -178,7 +178,7 @@ fn create_docs(_root: &Path, doc_dir: &Path, log_dir: &Path, entry_point_path: O
     Ok(())
 }
 
-pub fn run(hook: bool, no_inject: bool) -> Result<(), String> {
+pub fn run(hook: bool, no_inject: bool, private_logs: bool) -> Result<(), String> {
     let root = env::current_dir().map_err(|e| format!("Cannot get cwd: {e}"))?;
     let doc_dir = root.join("doc");
     let log_dir = doc_dir.join("log");
@@ -198,8 +198,10 @@ pub fn run(hook: bool, no_inject: bool) -> Result<(), String> {
     // 1. Create directories
     create_dirs(&doc_dir, &log_dir).map_err(|e| format!("Create dirs: {e}"))?;
 
-    // 2. Update .gitignore
-    update_gitignore(&root).map_err(|e| format!("Gitignore: {e}"))?;
+    // 2. Update .gitignore (opt-in — logs are versioned by default)
+    if private_logs {
+        update_gitignore(&root).map_err(|e| format!("Gitignore: {e}"))?;
+    }
 
     // 3. Entry point detection & injection
     let entry_point_path = if !no_inject {

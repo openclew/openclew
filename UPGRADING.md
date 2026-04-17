@@ -7,6 +7,18 @@ are backward-compatible. But new features expect the current format.
 
 ---
 
+## Behavior change — `init` no longer gitignores `doc/log/`
+
+Previously, `openclew init` automatically appended `doc/log/` to `.gitignore`. This conflicted with openclew's own philosophy — logs are **immutable frozen facts meant to travel with the repo** so future sessions and other agents can read them.
+
+**New default**: `init` does not touch `.gitignore`. Logs are versioned.
+
+**Opt-in for public repos**: pass `--private-logs` to keep the legacy behavior (useful when the repo is public and session logs contain personal/WIP content you don't want to publish).
+
+**If you were upgrading** a project that had `doc/log/` in `.gitignore` from an earlier `init` run: decide whether to remove the entry (to version logs) or keep it (private logs). Nothing is changed automatically.
+
+---
+
 ## Vocabulary changes — oc_0.9.0
 
 Phase 2 of the `refdoc` → `ref` rename: internal code now matches the user-facing vocabulary. `lib/**` identifiers, the Rust port, tests, skills, prompts, and onboarding templates all use `ref`. The MCP `list_docs` tool enum is now `{kind: "ref"}` (was `"refdoc"`) — **breaking** for MCP clients that pass `kind` explicitly.
