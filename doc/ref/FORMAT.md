@@ -1,4 +1,4 @@
-clw_ref@0.7.0 · created: 2026-03-30 · updated: 2026-04-10 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser
+clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-04-17 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser
 - **subject:** openclew document format specification
 - **doc_brief:** Every openclew doc is built in 4 progressive layers — metadata for machines, L1 as the clew to grasp the subject at a glance, L2 for a one-screen summary, and L3 for the full details. You only go deeper when you need to.
 
@@ -22,6 +22,7 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 |--------|----------|---------|
 | `clw_ref@VERSION` | Refdoc | `clw_ref@0.7.0 · created: 2026-04-10 · ...` |
 | `clw_log@VERSION` | Log | `clw_log@0.7.0 · date: 2026-04-10 · ...` |
+| `clw_todo@VERSION` | TODO doc | `clw_todo@0.9.1 · created: 2026-04-17 · status: Open · ...` |
 | `openclew@VERSION` | Legacy (both) | Supported by parser, not generated |
 
 ## File naming
@@ -31,10 +32,11 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 | Refdocs | `doc/ref/SUBJECT.md` | UPPER_SNAKE_CASE, no prefix |
 | Refdocs (legacy) | `doc/_SUBJECT.md` | UPPER_SNAKE_CASE, prefixed `_` |
 | Logs | `doc/log/YYYY-MM-DD_subject.md` | lowercase-with-hyphens, dated |
+| TODOs | `doc/todo/YYYY-MM-DD_subject.md` | lowercase-with-hyphens, dated |
 | Index | `doc/_INDEX.md` | Auto-generated, never edit |
 
 ## Watch out
-- Line 1 **must** start with `clw_ref@`, `clw_log@`, or `openclew@` — other prefixes are ignored by parsers
+- Line 1 **must** start with `clw_ref@`, `clw_log@`, `clw_todo@`, or `openclew@` — other prefixes are ignored by parsers
 - L1 block is **positional**: lines between line 1 and first `---` separator
 - Legacy div markers (`<div class="oc-l1">`) and comment markers (`<!-- L1_START -->`) still supported as fallback
 
@@ -44,16 +46,17 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 
 ## Line 1 fields
 
-| Field | Refdoc | Log | Description |
-|-------|:------:|:---:|-------------|
-| `clw_ref@VERSION` / `clw_log@VERSION` | yes | yes | Package version that created the doc |
-| `created` | yes | — | Creation date |
-| `updated` | yes | — | Last update date |
-| `date` | — | yes | Session date |
-| `type` | yes | yes | Document type |
-| `status` | yes | yes | Document status |
-| `category` | yes | yes | Main domain (free text) |
-| `keywords` | yes | yes | Tags for search (comma-separated) |
+| Field | Refdoc | Log | TODO | Description |
+|-------|:------:|:---:|:----:|-------------|
+| `clw_ref@` / `clw_log@` / `clw_todo@VERSION` | yes | yes | yes | Package version that created the doc |
+| `created` | yes | — | yes | Creation date |
+| `updated` | yes | — | — | Last update date |
+| `date` | — | yes | — | Session date |
+| `type` | yes | yes | — | Document type |
+| `status` | yes | yes | yes | Document status |
+| `priority` | — | — | yes | TODO urgency (Low / Normal / High) |
+| `category` | yes | yes | yes | Main domain (free text) |
+| `keywords` | yes | yes | yes | Tags for search (comma-separated) |
 
 ## Types
 
@@ -71,18 +74,20 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 
 ## Statuses
 
-| Status | Refdoc | Log | Description |
-|--------|:------:|:---:|-------------|
-| `Active` | yes | — | Living document, actively maintained |
-| `Stable` | yes | — | Mature, rarely updated |
-| `Archived` | yes | — | No longer relevant, kept for history |
-| `In progress` | — | yes | Work ongoing |
-| `Done` | — | yes | Work completed |
-| `Abandoned` | — | yes | Work stopped, approach not viable |
+| Status | Refdoc | Log | TODO | Description |
+|--------|:------:|:---:|:----:|-------------|
+| `Active` | yes | — | — | Living document, actively maintained |
+| `Stable` | yes | — | — | Mature, rarely updated |
+| `Archived` | yes | — | — | No longer relevant, kept for history |
+| `Open` | — | — | yes | TODO not started |
+| `In progress` | — | yes | yes | Work ongoing |
+| `Blocked` | — | — | yes | TODO waiting on external input |
+| `Done` | — | yes | yes | Work completed |
+| `Abandoned` | — | yes | — | Work stopped, approach not viable |
 
 ## Parser behavior (`lib/search.js`)
 
-1. `parseMetadataLine()`: reads line 1, matches prefix (`clw_ref@`, `clw_log@`, `openclew@`), splits on ` · `, parses `key: value` pairs
+1. `parseMetadataLine()`: reads line 1, matches prefix (`clw_ref@`, `clw_log@`, `clw_todo@`, `openclew@`), splits on ` · `, parses `key: value` pairs
 2. `findL1Block()`: 3-level fallback — div → comment markers → positional (between line 1 and first `---`)
 3. `parseL1()`: regex extracts `**subject:**` and `**doc_brief:**` from L1 block
 4. Legacy fallback: if no `**subject:**` found, tries plain `key: value` lines
@@ -94,6 +99,7 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 | `templates/FORMAT.md` | **SSOT** — canonical spec (this file) |
 | `templates/ref.md` | Template for `openclew add ref` |
 | `templates/log.md` | Template for `openclew add log` |
+| `templates/todo.md` | Template for `openclew add todo` (also `/oc-todo`) |
 | `lib/templates.js` | Embedded templates (standalone CLI, no filesystem read) |
 
 This document (`doc/ref/FORMAT.md`) is a ref **about** the format, written **in** the format — dogfooding.

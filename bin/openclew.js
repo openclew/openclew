@@ -13,6 +13,7 @@ Usage:
   openclew init                    Set up openclew in your project
   openclew add ref <title>         Create a ref (evolves with the project)
   openclew add log <title>         Create a session log (frozen facts)
+  openclew add todo <title>        Create a TODO doc (one task per file)
   openclew search <query>          Search docs by keyword
   openclew peek                    List instruction file + all refs
   openclew checkout                End-of-session summary
@@ -28,6 +29,7 @@ Usage:
   openclew init                    Set up openclew in your project
   openclew add ref <title>         Create a ref (evolves with the project)
   openclew add log <title>         Create a session log (frozen facts)
+  openclew add todo <title>        Create a TODO doc (one task per file)
   openclew search <query>          Search docs by keyword
   openclew peek                    List instruction file + all refs
   openclew checkout                End-of-session summary
@@ -60,16 +62,18 @@ if (!command || command === "help" || command === "--help" || command === "-h") 
   process.exit(0);
 }
 
-// Handle "add ref" / "add log" subcommands
+// Handle "add ref" / "add log" / "add todo" subcommands
 if (command === "add") {
   const sub = args[1];
   if (sub === "ref") {
     require("../lib/new-doc");
   } else if (sub === "log") {
     require("../lib/new-log");
+  } else if (sub === "todo") {
+    require("../lib/new-todo");
   } else {
     console.error(`Unknown type: ${sub || "(none)"}`);
-    console.error('Usage: openclew add ref <title>  or  openclew add log <title>');
+    console.error('Usage: openclew add ref|log|todo <title>');
     process.exit(1);
   }
   checkForUpdate().catch(() => {});
@@ -82,6 +86,7 @@ if (command === "add") {
     checkout: () => require("../lib/checkout"),
     search: () => require("../lib/search"),
     peek: () => require("../lib/peek"),
+    todo: () => require("../lib/new-todo"),
     status: () => require("../lib/status"),
     index: () => require("../lib/index-gen"),
     "session-header": () => require("../lib/session-header"),

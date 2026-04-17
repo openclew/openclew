@@ -29,6 +29,7 @@ Document the contract of `openclew init` so users (and agents) know exactly what
 | `.github/prompts/oc-*.prompt.md` | Project-level Copilot prompts | If in a project |
 | `doc/ref/` | Refdocs dir | If in a project |
 | `doc/log/` | Logs dir | If in a project |
+| `doc/todo/` | TODO docs dir (one task per file) | If in a project |
 | `doc/ref/USING_OPENCLEW.md` | Onboarding guide | If in a project |
 | `doc/ref/ARCHITECTURE.md` | Seed architecture ref | If in a project |
 | `doc/log/YYYY-MM-DD_setup-openclew.md` | Example log | If in a project |
@@ -71,3 +72,4 @@ Nothing is done automatically — the decision is project-specific.
 | Date | Change |
 |------|--------|
 | 2026-04-17 | Initial creation — documents flags and the `--private-logs` opt-in behavior change |
+| 2026-04-17 | Added `doc/todo/` to the list of directories created by `init` (paired with `/oc-todo` skill) |
