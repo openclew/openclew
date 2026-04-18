@@ -20,7 +20,7 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 
 | Prefix | Doc type | Example |
 |--------|----------|---------|
-| `clw_ref@VERSION` | Refdoc | `clw_ref@0.7.0 · created: 2026-04-10 · ...` |
+| `clw_ref@VERSION` | Ref | `clw_ref@0.7.0 · created: 2026-04-10 · ...` |
 | `clw_log@VERSION` | Log | `clw_log@0.7.0 · date: 2026-04-10 · ...` |
 | `clw_todo@VERSION` | TODO doc | `clw_todo@0.9.1 · created: 2026-04-17 · status: Open · ...` |
 | `openclew@VERSION` | Legacy (both) | Supported by parser, not generated |
@@ -29,8 +29,8 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 
 | Type | Location | Convention |
 |------|----------|------------|
-| Refdocs | `doc/ref/SUBJECT.md` | UPPER_SNAKE_CASE, no prefix |
-| Refdocs (legacy) | `doc/_SUBJECT.md` | UPPER_SNAKE_CASE, prefixed `_` |
+| Refs | `doc/ref/SUBJECT.md` | UPPER_SNAKE_CASE, no prefix |
+| Refs (legacy) | `doc/_SUBJECT.md` | UPPER_SNAKE_CASE, prefixed `_` |
 | Logs | `doc/log/YYYY-MM-DD_subject.md` | lowercase-with-hyphens, dated |
 | TODOs | `doc/todo/YYYY-MM-DD_subject.md` | lowercase-with-hyphens, dated |
 | Index | `doc/_INDEX.md` | Auto-generated, never edit |
@@ -46,7 +46,7 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 
 ## Line 1 fields
 
-| Field | Refdoc | Log | TODO | Description |
+| Field | Ref | Log | TODO | Description |
 |-------|:------:|:---:|:----:|-------------|
 | `clw_ref@` / `clw_log@` / `clw_todo@VERSION` | yes | yes | yes | Package version that created the doc |
 | `created` | yes | — | yes | Creation date |
@@ -74,7 +74,7 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 
 ## Statuses
 
-| Status | Refdoc | Log | TODO | Description |
+| Status | Ref | Log | TODO | Description |
 |--------|:------:|:---:|:----:|-------------|
 | `Active` | yes | — | — | Living document, actively maintained |
 | `Stable` | yes | — | — | Mature, rarely updated |

@@ -27,7 +27,7 @@ Document the contract of `openclew init` so users (and agents) know exactly what
 | `~/.openclew/config.json` | Global config (version, install date) | Yes |
 | `~/.claude/commands/oc-*.md` | User-level Claude Code slash commands | Yes |
 | `.github/prompts/oc-*.prompt.md` | Project-level Copilot prompts | If in a project |
-| `doc/ref/` | Refdocs dir | If in a project |
+| `doc/ref/` | Refs dir | If in a project |
 | `doc/log/` | Logs dir | If in a project |
 | `doc/todo/` | TODO docs dir (one task per file) | If in a project |
 | `doc/ref/USING_OPENCLEW.md` | Onboarding guide | If in a project |
