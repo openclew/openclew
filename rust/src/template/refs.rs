@@ -5,7 +5,7 @@ pub fn ref_content(title: &str) -> String {
     let date = today();
     let ver = oc_version();
     format!(
-        r#"clw_ref@{ver} · created: {date} · updated: {date} · type: Reference · status: Active · category: · keywords: []
+        r#"clw_ref@{ver} · created: {date} · updated: {date} · doc_version: 1.0.0 · type: Reference · status: Active · category: · keywords: []
 
 - **subject:** {title}
 - **doc_brief:**
@@ -42,7 +42,7 @@ pub fn ref_content_filled(_title: &str, subject: &str, brief: &str, content: &st
     let date = today();
     let ver = oc_version();
     format!(
-        r#"clw_ref@{ver} · created: {date} · updated: {date} · type: Reference · status: Active · category: · keywords: []
+        r#"clw_ref@{ver} · created: {date} · updated: {date} · doc_version: 1.0.0 · type: Reference · status: Active · category: · keywords: []
 
 - **subject:** {subject}
 - **doc_brief:** {brief}
@@ -102,7 +102,7 @@ pub fn example_ref_content(existing_instructions: Option<&str>) -> String {
     };
 
     format!(
-        r#"clw_ref@{ver} · created: {date} · updated: {date} · type: Reference · status: Active · category: Architecture · keywords: [architecture, overview, components]
+        r#"clw_ref@{ver} · created: {date} · updated: {date} · doc_version: 1.0.0 · type: Reference · status: Active · category: Architecture · keywords: [architecture, overview, components]
 
 - **subject:** Architecture overview
 - **doc_brief:** <!-- ONE LINE: What does this project do, what's the main stack, how is it deployed? -->

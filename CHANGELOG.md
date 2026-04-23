@@ -2,6 +2,11 @@
 
 All notable changes to openclew are documented here.
 
+## [Unreleased]
+
+### Added
+- **L1 field `doc_version` (refs only)** — new semver field tracking the **content version** of a ref, distinct from the `clw_ref@X.Y.Z` prefix which tracks the **format version**. `clw_ref@` is now explicitly immutable except on format migration; `doc_version` is bumped by the author on significant content edits. Starts at `1.0.0`. Logs remain immutable and have no `doc_version`. Updated: `templates/FORMAT.md`, `templates/ref.md`, `lib/templates.js` (all ref-emitting templates), `rust/src/template/refs.rs`, `rust/src/template/guide.rs`, `doc/ref/FORMAT.md`. Parser is unchanged — `doc_version` is automatically indexed as a generic `key: value` pair.
+
 ## [0.9.0] — 2026-04-14
 
 ### Changed

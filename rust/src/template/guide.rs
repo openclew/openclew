@@ -6,7 +6,7 @@ pub fn guide_content() -> String {
     let date = today();
     let ver = oc_version();
     format!(
-        r#"clw_ref@{ver} · created: {date} · updated: {date} · type: Guide · status: Active · category: Documentation · keywords: [openclew, L1, L2, L3, index, ref, log]
+        r#"clw_ref@{ver} · created: {date} · updated: {date} · doc_version: 1.0.0 · type: Guide · status: Active · category: Documentation · keywords: [openclew, L1, L2, L3, index, ref, log]
 
 - **subject:** How openclew works
 - **doc_brief:** How openclew structures project knowledge in 3 levels (L1/L2/L3) so AI agents and humans navigate efficiently.
@@ -60,7 +60,7 @@ An optional `doc/_INDEX.md` can be generated with `openclew index` for human bro
 Create `doc/ref/TITLE.md` (uppercase snake_case) with this structure:
 
 ```
-clw_ref@{ver} · created: YYYY-MM-DD · updated: YYYY-MM-DD · type: Reference · status: Active · category: · keywords: []
+clw_ref@{ver} · created: YYYY-MM-DD · updated: YYYY-MM-DD · doc_version: 1.0.0 · type: Reference · status: Active · category: · keywords: []
 
 - **subject:** Title
 - **doc_brief:**

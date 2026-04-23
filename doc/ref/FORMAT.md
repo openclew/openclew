@@ -1,4 +1,4 @@
-clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-04-17 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser
+clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-04-23 · doc_version: 1.1.0 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser, doc_version
 - **subject:** openclew document format specification
 - **doc_brief:** Every openclew doc is built in 4 progressive layers — metadata for machines, L1 as the clew to grasp the subject at a glance, L2 for a one-screen summary, and L3 for the full details. You only go deeper when you need to.
 
@@ -20,7 +20,7 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 
 | Prefix | Doc type | Example |
 |--------|----------|---------|
-| `clw_ref@VERSION` | Ref | `clw_ref@0.7.0 · created: 2026-04-10 · ...` |
+| `clw_ref@VERSION` | Ref | `clw_ref@0.7.0 · created: 2026-04-10 · ... · doc_version: 1.0.0 · ...` |
 | `clw_log@VERSION` | Log | `clw_log@0.7.0 · date: 2026-04-10 · ...` |
 | `clw_todo@VERSION` | TODO doc | `clw_todo@0.9.1 · created: 2026-04-17 · status: Open · ...` |
 | `openclew@VERSION` | Legacy (both) | Supported by parser, not generated |
@@ -48,9 +48,10 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 
 | Field | Ref | Log | TODO | Description |
 |-------|:------:|:---:|:----:|-------------|
-| `clw_ref@` / `clw_log@` / `clw_todo@VERSION` | yes | yes | yes | Package version that created the doc |
+| `clw_ref@` / `clw_log@` / `clw_todo@VERSION` | yes | yes | yes | **openclew format version** the doc conforms to. Immutable except on format migration. Do **not** bump when editing content. |
 | `created` | yes | — | yes | Creation date |
 | `updated` | yes | — | — | Last update date |
+| `doc_version` | yes | — | — | **Document content version** (semver). Bump on significant edits. Starts at `1.0.0`. Distinct from `clw_ref@`. |
 | `date` | — | yes | — | Session date |
 | `type` | yes | yes | — | Document type |
 | `status` | yes | yes | yes | Document status |

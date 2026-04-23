@@ -35,7 +35,7 @@ A single line of condensed key-value pairs separated by ` · `. Always the first
 ### Ref format
 
 ```
-clw_ref@VERSION · created: YYYY-MM-DD · updated: YYYY-MM-DD · type: TYPE · status: STATUS · category: CATEGORY · keywords: [tag1, tag2]
+clw_ref@VERSION · created: YYYY-MM-DD · updated: YYYY-MM-DD · doc_version: X.Y.Z · type: TYPE · status: STATUS · category: CATEGORY · keywords: [tag1, tag2]
 ```
 
 ### Log format
@@ -43,6 +43,8 @@ clw_ref@VERSION · created: YYYY-MM-DD · updated: YYYY-MM-DD · type: TYPE · s
 ```
 clw_log@VERSION · date: YYYY-MM-DD · type: TYPE · status: STATUS · category: CATEGORY · keywords: [tag1, tag2]
 ```
+
+Logs are immutable snapshots and have no `doc_version`.
 
 ### Prefix
 
@@ -61,14 +63,20 @@ This replaces the previous `openclew@VERSION` prefix. The prefix encodes the doc
 
 | Field | Ref | Log | Description |
 |-------|:------:|:---:|-------------|
-| `clw_ref@VERSION` / `clw_log@VERSION` | Y | Y | Package version that created the doc + document type |
+| `clw_ref@VERSION` / `clw_log@VERSION` | Y | Y | **openclew format version** the doc conforms to. Immutable except on format migration. Do **not** bump when editing content. |
 | `created` | Y | -- | Creation date |
 | `updated` | Y | -- | Last update date |
+| `doc_version` | Y | -- | **Document content version** (semver). Bump on significant edits. Starts at `1.0.0`. |
 | `date` | -- | Y | Session date |
 | `type` | Y | Y | Document type (see below) |
 | `status` | Y | Y | Document status (see below) |
 | `category` | Y | Y | Main domain (free text) |
 | `keywords` | Y | Y | Tags for search `[tag1, tag2]` |
+
+**Versioning distinction** — two independent versions coexist on a ref:
+
+- `clw_ref@X.Y.Z` tracks the **format spec** (this document). Only bumped when the doc is migrated to a new openclew format.
+- `doc_version:X.Y.Z` tracks the **document content**. Bumped by the author when the content changes substantially (new section, reworked guidance, corrected facts).
 
 ### Types
 
@@ -254,7 +262,7 @@ The `lib/index-gen.js` parser (via `lib/search.js`) extracts:
 ### Ref example
 
 ```markdown
-clw_ref@0.7.0 · created: 2026-03-07 · updated: 2026-03-20 · status: Active · category: Auth · keywords: [JWT, sessions, Redis]
+clw_ref@0.7.0 · created: 2026-03-07 · updated: 2026-03-20 · doc_version: 1.1.0 · status: Active · category: Auth · keywords: [JWT, sessions, Redis]
 
 - **subject:** Authentication architecture
 - **doc_brief:** JWT-based auth with refresh tokens. Sessions stored in Redis with 15-min expiry. Google OAuth as sole provider. Token refresh handled client-side.

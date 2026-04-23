@@ -1,4 +1,4 @@
-clw_ref@0.7.0 · created: 2026-04-10 · updated: 2026-04-10 · type: Reference · status: Active · category: · keywords: []
+clw_ref@0.7.0 · created: 2026-04-10 · updated: 2026-04-10 · doc_version: 1.0.0 · type: Reference · status: Active · category: · keywords: []
 
 - **subject:** TITLE
 - **doc_brief:**
