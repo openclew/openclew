@@ -1,6 +1,6 @@
 {
   "name": "openclew",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "Long Life Memory for LLMs — structured project knowledge for AI agents and humans",
   "license": "Apache-2.0",
   "bin": {

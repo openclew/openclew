@@ -77,6 +77,18 @@ Display the recap table for validation.
    📒 CLAUDE.md             — new pitfall discovered
 ```
 
+### Phase 3bis: TODO sweep
+
+1. List `doc/todo/*.md` with `status: Open` or `In progress`
+2. For each, ask the user one of:
+   - `Done` (resolved this session) → write `exit_log:` with this session's log path or a short session reference, set `status: Done`
+   - `In progress` (advanced but not closed) → leave open, optionally update doc_brief
+   - `Unchanged` → leave as-is
+3. Bonus auto-detection: grep TODO subject keywords against the session's git diff. Surface suggestions, don't auto-close.
+4. For TODOs marked `Done`, also append the TODO path to the log's L1 `targets_todos:` field. Two-way link.
+
+`exit_log` accepts a dedicated log path (`doc/log/2026-04-26_foo.md`) **or** a free-text session reference (`2026-04-26 session — handled inline`). Don't force a dedicated log if the work was incidental.
+
 ### Phase 4: Proposed actions (grouped)
 
 Display all actions together:

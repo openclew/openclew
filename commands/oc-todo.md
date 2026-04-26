@@ -24,6 +24,12 @@ Open the created file and fill in (1-2 lines each, no more):
 
 Do **not** pre-plan the implementation — implementation details belong in a log when work actually starts.
 
+### Step 2bis: Fill `entry_log` if context exists
+
+If this TODO emerged from an ongoing session, an audit, or a specific log/ref, fill the L1 `entry_log:` field with the path (e.g. `doc/log/2026-04-26_audit.md`). This is the **input context** — where the idea came from. Skip it if the TODO surfaced cold (out-of-band idea).
+
+`exit_log:` stays empty at creation — it gets filled when the TODO is closed (during `/oc-checkout` Phase TODO, or manually). It can point to a dedicated log or just reference a session (e.g. `2026-04-26 session — handled inline`).
+
 ### Step 3: Regenerate the index (optional)
 
 ```bash

@@ -7,6 +7,22 @@ are backward-compatible. But new features expect the current format.
 
 ---
 
+## New L1 fields — oc_0.10.0
+
+Three new optional L1 fields for two-way TODO ↔ session traceability:
+
+- `entry_log:` (TODO) — log/ref that motivated the TODO
+- `exit_log:` (TODO) — log path or free-text session reference where the TODO was resolved
+- `targets_todos:` (Log) — TODOs this session worked on
+
+All optional. Existing TODOs and logs work unchanged. `openclew status` warns when a TODO has `status: Done` without `exit_log`. `/oc-checkout` gains a Phase TODO sweep that closes TODOs and writes the two-way link.
+
+`exit_log` accepts a dedicated log path **or** a short free-text session reference (e.g. `2026-04-27 session — handled inline`). Not every closure deserves a dedicated log.
+
+FORMAT.md doc_version: 1.1.0 → 1.2.0.
+
+---
+
 ## Behavior change — `init` no longer gitignores `doc/log/`
 
 Previously, `openclew init` automatically appended `doc/log/` to `.gitignore`. This conflicted with openclew's own philosophy — logs are **immutable frozen facts meant to travel with the repo** so future sessions and other agents can read them.

@@ -1,4 +1,4 @@
-clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-04-23 · doc_version: 1.1.0 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser, doc_version
+clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-04-26 · doc_version: 1.2.0 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser, doc_version, entry_log, exit_log, targets_todos
 - **subject:** openclew document format specification
 - **doc_brief:** Every openclew doc is built in 4 progressive layers — metadata for machines, L1 as the clew to grasp the subject at a glance, L2 for a one-screen summary, and L3 for the full details. You only go deeper when you need to.
 
@@ -43,6 +43,19 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 ---
 
 # Details
+
+## L1 fields (between line 1 and first `---`)
+
+| Field | Ref | Log | TODO | Description |
+|-------|:---:|:---:|:----:|-------------|
+| `subject` | yes | yes | yes | One-line title — what the doc is about |
+| `doc_brief` | yes | yes | yes | One-line conclusion — what's true/decided |
+| `related_docs` | optional | optional | — | Comma-separated list of related ref/log paths |
+| `targets_todos` | — | optional | — | TODOs (`doc/todo/*.md`) this session worked on. **Entry link** for those TODOs |
+| `entry_log` | — | — | optional | Log/ref that motivated the TODO (where the idea came from) |
+| `exit_log` | — | — | optional | Log or session reference where the TODO was resolved (filled at closing) |
+
+**All optional fields can be omitted** — `status` will warn (not block) when a `Done` TODO has no `exit_log`. The `exit_log` value can be a dedicated log path or just a free-text reference to a session (e.g. `2026-04-26 session — handled inline`).
 
 ## Line 1 fields
 

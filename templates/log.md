@@ -2,6 +2,7 @@ clw_log@0.7.0 · date: 2026-04-10 · type: Feature · status: In progress · cat
 
 - **subject:** subject
 - **doc_brief:**
+- **targets_todos:** <!-- optional: doc/todo/*.md paths this session worked on -->
 
 ---
 
