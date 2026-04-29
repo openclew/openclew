@@ -1,4 +1,4 @@
-clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-04-26 · doc_version: 1.2.0 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser, doc_version, entry_log, exit_log, targets_todos
+clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-04-29 · doc_version: 1.3.0 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser, doc_version, from, closed, targets_todos, flat_todo
 - **subject:** openclew document format specification
 - **doc_brief:** Every openclew doc is built in 4 progressive layers — metadata for machines, L1 as the clew to grasp the subject at a glance, L2 for a one-screen summary, and L3 for the full details. You only go deeper when you need to.
 
@@ -52,10 +52,32 @@ Never get lost in your own docs. Every document carries its own clew (L1): in a 
 | `doc_brief` | yes | yes | yes | One-line conclusion — what's true/decided |
 | `related_docs` | optional | optional | — | Comma-separated list of related ref/log paths |
 | `targets_todos` | — | optional | — | TODOs (`doc/todo/*.md`) this session worked on. **Entry link** for those TODOs |
-| `entry_log` | — | — | optional | Log/ref that motivated the TODO (where the idea came from) |
-| `exit_log` | — | — | optional | Log or session reference where the TODO was resolved (filled at closing) |
+| `from` | — | — | **required** | Log/ref or free-text reference for where the idea came from (replaces legacy `entry_log`) |
+| `closed` | — | — | **required when Done** | Log or session reference where the TODO was resolved (replaces legacy `exit_log`) |
 
-**All optional fields can be omitted** — `status` will warn (not block) when a `Done` TODO has no `exit_log`. The `exit_log` value can be a dedicated log path or just a free-text reference to a session (e.g. `2026-04-26 session — handled inline`).
+**Same rule applies to flat `TODO.md`:**
+
+| Field | When required |
+|---|---|
+| `from`   | Always — at creation. Free-text accepted (e.g. `2026-04-29 — cold idea`). Never omit. |
+| `closed` | When the TODO is checked / `status: Done`. Free-text accepted (e.g. `2026-04-29 session — handled inline`). |
+
+`openclew status` warns (does not block) on TODOs missing `from`, and on closed TODOs missing `closed`.
+
+## Flat TODO.md format
+
+Most projects keep a flat `TODO.md` at the root. Each line follows:
+
+```markdown
+- [ ] **Title** : Description. <!-- from: doc/log/2026-04-26_audit.md -->
+- [x] **Done title** : Description (2026-04-29). <!-- from: doc/log/2026-04-26_audit.md --> <!-- closed: doc/log/2026-04-29_session.md -->
+```
+
+- HTML comments are invisible at render time but parseable.
+- Order of `from` / `closed` markers is free; both can sit anywhere on the line.
+- Parser: `lib/todo-flat.js` (`parseFlatTodos`, `validateFlatTodos`, `setMarkers`).
+
+The file format (`doc/todo/*.md`) remains opt-in for TODOs needing real subject/brief/context. Both formats coexist; the from/closed rule is identical.
 
 ## Line 1 fields
 

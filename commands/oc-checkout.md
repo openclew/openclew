@@ -79,15 +79,32 @@ Display the recap table for validation.
 
 ### Phase 3bis: TODO sweep
 
-1. List `doc/todo/*.md` with `status: Open` or `In progress`
-2. For each, ask the user one of:
-   - `Done` (resolved this session) → write `exit_log:` with this session's log path or a short session reference, set `status: Done`
-   - `In progress` (advanced but not closed) → leave open, optionally update doc_brief
-   - `Unchanged` → leave as-is
-3. Bonus auto-detection: grep TODO subject keywords against the session's git diff. Surface suggestions, don't auto-close.
-4. For TODOs marked `Done`, also append the TODO path to the log's L1 `targets_todos:` field. Two-way link.
+**Two sources, treat both:**
+- Flat `TODO.md` at project root — every `- [ ]` / `- [x]` line (default format, used by most projects)
+- `doc/todo/*.md` — one file per TODO with L1 (opt-in for complex TODOs)
 
-`exit_log` accepts a dedicated log path (`doc/log/2026-04-26_foo.md`) **or** a free-text session reference (`2026-04-26 session — handled inline`). Don't force a dedicated log if the work was incidental.
+**Rule (both sources):**
+- Every TODO **must** carry a `from` (where the idea came from) — required at creation
+- Every checked TODO **must** carry a `closed` (where it got resolved) — required at closing
+
+For each open TODO, ask the user one of:
+- `Done` → check it off (`- [x]`), write `closed` marker pointing to this session's log or a free-text session reference. Backfill `from` if missing.
+- `In progress` → leave open, optionally update description
+- `Unchanged` → leave as-is
+
+**Markers — flat format (TODO.md):**
+```markdown
+- [ ] **Title** : Description. <!-- from: doc/log/2026-04-26_audit.md -->
+- [x] **Title** : Description (2026-04-29). <!-- from: doc/log/2026-04-26_audit.md --> <!-- closed: doc/log/2026-04-29_session.md -->
+```
+
+**Markers — file format (doc/todo/*.md):** L1 fields `from:` and `closed:` (see `doc/ref/FORMAT.md`).
+
+**Two-way link:** for every TODO marked Done during checkout, also append its reference to the session log's L1 `targets_todos:` field. Either direction must lead to the other.
+
+**Free-text accepted** for both `from` and `closed` (e.g. `2026-04-29 — cold idea`, `pre-2026-04-29 — origin lost`, `2026-04-29 session — handled inline`). Don't force a dedicated log when the work was incidental.
+
+**Bonus auto-detection:** grep TODO title keywords against the session's git diff. Surface suggestions, don't auto-close.
 
 ### Phase 4: Proposed actions (grouped)
 
