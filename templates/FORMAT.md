@@ -70,6 +70,7 @@ This replaces the previous `openclew@VERSION` prefix. The prefix encodes the doc
 | `date` | -- | Y | Session date |
 | `type` | Y | Y | Document type (see below) |
 | `status` | Y | Y | Document status (see below) |
+| `superseded_by` | Y | -- | Path to the replacing ref. **Required** when `status: Archived` because another ref replaced this one. Omit otherwise. |
 | `category` | Y | Y | Main domain (free text) |
 | `keywords` | Y | Y | Tags for search `[tag1, tag2]` |
 
@@ -94,14 +95,16 @@ This replaces the previous `openclew@VERSION` prefix. The prefix encodes the doc
 
 ### Statuses
 
-| Status | Ref | Log | Description |
+| Status | Ref | Log | Entry criterion |
 |--------|:------:|:---:|-------------|
-| `Active` | Y | -- | Living document, actively maintained |
-| `Stable` | Y | -- | Mature, rarely updated |
-| `Archived` | Y | -- | No longer relevant, kept for history |
+| `Active` | Y | -- | **Default.** Content stabilized and validated — safe to reference and link |
+| `Stable` | Y | -- | Mature, rarely changes. Promoted from `Active` once edits become infrequent |
+| `Archived` | Y | -- | Superseded or obsolete. Set `superseded_by:` when a replacement exists |
 | `In progress` | -- | Y | Work ongoing |
 | `Done` | -- | Y | Work completed |
 | `Abandoned` | -- | Y | Work stopped, approach not viable |
+
+**Ref status transitions.** `Active` is the default for new refs: a ref is written once its content is true, not as a scratchpad, so it is reference-quality on creation. Promote `Active → Stable` when a ref stops changing across several sessions. When a ref is replaced or goes obsolete, move it to `Archived` **instead of deleting it** — inbound links then resolve to a tombstone rather than breaking. If the archival is due to a replacement ref, set `superseded_by:` to that ref's path (see Fields).
 
 ---
 
