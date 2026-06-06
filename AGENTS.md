@@ -121,7 +121,7 @@ When closing a TODO: check the box, append `<!-- closed: ... -->`, and add the T
 
 **File format L1 fields:** `from:` and `closed:` (same rule). Spec: `doc/ref/FORMAT.md`.
 
-`npx openclew status` warns on any TODO missing `from` and any closed TODO missing `closed`. Completed items older than 7 days are auto-purged.
+`npx openclew status` warns on any TODO missing `from` and any closed TODO missing `closed`. It also flags completed items older than 7 days — purge them **manually**, **archiving** each line (keep the trace; never hard-delete). Spec: `doc/ref/FORMAT.md`.
 
 ### Rules
 

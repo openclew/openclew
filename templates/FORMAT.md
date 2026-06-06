@@ -237,6 +237,51 @@ Previous convention used `doc/_SUBJECT.md` (prefixed `_` at doc root). Use `open
 
 ---
 
+## Task tracking (TODO lifecycle)
+
+TODOs are tracked in one of two formats:
+
+- **Flat** (default) — `TODO.md` at project root, one checkbox per line.
+- **File** (opt-in) — `doc/todo/YYYY-MM-DD_slug.md`, one file per TODO with its own L1 (subject + brief).
+
+### Traceability fields
+
+| Field | When required | Accepts |
+|-------|---------------|---------|
+| `from` | **Always**, at creation (`- [ ]` and `- [x]`) | log path (`doc/log/*.md`) or free text (e.g. `2026-04-29 — cold idea`) |
+| `closed` | **When checked** (`- [x]`) | log path or free text (e.g. `2026-04-29 session — handled inline`) |
+
+In the **flat** format these live in inline HTML comments; in the **file** format they are L1 fields. Never omit `from` — it answers "why does this task exist?". Never check a box without `closed` — it answers "where was it resolved?".
+
+**Flat markup:**
+
+```markdown
+- [ ] **Title** : Description. <!-- from: doc/log/2026-04-26_audit.md -->
+- [ ] **Cold idea** : Description. <!-- from: 2026-04-29 — cold idea -->
+- [x] **Done** : Description (2026-04-29). <!-- from: doc/log/2026-04-26_audit.md --> <!-- closed: doc/log/2026-04-29_session.md -->
+```
+
+A checked item carries a completion date `(YYYY-MM-DD)` — it drives the staleness threshold below.
+
+### Two-way link
+
+When closing a TODO: (1) check the box, (2) append `<!-- closed: ... -->`, (3) reference the TODO back from the closing session log. The TODO points to the log via `closed`; the log points to the TODO. Neither direction is orphaned.
+
+### Purge — manual, archive, never delete
+
+`openclew status` reports `TODO.md: N pending, M done` and **flags** completed items older than **7 days**. It does **not** auto-purge — purging is a deliberate manual action.
+
+When purging, **move** each stale `[x]` line to an archive file rather than deleting it — same tombstone principle as `Archived` refs (see Ref status transitions): inbound references stay resolvable. The archive groups entries in dated sections and preserves each line **verbatim** (checkbox, date, `from`/`closed` markers intact):
+
+```markdown
+### Purge YYYY-MM-DD
+- [x] **Done** : Description (2026-04-29). <!-- from: ... --> <!-- closed: ... -->
+```
+
+The archive **file name is the consumer's choice** (openclew is tool-agnostic) — e.g. R.AlphA uses `doc/claude_purge.md` via its `/ra-purge` command. openclew fixes the *shape* (dated sections, verbatim lines), not the path.
+
+---
+
 ## CSS styling
 
 `openclew init` installs `.vscode/openclew-preview.css` and configures `markdown.styles` in `.vscode/settings.json`. The CSS targets the div classes `.oc-l1`, `.oc-l2`, `.oc-l3` for visual distinction in VS Code Markdown preview.

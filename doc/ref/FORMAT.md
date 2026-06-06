@@ -1,4 +1,4 @@
-clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-04-29 · doc_version: 1.3.0 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser, doc_version, from, closed, targets_todos, flat_todo
+clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-06-06 · doc_version: 1.4.0 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser, doc_version, from, closed, targets_todos, flat_todo, purge, archive
 - **subject:** openclew document format specification
 - **doc_brief:** Every openclew doc is built in 4 progressive layers — metadata for machines, L1 as the clew to grasp the subject at a glance, L2 for a one-screen summary, and L3 for the full details. You only go deeper when you need to.
 
@@ -78,6 +78,19 @@ Most projects keep a flat `TODO.md` at the root. Each line follows:
 - Parser: `lib/todo-flat.js` (`parseFlatTodos`, `validateFlatTodos`, `setMarkers`).
 
 The file format (`doc/todo/*.md`) remains opt-in for TODOs needing real subject/brief/context. Both formats coexist; the from/closed rule is identical.
+
+### Purge — manual, archive, never delete
+
+`openclew status` reports pending/done counts and **flags** completed `[x]` items older than **7 days** (threshold keyed off the `(YYYY-MM-DD)` completion date). It only flags — purging is a deliberate **manual** action, never automatic.
+
+When purging, **move** each stale line to an archive file instead of deleting it — the same tombstone principle as `Archived` refs, so inbound references stay resolvable. The archive groups entries in dated sections and keeps each line **verbatim** (checkbox, date, `from`/`closed` markers intact):
+
+```markdown
+### Purge YYYY-MM-DD
+- [x] **Done title** : Description (2026-04-29). <!-- from: ... --> <!-- closed: ... -->
+```
+
+The archive **file name is the consumer's choice** (openclew is tool-agnostic). R.AlphA uses `doc/claude_purge.md` via its `/ra-purge` command; openclew fixes the *shape*, not the path.
 
 ## Line 1 fields
 

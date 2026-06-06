@@ -7,6 +7,20 @@ are backward-compatible. But new features expect the current format.
 
 ---
 
+## TODO purge clarified — oc_0.10.1
+
+Doc-only fix: the injected block previously claimed *"Completed items older than 7 days are auto-purged."* — but no code ever auto-purged. `openclew status` only **flags** stale done items; purging is a deliberate **manual** action.
+
+Corrected wording everywhere (`lib/inject.js`, `lib/status.js`, `templates/FORMAT.md`, `doc/ref/FORMAT.md`): status flags `[x]` older than 7 days; you purge manually by **moving** each line to an archive file (tombstone), never hard-deleting. The archive's file name is the consumer's choice — openclew fixes only the *shape* (dated `### Purge YYYY-MM-DD` sections, verbatim lines with `from`/`closed` markers intact).
+
+No action needed. Re-run `openclew init` (or let the SessionStart sync run) to refresh the injected block in your instruction file.
+
+Also fixed: `openclew status` on macOS/Linux created a stray file named `nul` (the coexistence check ran the Windows-only `where openclew 2>nul` on a Unix shell). The lookup now branches on `process.platform`. If you have a leftover `nul` file at your repo root, delete it.
+
+FORMAT.md (`doc/ref/`) doc_version: 1.3.0 → 1.4.0.
+
+---
+
 ## New L1 fields — oc_0.10.0
 
 Three new optional L1 fields for two-way TODO ↔ session traceability:
