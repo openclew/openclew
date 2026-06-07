@@ -282,6 +282,36 @@ The archive **file name is the consumer's choice** (openclew is tool-agnostic) �
 
 ---
 
+## Boot / index pointer entries
+
+Some files are read **every session** rather than on demand: the project boot file (e.g. `CLAUDE.md` — its "known pitfalls" / rules tables), generated indexes (`_INDEX.md`), and subfolder peeks (`_peek.md`). These are neither refs nor logs — they are **navigation surfaces** whose job is to point at the durable knowledge, not to hold it. Their failure mode is accretion: each resolved bug leaves a paragraph behind, the file balloons, and the per-session read cost grows without bound.
+
+openclew normalizes their content as a table of **pointer entries**, each a single row:
+
+```
+Subject (≤5 words) · Context (≤10 words) · Link (one path, nothing else)
+```
+
+- **Subject** — what it is, scannable at a glance.
+- **Context** — the one durable thing to remember (the rule still in force, the gotcha), not a narrative.
+- **Link** — exactly one path to the ref or log that holds the full story. Never two links, never inline prose beside it.
+
+The narrative lives **in the link**, never in the row. The `≤5 / ≤10` word counts are guidance, not hard caps — the binding rule is *single link, story behind it*. The table itself follows the consumer's rendering convention (R.AlphA uses box-drawing); openclew fixes the **entry shape**, not the table styling.
+
+**Why.** A pointer table stays dense and cheap to re-read every session. Field proof (R.AlphA.Desktop `CLAUDE.md`, "known pitfalls"): condensing paragraph entries to this triplet took the section from 44 100 → 16 331 characters (**−63 %**) with zero information loss — the detail was already in the linked logs/refs, the single link reaches it.
+
+**Lifecycle — purge resolved entries.** A pointer entry exists only while it points at something a future session still needs to know. When its underlying issue is **resolved and leaves no durable rule** (the fix shipped, the gotcha no longer reproduces), the entry is **removed** from the boot file — its knowledge lives on in the linked log/release note. Keep only entries that encode a still-active rule or an unfixed trap. The boot file carries a size target (R.AlphA: ~100 lines); over it → purge.
+
+Purging a pointer entry uses the **same tombstone discipline** as TODO purge (see § Purge above): **move** the removed row **verbatim** into the consumer's dated archive (R.AlphA: `doc/claude_purge.md`), never hard-delete — inbound links and audit trails stay resolvable.
+
+```markdown
+### Purge YYYY-MM-DD — boot pointer entries (<file>)
+| Subject | Context | Link |
+| <subject> | <context> | <path> |
+```
+
+---
+
 ## CSS styling
 
 `openclew init` installs `.vscode/openclew-preview.css` and configures `markdown.styles` in `.vscode/settings.json`. The CSS targets the div classes `.oc-l1`, `.oc-l2`, `.oc-l3` for visual distinction in VS Code Markdown preview.
