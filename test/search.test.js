@@ -316,7 +316,7 @@ describe("walkDir", () => {
     writeDoc(dir, "a.md", "");
     writeDoc(dir, "sub/b.md", "");
     writeDoc(dir, "sub/deep/c.md", "");
-    const files = walkDir(dir).map(f => path.relative(dir, f)).sort();
+    const files = walkDir(dir).map(f => path.relative(dir, f).split(path.sep).join("/")).sort();
     assert.deepEqual(files, ["a.md", "sub/b.md", "sub/deep/c.md"]);
   });
 

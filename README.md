@@ -92,6 +92,8 @@ Together, they form the thread. The refs tell you where you are. The logs tell y
 npx openclew init
 ```
 
+Requires Node.js 16+ and npm. `npx` downloads the version currently published on npm, which may lag behind the source repository. To run an unreleased checkout, use `node bin/openclew.js init` from your target project's directory (with the full path to the checkout).
+
 This:
 - Creates `doc/` with a guide, an example doc, and an example log
 - Detects your instruction file (CLAUDE.md, .cursorrules, AGENTS.md...)
@@ -110,7 +112,7 @@ Your agent reads the guide, understands the L1/L2/L3 format, and creates `doc/re
 
 Next session, your agent reads the index, finds the doc, has the context. No re-explanation needed. As your project evolves, your agent creates and updates docs during sessions — refs for ongoing knowledge, logs for frozen facts.
 
-The index auto-regenerates on every commit. Never edit it manually.
+The index is generated at init. To regenerate it on every commit, run `openclew init --hook` in a Git project; otherwise use `openclew index` when needed. Never edit it manually.
 
 ### CLI commands
 
@@ -200,14 +202,14 @@ doc/
 
 ## Works with everything
 
-**AI agents:** Claude Code, Cursor, Copilot, Windsurf, Codex, Zed, Kiro, Aider, Cline, Gemini CLI...
+**AI agents:** The Markdown docs are readable by any agent with project-file access. `init` injects into one detected instruction file (such as AGENTS.md, CLAUDE.md, or .cursorrules); configure additional agents separately if they do not read that file. Claude Code commands, VS Code/Copilot prompts, and a stdio MCP server are included. Other editor integrations are not verified end-to-end.
 
 **Workflow frameworks:** BMAD, Spec Kit, or any methodology — openclew handles knowledge, your framework handles process.
 
 **What the CLI does for you:**
 - Detects your instruction file (CLAUDE.md, .cursorrules, AGENTS.md, copilot-instructions...)
 - Injects a knowledge block that teaches your agent about the doc structure
-- Generates and regenerates the index on every commit (pre-commit hook)
+- Generates the index on init; optional `--hook` adds pre-commit regeneration (requires Git and `npx`)
 - Searches docs by keyword with weighted scoring (`openclew search`)
 - Exposes docs via MCP server for tool-aware agents (`openclew mcp`)
 - Produces a session summary at end of work (`openclew checkout`)
