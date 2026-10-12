@@ -120,22 +120,45 @@ pub fn parse_file_content(content: &str) -> Option<Metadata> {
     None
 }
 
-/// Extract a specific level block from content
+/// Extract a specific level block from content (mirrors lib/mcp-server.js extractLevel).
+/// L1 = metadata line + L1 block. L2/L3 = `# Summary` / `# Details` section
+/// (current format), falling back to `<!-- L2_START -->` markers (legacy).
 pub fn extract_level(content: &str, level: &str) -> String {
     if level == "full" {
         return content.to_string();
     }
 
     let key = level.to_uppercase();
-    let start_re = Regex::new(&format!(r"<!--\s*{key}_START\s*-->")).unwrap();
-    let end_re = Regex::new(&format!(r"<!--\s*{key}_END\s*-->")).unwrap();
+    if key == "L1" {
+        return match find_l1_block(content) {
+            Some(block) => {
+                let first = content.split('\n').next().unwrap_or("").trim();
+                format!("{first}\n\n{}", block.trim())
+            }
+            None => "No L1 block found in this document.".to_string(),
+        };
+    }
+    if key != "L2" && key != "L3" {
+        return content.to_string();
+    }
 
-    let start_match = start_re.find(content);
-    let end_match = end_re.find(content);
+    let heading = if key == "L2" { "Summary" } else { "Details" };
+    let start_re = Regex::new(&format!(r"(?m)^# {heading}\s*$")).unwrap();
+    if let Some(start) = start_re.find(content) {
+        let body = &content[start.end()..];
+        let next_re = Regex::new(r"(?m)^# [^\n]+$").unwrap();
+        let section = match next_re.find(body) {
+            Some(next) => &body[..next.start()],
+            None => body,
+        };
+        let trailing_sep = Regex::new(r"\r?\n\s*---\s*$").unwrap();
+        return trailing_sep.replace(section.trim(), "").trim().to_string();
+    }
 
-    match (start_match, end_match) {
-        (Some(s), Some(e)) => content[s.end()..e.start()].trim().to_string(),
-        _ => format!("No {key} block found in this document."),
+    let marker_re = Regex::new(&format!(r"<!--\s*{key}_START\s*-->([\s\S]*?)<!--\s*{key}_END\s*-->")).unwrap();
+    match marker_re.captures(content) {
+        Some(caps) => caps[1].trim().to_string(),
+        None => format!("No {key} block found in this document."),
     }
 }
 
@@ -207,7 +230,8 @@ L1 content here
 L2 content here
 <!-- L2_END -->
 "#;
-        assert_eq!(extract_level(content, "L1"), "L1 content here");
+        // L1 = metadata line (here: first line) + L1 block
+        assert_eq!(extract_level(content, "L1"), "some stuff\n\nL1 content here");
         assert_eq!(extract_level(content, "L2"), "L2 content here");
         assert!(extract_level(content, "L3").contains("No L3 block"));
         assert!(extract_level(content, "full").contains("some stuff"));

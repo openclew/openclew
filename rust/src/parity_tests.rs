@@ -7,6 +7,7 @@ use std::path::{Path, PathBuf};
 
 use serde_json::Value;
 
+use crate::parse::l1::extract_level;
 use crate::parse::search::search_docs;
 use crate::template::{log as log_tpl, refs as ref_tpl, todo as todo_tpl};
 use crate::util::{oc_version, slugify, slugify_log, today};
@@ -39,6 +40,21 @@ fn test_slugs_parity() {
         let title = case["title"].as_str().unwrap();
         assert_eq!(slugify(title), case["ref"].as_str().unwrap(), "slugify({title:?})");
         assert_eq!(slugify_log(title), case["log"].as_str().unwrap(), "slugify_log({title:?})");
+    }
+}
+
+#[test]
+fn test_read_doc_levels_parity() {
+    let doc_dir = parity_dir().join("doc");
+    for case in golden()["levels"].as_array().unwrap() {
+        let doc = case["doc"].as_str().unwrap();
+        let level = case["level"].as_str().unwrap();
+        let content = fs::read_to_string(doc_dir.join(doc)).unwrap();
+        assert_eq!(
+            extract_level(&content, level),
+            case["content"].as_str().unwrap(),
+            "extract_level({doc}, {level})"
+        );
     }
 }
 

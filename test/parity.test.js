@@ -4,7 +4,7 @@
  * Both implementations run against test/fixtures/parity and must produce the
  * same golden files (Rust side: rust/src/parity_tests.rs):
  *   - expected.json   collectDocs over parity/doc
- *   - generated.json  templates, slugs, search ranking
+ *   - generated.json  templates, slugs, search ranking, read_doc levels
  * Regenerate after an intended change: UPDATE_GOLDEN=1 node --test test/parity.test.js
  */
 
@@ -14,6 +14,7 @@ const fs = require("fs");
 const path = require("path");
 
 const { collectDocs, searchDocs } = require("../lib/search");
+const { extractLevel } = require("../lib/mcp-server");
 const { refContent, logContent, todoDocContent, slugify, slugifyLog, today, ocVersion } = require("../lib/templates");
 
 const PARITY_DIR = path.join(__dirname, "fixtures", "parity");
@@ -23,6 +24,8 @@ const DOC_DIR = path.join(PARITY_DIR, "doc");
 const TEMPLATE_TITLE = "Auth Design";
 const SLUG_TITLES = ["Auth Design", "  hello world  ", "a -- b", "Fix: café crème!", "v2.0 / API", "Straße"];
 const SEARCH_QUERIES = ["auth", "search", "ci", "setup", "Legacy guide", "nomatch"];
+const LEVEL_DOCS = ["ref/ARCHITECTURE.md", "ref/api/AUTH.md", "_LEGACY_GUIDE.md", "ref/NOT_OPENCLEW.md"];
+const LEVELS = ["L1", "L2", "L3", "l2", "full", "X"];
 
 function sortedMeta(meta) {
   return Object.fromEntries(Object.keys(meta).sort().map((k) => [k, meta[k]]));
@@ -54,6 +57,10 @@ function generatedSnapshot() {
       query,
       results: searchDocs(DOC_DIR, query).map((r) => ({ path: relDoc(r.filepath), score: r.score })),
     })),
+    levels: LEVEL_DOCS.flatMap((doc) => {
+      const content = fs.readFileSync(path.join(DOC_DIR, doc), "utf-8");
+      return LEVELS.map((level) => ({ doc, level, content: extractLevel(content, level) }));
+    }),
   };
 }
 

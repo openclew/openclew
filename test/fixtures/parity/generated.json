@@ -95,5 +95,127 @@
       "query": "nomatch",
       "results": []
     }
+  ],
+  "levels": [
+    {
+      "doc": "ref/ARCHITECTURE.md",
+      "level": "L1",
+      "content": "clw_ref@0.7.0 · created: 2026-04-10 · updated: 2026-04-12 · doc_version: 1.1.0 · type: Reference · status: Active · category: Architecture · keywords: [stack, entry]\n\n- **subject:** Architecture overview\n- **doc_brief:** CLI dispatcher plus lib modules; zero dependencies."
+    },
+    {
+      "doc": "ref/ARCHITECTURE.md",
+      "level": "L2",
+      "content": "Body."
+    },
+    {
+      "doc": "ref/ARCHITECTURE.md",
+      "level": "L3",
+      "content": "More."
+    },
+    {
+      "doc": "ref/ARCHITECTURE.md",
+      "level": "l2",
+      "content": "Body."
+    },
+    {
+      "doc": "ref/ARCHITECTURE.md",
+      "level": "full",
+      "content": "clw_ref@0.7.0 · created: 2026-04-10 · updated: 2026-04-12 · doc_version: 1.1.0 · type: Reference · status: Active · category: Architecture · keywords: [stack, entry]\n\n- **subject:** Architecture overview\n- **doc_brief:** CLI dispatcher plus lib modules; zero dependencies.\n\n---\n\n# Summary\n\nBody.\n\n---\n\n# Details\n\nMore.\n"
+    },
+    {
+      "doc": "ref/ARCHITECTURE.md",
+      "level": "X",
+      "content": "clw_ref@0.7.0 · created: 2026-04-10 · updated: 2026-04-12 · doc_version: 1.1.0 · type: Reference · status: Active · category: Architecture · keywords: [stack, entry]\n\n- **subject:** Architecture overview\n- **doc_brief:** CLI dispatcher plus lib modules; zero dependencies.\n\n---\n\n# Summary\n\nBody.\n\n---\n\n# Details\n\nMore.\n"
+    },
+    {
+      "doc": "ref/api/AUTH.md",
+      "level": "L1",
+      "content": "clw_ref@0.7.0 · created: 2026-04-11 · type: Reference · status: Draft · category: · keywords: [auth, token]\n\n- **subject:** Auth flow\n- **doc_brief:** Token-based auth, refresh every hour."
+    },
+    {
+      "doc": "ref/api/AUTH.md",
+      "level": "L2",
+      "content": "No L2 block found in this document."
+    },
+    {
+      "doc": "ref/api/AUTH.md",
+      "level": "L3",
+      "content": "No L3 block found in this document."
+    },
+    {
+      "doc": "ref/api/AUTH.md",
+      "level": "l2",
+      "content": "No L2 block found in this document."
+    },
+    {
+      "doc": "ref/api/AUTH.md",
+      "level": "full",
+      "content": "clw_ref@0.7.0 · created: 2026-04-11 · type: Reference · status: Draft · category: · keywords: [auth, token]\n\n- **subject:** Auth flow\n- **doc_brief:** Token-based auth, refresh every hour.\n\n---\n"
+    },
+    {
+      "doc": "ref/api/AUTH.md",
+      "level": "X",
+      "content": "clw_ref@0.7.0 · created: 2026-04-11 · type: Reference · status: Draft · category: · keywords: [auth, token]\n\n- **subject:** Auth flow\n- **doc_brief:** Token-based auth, refresh every hour.\n\n---\n"
+    },
+    {
+      "doc": "_LEGACY_GUIDE.md",
+      "level": "L1",
+      "content": "openclew@0.5.0 · type: Guide · status: Active\n\n**subject:** Legacy guide\n\n**doc_brief:** Old comment-marker format, still parsed."
+    },
+    {
+      "doc": "_LEGACY_GUIDE.md",
+      "level": "L2",
+      "content": "No L2 block found in this document."
+    },
+    {
+      "doc": "_LEGACY_GUIDE.md",
+      "level": "L3",
+      "content": "No L3 block found in this document."
+    },
+    {
+      "doc": "_LEGACY_GUIDE.md",
+      "level": "l2",
+      "content": "No L2 block found in this document."
+    },
+    {
+      "doc": "_LEGACY_GUIDE.md",
+      "level": "full",
+      "content": "openclew@0.5.0 · type: Guide · status: Active\n\n<!-- L1_START -->\n**subject:** Legacy guide\n\n**doc_brief:** Old comment-marker format, still parsed.\n<!-- L1_END -->\n\n---\n"
+    },
+    {
+      "doc": "_LEGACY_GUIDE.md",
+      "level": "X",
+      "content": "openclew@0.5.0 · type: Guide · status: Active\n\n<!-- L1_START -->\n**subject:** Legacy guide\n\n**doc_brief:** Old comment-marker format, still parsed.\n<!-- L1_END -->\n\n---\n"
+    },
+    {
+      "doc": "ref/NOT_OPENCLEW.md",
+      "level": "L1",
+      "content": "# Plain markdown\n\nNo metadata line, no L1."
+    },
+    {
+      "doc": "ref/NOT_OPENCLEW.md",
+      "level": "L2",
+      "content": "No L2 block found in this document."
+    },
+    {
+      "doc": "ref/NOT_OPENCLEW.md",
+      "level": "L3",
+      "content": "No L3 block found in this document."
+    },
+    {
+      "doc": "ref/NOT_OPENCLEW.md",
+      "level": "l2",
+      "content": "No L2 block found in this document."
+    },
+    {
+      "doc": "ref/NOT_OPENCLEW.md",
+      "level": "full",
+      "content": "# Plain markdown\n\nNo metadata line, no L1.\n"
+    },
+    {
+      "doc": "ref/NOT_OPENCLEW.md",
+      "level": "X",
+      "content": "# Plain markdown\n\nNo metadata line, no L1.\n"
+    }
   ]
 }
