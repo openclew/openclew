@@ -10,26 +10,28 @@ pub fn oc_version() -> &'static str {
     env!("CARGO_PKG_VERSION")
 }
 
-/// Slugify for refs: UPPERCASE, underscores
-/// "Auth Design" → "AUTH_DESIGN"
+/// Slugify for refs: UPPERCASE, runs of non-alphanumerics collapsed to `_`
+/// "Auth Design" -> "AUTH_DESIGN" (mirrors lib/templates.js slugify)
 pub fn slugify(title: &str) -> String {
-    let s: String = title
-        .to_uppercase()
-        .chars()
-        .map(|c| if c.is_ascii_alphanumeric() { c } else { '_' })
-        .collect();
-    s.trim_matches('_').to_string()
+    collapse_non_alnum(&title.to_uppercase(), '_')
 }
 
-/// Slugify for logs: lowercase, hyphens
-/// "Auth Design" → "auth-design"
+/// Slugify for logs/todos: lowercase, runs of non-alphanumerics collapsed to `-`
+/// "Auth Design" -> "auth-design" (mirrors lib/templates.js slugifyLog)
 pub fn slugify_log(title: &str) -> String {
-    let s: String = title
-        .to_lowercase()
-        .chars()
-        .map(|c| if c.is_ascii_alphanumeric() { c } else { '-' })
-        .collect();
-    s.trim_matches('-').to_string()
+    collapse_non_alnum(&title.to_lowercase(), '-')
+}
+
+fn collapse_non_alnum(s: &str, sep: char) -> String {
+    let mut out = String::new();
+    for c in s.chars() {
+        if c.is_ascii_alphanumeric() {
+            out.push(c);
+        } else if !out.ends_with(sep) {
+            out.push(sep);
+        }
+    }
+    out.trim_matches(sep).to_string()
 }
 
 #[cfg(test)]
@@ -41,6 +43,7 @@ mod tests {
         assert_eq!(slugify("Auth Design"), "AUTH_DESIGN");
         assert_eq!(slugify("fix streaming bugs"), "FIX_STREAMING_BUGS");
         assert_eq!(slugify("  hello world  "), "HELLO_WORLD");
+        assert_eq!(slugify("a -- b"), "A_B");
     }
 
     #[test]

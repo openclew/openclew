@@ -8,8 +8,8 @@ use serde_json::{json, Value};
 use crate::parse::collect::collect_docs;
 use crate::parse::l1::extract_level;
 use crate::parse::search::search_docs;
-use crate::template::{log as log_tpl, refs as ref_tpl};
-use crate::util::{oc_version, slugify, slugify_log, today};
+use crate::cmd::add::{self, Filled};
+use crate::util::oc_version;
 
 fn project_root() -> PathBuf {
     env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
@@ -120,86 +120,39 @@ fn tool_list_docs(params: &Value) -> Value {
     Value::Array(items)
 }
 
+fn created(result: Result<String, String>, label: &str) -> Value {
+    match result {
+        Ok(path) => json!({ "path": path, "message": format!("Created {label}: {path}") }),
+        Err(e) => json!({ "error": e }),
+    }
+}
+
+fn required_title(params: &Value) -> Result<&str, Value> {
+    match params["title"].as_str().unwrap_or("").trim() {
+        "" => Err(json!({"error": "Missing required parameter: title"})),
+        t => Ok(t),
+    }
+}
+
 fn tool_create_log(params: &Value) -> Value {
-    let title = params["title"].as_str().unwrap_or("");
-    if title.is_empty() {
-        return json!({"error": "Missing required parameter: title"});
+    match required_title(params) {
+        Ok(t) => created(add::create_log(&project_root(), t, Filled::from_params(params, t)), "log"),
+        Err(e) => e,
     }
-
-    let subject = params["subject"].as_str().unwrap_or(title);
-    let brief = params["brief"].as_str().unwrap_or("");
-    let content = params["content"].as_str().unwrap_or("");
-
-    let log_dir = doc_dir().join("log");
-    if !log_dir.exists() {
-        if let Err(e) = fs::create_dir_all(&log_dir) {
-            return json!({"error": format!("Cannot create doc/log/: {e}")});
-        }
-    }
-
-    let slug = slugify_log(title);
-    let filename = format!("{}_{slug}.md", today());
-    let filepath = log_dir.join(&filename);
-
-    if filepath.exists() {
-        return json!({"error": format!("File already exists: doc/log/{filename}")});
-    }
-
-    let file_content = if content.is_empty() {
-        log_tpl::log_content(title)
-    } else {
-        log_tpl::log_content_filled(title, subject, brief, content)
-    };
-
-    if let Err(e) = fs::write(&filepath, &file_content) {
-        return json!({"error": format!("Cannot write file: {e}")});
-    }
-
-    json!({
-        "path": format!("doc/log/{filename}"),
-        "message": format!("Created log: doc/log/{filename}"),
-    })
 }
 
 fn tool_create_ref(params: &Value) -> Value {
-    let title = params["title"].as_str().unwrap_or("");
-    if title.is_empty() {
-        return json!({"error": "Missing required parameter: title"});
+    match required_title(params) {
+        Ok(t) => created(add::create_ref(&project_root(), t, Filled::from_params(params, t)), "ref"),
+        Err(e) => e,
     }
+}
 
-    let subject = params["subject"].as_str().unwrap_or(title);
-    let brief = params["brief"].as_str().unwrap_or("");
-    let content = params["content"].as_str().unwrap_or("");
-
-    let ref_dir = doc_dir().join("ref");
-    if !ref_dir.exists() {
-        if let Err(e) = fs::create_dir_all(&ref_dir) {
-            return json!({"error": format!("Cannot create doc/ref/: {e}")});
-        }
+fn tool_create_todo(params: &Value) -> Value {
+    match required_title(params) {
+        Ok(t) => created(add::create_todo(&project_root(), t), "todo"),
+        Err(e) => e,
     }
-
-    let slug = slugify(title);
-    let filename = format!("{slug}.md");
-    let filepath = ref_dir.join(&filename);
-
-    if filepath.exists() {
-        return json!({"error": format!("File already exists: doc/ref/{filename}")});
-    }
-
-    let file_content = if content.is_empty() {
-        ref_tpl::ref_content(title)
-    } else {
-        ref_tpl::ref_content_filled(title, subject, brief, content)
-    };
-
-    if let Err(e) = fs::write(&filepath, &file_content) {
-        return json!({"error": format!("Cannot write file: {e}")});
-    }
-
-    json!({
-        "path": format!("doc/ref/{filename}"),
-        "message": format!("Created ref: doc/ref/{filename}"),
-    })
 }
 
 // ── MCP Protocol ────────────────────────────────────────────────────
@@ -265,6 +218,17 @@ const TOOLS: &str = r#"[
       },
       "required": ["title"]
     }
+  },
+  {
+    "name": "create_todo",
+    "description": "Create a TODO doc (one task per file) in doc/todo/, with from/closed traceability fields to fill.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "TODO title (used for filename slug and subject)" }
+      },
+      "required": ["title"]
+    }
   }
 ]"#;
 
@@ -308,6 +272,7 @@ fn handle_message(msg: &Value) -> Option<Value> {
                 "list_docs" => tool_list_docs(&tool_args),
                 "create_log" => tool_create_log(&tool_args),
                 "create_ref" => tool_create_ref(&tool_args),
+                "create_todo" => tool_create_todo(&tool_args),
                 _ => {
                     return Some(json!({
                         "jsonrpc": "2.0",

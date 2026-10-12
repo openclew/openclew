@@ -9,6 +9,7 @@ pub fn log_content(title: &str) -> String {
 
 - **subject:** {title}
 - **doc_brief:**
+- **targets_todos:** <!-- optional: doc/todo/*.md paths this session worked on -->
 
 ---
 

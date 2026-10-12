@@ -32,6 +32,22 @@ enum Commands {
         private_logs: bool,
     },
 
+    /// Create a doc from its template
+    Add {
+        #[command(subcommand)]
+        kind: AddCmd,
+    },
+
+    /// Search docs by keyword
+    Search {
+        /// Query terms
+        #[arg(required = true, num_args = 1..)]
+        query: Vec<String>,
+    },
+
+    /// List instruction file + all refs + open TODOs
+    Peek,
+
     /// Regenerate doc/_INDEX.md
     Index,
 
@@ -39,11 +55,37 @@ enum Commands {
     Mcp,
 }
 
+#[derive(Subcommand)]
+enum AddCmd {
+    /// Create a ref (evolves with the project)
+    Ref {
+        #[arg(required = true, num_args = 1..)]
+        title: Vec<String>,
+    },
+    /// Create a session log (frozen facts)
+    Log {
+        #[arg(required = true, num_args = 1..)]
+        title: Vec<String>,
+    },
+    /// Create a TODO doc (one task per file)
+    Todo {
+        #[arg(required = true, num_args = 1..)]
+        title: Vec<String>,
+    },
+}
+
 fn main() {
     let cli = Cli::parse();
 
     let result = match cli.command {
         Commands::Init { hook, no_inject, private_logs } => cmd::init::run(hook, no_inject, private_logs),
+        Commands::Add { kind } => match kind {
+            AddCmd::Ref { title } => cmd::add::run(cmd::add::AddKind::Ref, &title.join(" ")),
+            AddCmd::Log { title } => cmd::add::run(cmd::add::AddKind::Log, &title.join(" ")),
+            AddCmd::Todo { title } => cmd::add::run(cmd::add::AddKind::Todo, &title.join(" ")),
+        },
+        Commands::Search { query } => cmd::search::run(&query.join(" ")),
+        Commands::Peek => cmd::peek::run(),
         Commands::Index => cmd::index::run(),
         Commands::Mcp => cmd::mcp::run(),
     };
@@ -53,3 +95,6 @@ fn main() {
         std::process::exit(1);
     }
 }
+
+#[cfg(test)]
+mod parity_tests;

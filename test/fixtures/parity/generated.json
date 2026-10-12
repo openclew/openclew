@@ -1,0 +1,99 @@
+{
+  "template_title": "Auth Design",
+  "templates": {
+    "ref": "clw_ref@{{VER}} · created: {{DATE}} · updated: {{DATE}} · doc_version: 1.0.0 · type: Reference · status: Active · category: · keywords: []\n\n- **subject:** Auth Design\n- **doc_brief:**\n\n---\n\n# Summary\n\n## Objective\n<!-- Why this document exists -->\n\n## Key points\n<!-- 3-5 essential takeaways -->\n\n---\n\n# Details\n\n<!-- Full technical content -->\n\n---\n\n## Changelog\n\n| Date | Change |\n|------|--------|\n| {{DATE}} | Initial creation |\n",
+    "log": "clw_log@{{VER}} · date: {{DATE}} · type: Feature · status: In progress · category: · keywords: []\n\n- **subject:** Auth Design\n- **doc_brief:**\n- **targets_todos:** <!-- optional: doc/todo/*.md paths this session worked on -->\n\n---\n\n# Summary\n\n## Objective\n<!-- Why this work was undertaken -->\n\n## Problem\n<!-- What was observed -->\n\n## Solution\n<!-- How it was resolved -->\n\n---\n\n# Details\n\n<!-- Technical details, code changes, debugging steps... -->\n",
+    "todo": "clw_todo@{{VER}} · created: {{DATE}} · status: Open · priority: Normal · category: · keywords: []\n\n- **subject:** Auth Design\n- **doc_brief:**\n- **from:** <!-- required: doc/log/*.md, doc/ref/*.md, or free-text reference (e.g. \"2026-04-29 — cold idea\") -->\n- **closed:** <!-- filled at closing: log path or free-text session reference -->\n\n---\n\n# Summary\n\n## Why it matters\n<!-- What's the pain or opportunity? 1-2 lines. -->\n\n## Done looks like\n<!-- How will you know it's done? 1-2 lines. -->\n\n<!-- Keep it short. Implementation details belong in the log when work starts. -->\n"
+  },
+  "slugs": [
+    {
+      "title": "Auth Design",
+      "ref": "AUTH_DESIGN",
+      "log": "auth-design"
+    },
+    {
+      "title": "  hello world  ",
+      "ref": "HELLO_WORLD",
+      "log": "hello-world"
+    },
+    {
+      "title": "a -- b",
+      "ref": "A_B",
+      "log": "a-b"
+    },
+    {
+      "title": "Fix: café crème!",
+      "ref": "FIX_CAF_CR_ME",
+      "log": "fix-caf-cr-me"
+    },
+    {
+      "title": "v2.0 / API",
+      "ref": "V2_0_API",
+      "log": "v2-0-api"
+    },
+    {
+      "title": "Straße",
+      "ref": "STRASSE",
+      "log": "stra-e"
+    }
+  ],
+  "search": [
+    {
+      "query": "auth",
+      "results": [
+        {
+          "path": "ref/api/AUTH.md",
+          "score": 10.5
+        }
+      ]
+    },
+    {
+      "query": "search",
+      "results": [
+        {
+          "path": "log/2026-04-12_fix-search.md",
+          "score": 9.75
+        }
+      ]
+    },
+    {
+      "query": "ci",
+      "results": [
+        {
+          "path": "todo/2026-04-11_setup-ci.md",
+          "score": 9.75
+        },
+        {
+          "path": "ref/ARCHITECTURE.md",
+          "score": 2
+        }
+      ]
+    },
+    {
+      "query": "setup",
+      "results": [
+        {
+          "path": "log/2026-04-10_initial.md",
+          "score": 4.5
+        }
+      ]
+    },
+    {
+      "query": "Legacy guide",
+      "results": [
+        {
+          "path": "_LEGACY_GUIDE.md",
+          "score": 10.5
+        },
+        {
+          "path": "_OLD_KV.md",
+          "score": 4.5
+        }
+      ]
+    },
+    {
+      "query": "nomatch",
+      "results": []
+    }
+  ]
+}
