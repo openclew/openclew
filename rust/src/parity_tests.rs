@@ -9,7 +9,7 @@ use serde_json::Value;
 
 use crate::parse::l1::extract_level;
 use crate::parse::search::search_docs;
-use crate::template::{log as log_tpl, refs as ref_tpl, todo as todo_tpl};
+use crate::template;
 use crate::util::{oc_version, slugify, slugify_log, today};
 
 fn parity_dir() -> PathBuf {
@@ -29,9 +29,9 @@ fn tokenize(content: &str) -> String {
 fn test_templates_parity() {
     let g = golden();
     let title = g["template_title"].as_str().unwrap();
-    assert_eq!(tokenize(&ref_tpl::ref_content(title)), g["templates"]["ref"].as_str().unwrap());
-    assert_eq!(tokenize(&log_tpl::log_content(title)), g["templates"]["log"].as_str().unwrap());
-    assert_eq!(tokenize(&todo_tpl::todo_content(title)), g["templates"]["todo"].as_str().unwrap());
+    assert_eq!(tokenize(&template::ref_content(title)), g["templates"]["ref"].as_str().unwrap());
+    assert_eq!(tokenize(&template::log_content(title)), g["templates"]["log"].as_str().unwrap());
+    assert_eq!(tokenize(&template::todo_content(title)), g["templates"]["todo"].as_str().unwrap());
 }
 
 #[test]

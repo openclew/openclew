@@ -1,1 +1,2 @@
 test/fixtures/** text eol=lf
+templates/embedded/** text eol=lf

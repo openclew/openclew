@@ -5,7 +5,7 @@ use std::fs;
 use std::path::Path;
 
 use crate::config::read_config;
-use crate::template::{log as log_tpl, refs as ref_tpl, todo as todo_tpl};
+use crate::template;
 use crate::util::{slugify, slugify_log, today};
 
 /// Doc type accepted by `add`
@@ -49,8 +49,8 @@ pub fn create_ref(project_root: &Path, title: &str, filled: Option<Filled>) -> R
         ));
     }
     let content = match filled {
-        Some(f) => ref_tpl::ref_content_filled(title, f.subject, f.brief, f.content),
-        None => ref_tpl::ref_content(title),
+        Some(f) => template::fill(template::ref_content(f.subject), f.brief, f.content),
+        None => template::ref_content(title),
     };
     write_new(&doc_dir.join("ref"), "doc/ref", &format!("{slug}.md"), &content)
 }
@@ -58,8 +58,10 @@ pub fn create_ref(project_root: &Path, title: &str, filled: Option<Filled>) -> R
 /// Create doc/log/<date>_<slug>.md. Returns the project-relative path.
 pub fn create_log(project_root: &Path, title: &str, filled: Option<Filled>) -> Result<String, String> {
     let content = match filled {
-        Some(f) => log_tpl::log_content_filled(title, f.subject, f.brief, f.content),
-        None => log_tpl::log_content(title),
+        // Pre-filled log = written after the fact: status Done
+        Some(f) => template::fill(template::log_content(f.subject), f.brief, f.content)
+            .replacen("status: In progress", "status: Done", 1),
+        None => template::log_content(title),
     };
     let filename = format!("{}_{}.md", today(), slugify_log(title));
     write_new(&project_root.join("doc").join("log"), "doc/log", &filename, &content)
@@ -72,7 +74,7 @@ pub fn create_todo(project_root: &Path, title: &str) -> Result<String, String> {
         &project_root.join("doc").join("todo"),
         "doc/todo",
         &filename,
-        &todo_tpl::todo_content(title),
+        &template::todo_content(title),
     )
 }
 

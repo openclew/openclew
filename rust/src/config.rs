@@ -7,7 +7,7 @@ const CONFIG_FILE: &str = ".openclew.json";
 #[derive(Debug, Serialize, Deserialize, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
-    #[serde(skip_serializing_if = "Option::is_none")]
+    /// `null` with --no-inject (marks init as done, like Node)
     pub entry_point: Option<String>,
 }
 

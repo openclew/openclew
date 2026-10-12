@@ -45,7 +45,8 @@ openclew doit être **proactif** : c'est l'agent (via le bloc injecté) qui sugg
 - **Idempotence stricte** : chaque commande ré-exécutable sans effet de bord
 - **Entry point unique** stocké dans `.openclew.json` (défaut AGENTS.md case-insensitive). Détection : `CLAUDE.md`, `.cursorrules`, `.cursor/rules`, `.github/copilot-instructions.md`, `.windsurfrules`, `.windsurf/rules`, `.clinerules`, `AGENTS.md`, `.antigravity/rules.md`, `.gemini/GEMINI.md`, `CONVENTIONS.md`
 - **Injection** via markers `<!-- openclew_START -->` / `<!-- openclew_END -->`
-- **Templates** embarqués (`lib/templates.js`) + fichiers de référence (`templates/`)
+- **Templates** : SSOT `templates/embedded/*.md` (placeholders `{{DATE}}`/`{{VER}}`/`{{TITLE}}`), lus par `lib/templates.js` et embarqués dans Rust (`include_str!`). Ne jamais réécrire un texte de template dans le code
+- **Parité Node ↔ Rust** : golden `test/fixtures/parity/*.json` vérifié par `node --test` ET `cargo test`. Changement voulu → `UPDATE_GOLDEN=1 node --test test/parity.test.js`
 - **Format doc** : SSOT `templates/FORMAT.md`. Marqueur L1 : `clw_ref@VERSION` / `clw_log@VERSION`. Parser rétrocompatible (3 fallbacks + ancien format key:value)
 - **Dogfooding** : openclew documente openclew. Logs immutables. `doc_brief` obligatoire (assertion, pas narration). Headings L2/L3 = `# Summary` / `# Details`
 
@@ -73,7 +74,8 @@ openclew doit être **proactif** : c'est l'agent (via le bloc injecté) qui sugg
 | `commands/oc-*.md` | Slash commands Claude Code (installées par `init`) |
 | `skills/oc-*/` | Skills OpenClaw (SKILL.md) pour onboarding agents |
 | `examples/{simple-project,with-claudemd}/` | Exemples |
-| `rust/` | Port Rust (init/index/mcp uniquement) |
+| `templates/embedded/` | **SSOT textes générés** (refs, logs, todos, guide, bloc injecté, hook) — partagé Node/Rust |
+| `rust/` | Port Rust (init/index/mcp/add/search/peek) — cible : remplacer Node |
 | `UPGRADING.md` | Guide upgrade user-facing |
 | `R.AlphA.Doc/doc/_OPENCLEW_ONBOARDING_TEST.md` | **Grille QA principale** (4 colonnes Impl/Raphaël/Victor/Autres) |
 | `R.AlphA.Doc/doc/_OPENCLEW_INSTALL_TEST_PROCEDURE.md` | Procédure pas-à-pas install + test projet vierge |
@@ -84,7 +86,7 @@ openclew doit être **proactif** : c'est l'agent (via le bloc injecté) qui sugg
 |---|---|
 | Hook pre-commit ancien appelle Python | `init` nettoie auto `doc/generate-index.py` legacy |
 | `npm publish` demande 2 auth (login + OTP 2FA) | `rocpublish` (alias zsh) — 2 validations navigateur normales |
-| Node.js et Rust binary coexistent | `openclew --version` affiche `(node)` ou `(rust)`. `openclew status` détecte. Rust = init/index/mcp uniquement |
+| Node.js et Rust binary coexistent | `openclew --version` affiche `(node)` ou `(rust)`. Rust = init/index/mcp/add/search/peek |
 | Hook pre-commit bridge_check pas actif après clone | `git config core.hooksPath .githooks` (local, non commité) |
 | Version désync `package.json` ↔ `Cargo.toml` | `scripts/bump.sh X.Y.Z` (atomique). Hook pre-commit bloque tout drift. Process : `doc/ref/RELEASE.md` |
 

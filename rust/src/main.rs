@@ -9,7 +9,7 @@ mod util;
 use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
-#[command(name = "openclew", version, about = "Long Life Memory for LLMs")]
+#[command(name = "openclew", version = concat!(env!("CARGO_PKG_VERSION"), " (rust)"), about = "Long Life Memory for LLMs")]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -30,6 +30,10 @@ enum Commands {
         /// Add doc/log/ to .gitignore (opt-in; default: logs are versioned)
         #[arg(long)]
         private_logs: bool,
+
+        /// Skip Claude Code slash commands installation
+        #[arg(long)]
+        no_commands: bool,
     },
 
     /// Create a doc from its template
@@ -49,7 +53,10 @@ enum Commands {
     Peek,
 
     /// Regenerate doc/_INDEX.md
-    Index,
+    Index {
+        /// doc/ directory (default: ./doc)
+        doc_dir: Option<String>,
+    },
 
     /// Start MCP server (JSON-RPC over stdio)
     Mcp,
@@ -78,7 +85,9 @@ fn main() {
     let cli = Cli::parse();
 
     let result = match cli.command {
-        Commands::Init { hook, no_inject, private_logs } => cmd::init::run(hook, no_inject, private_logs),
+        Commands::Init { hook, no_inject, private_logs, no_commands } => {
+            cmd::init::run(cmd::init::InitOptions { hook, no_inject, private_logs, no_commands })
+        }
         Commands::Add { kind } => match kind {
             AddCmd::Ref { title } => cmd::add::run(cmd::add::AddKind::Ref, &title.join(" ")),
             AddCmd::Log { title } => cmd::add::run(cmd::add::AddKind::Log, &title.join(" ")),
@@ -86,7 +95,7 @@ fn main() {
         },
         Commands::Search { query } => cmd::search::run(&query.join(" ")),
         Commands::Peek => cmd::peek::run(),
-        Commands::Index => cmd::index::run(),
+        Commands::Index { doc_dir } => cmd::index::run(doc_dir),
         Commands::Mcp => cmd::mcp::run(),
     };
 

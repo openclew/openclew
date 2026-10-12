@@ -1,13 +1,6 @@
-use crate::util::{oc_version, today};
+clw_todo@{{VER}} · created: {{DATE}} · status: Open · priority: Normal · category: · keywords: []
 
-/// Template for a TODO doc (one task per file in doc/todo/)
-pub fn todo_content(title: &str) -> String {
-    let date = today();
-    let ver = oc_version();
-    format!(
-        r#"clw_todo@{ver} · created: {date} · status: Open · priority: Normal · category: · keywords: []
-
-- **subject:** {title}
+- **subject:** {{TITLE}}
 - **doc_brief:**
 - **from:** <!-- required: doc/log/*.md, doc/ref/*.md, or free-text reference (e.g. "2026-04-29 — cold idea") -->
 - **closed:** <!-- filled at closing: log path or free-text session reference -->
@@ -23,6 +16,3 @@ pub fn todo_content(title: &str) -> String {
 <!-- How will you know it's done? 1-2 lines. -->
 
 <!-- Keep it short. Implementation details belong in the log when work starts. -->
-"#
-    )
-}

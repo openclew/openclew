@@ -1,12 +1,4 @@
-use crate::util::{oc_version, today};
-
-/// Guide doc — always created by init.
-/// This is what agents read to understand openclew.
-pub fn guide_content() -> String {
-    let date = today();
-    let ver = oc_version();
-    format!(
-        r#"clw_ref@{ver} · created: {date} · updated: {date} · doc_version: 1.0.0 · type: Guide · status: Active · category: Documentation · keywords: [openclew, L1, L2, L3, index, ref, log]
+clw_ref@{{VER}} · created: {{DATE}} · updated: {{DATE}} · doc_version: 1.0.0 · type: Guide · status: Active · category: Documentation · keywords: [openclew, L1, L2, L3, index, ref, log]
 
 - **subject:** How openclew works
 - **doc_brief:** How openclew structures project knowledge in 3 levels (L1/L2/L3) so AI agents and humans navigate efficiently.
@@ -51,6 +43,17 @@ Run `openclew peek` to list all docs, or `openclew search "query"` to find docs 
 
 An optional `doc/_INDEX.md` can be generated with `openclew index` for human browsing (e.g. on GitHub), but agents should use `peek` or `search` instead.
 
+## Using with OpenClaw (or any agent framework)
+
+openclew handles **project knowledge** — what your project knows, what was decided, what happened.
+Agent frameworks (OpenClaw, Claude Code, Cursor, etc.) handle **agent behavior** — identity, tools, memory.
+
+They work together:
+- Your framework's workspace memory (`MEMORY.md`, `SOUL.md`, etc.) = agent-level, cross-project
+- openclew's `doc/` = project-level, shared across all agents and sessions
+
+openclew injects into your project's instruction file (AGENTS.md, CLAUDE.md, .cursorrules, etc.) — it doesn't replace or conflict with your framework's configuration.
+
 ---
 
 # Details
@@ -60,7 +63,7 @@ An optional `doc/_INDEX.md` can be generated with `openclew index` for human bro
 Create `doc/ref/TITLE.md` (uppercase snake_case) with this structure:
 
 ```
-clw_ref@{ver} · created: YYYY-MM-DD · updated: YYYY-MM-DD · doc_version: 1.0.0 · type: Reference · status: Active · category: · keywords: []
+clw_ref@{{VER}} · created: YYYY-MM-DD · updated: YYYY-MM-DD · doc_version: 1.0.0 · type: Reference · status: Active · category: · keywords: []
 
 - **subject:** Title
 - **doc_brief:**
@@ -86,7 +89,7 @@ clw_ref@{ver} · created: YYYY-MM-DD · updated: YYYY-MM-DD · doc_version: 1.0.
 Create `doc/log/YYYY-MM-DD_slug.md` (lowercase, hyphens) with this structure:
 
 ```
-clw_log@{ver} · date: YYYY-MM-DD · type: Feature · status: In progress · category: · keywords: []
+clw_log@{{VER}} · date: YYYY-MM-DD · type: Feature · status: In progress · category: · keywords: []
 
 - **subject:** Title
 - **doc_brief:**
@@ -117,7 +120,7 @@ Logs are immutable — once the session ends, the log is never modified.
 3. Read L1 (subject + brief) of relevant docs to confirm relevance
 4. Read L2 for context
 5. Only read L3 when you need implementation details
-6. After significant work: propose creating or updating a ref
+6. After significant work: propose creating or updating a ref. Logs are only for end-of-session wrap-up — never create a log as a first action
 
 ---
 
@@ -125,7 +128,4 @@ Logs are immutable — once the session ends, the log is never modified.
 
 | Date | Change |
 |------|--------|
-| {date} | Created by openclew init |
-"#
-    )
-}
+| {{DATE}} | Created by openclew init |
