@@ -6,20 +6,22 @@ user-invocable: true
 
 # openclew search — Find relevant docs
 
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
+
 Search your project's knowledge base by keyword.
 
 ## Command
 
 ```bash
-npx openclew search "<query>"
+openclew search "<query>"
 ```
 
 ## Examples
 
 ```bash
-npx openclew search "auth"           # Find docs about authentication
-npx openclew search "API design"     # Multi-word search
-npx openclew search "bug"            # Find bug-related logs
+openclew search "auth"           # Find docs about authentication
+openclew search "API design"     # Multi-word search
+openclew search "bug"            # Find bug-related logs
 ```
 
 ## What it searches

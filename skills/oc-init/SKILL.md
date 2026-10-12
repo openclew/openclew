@@ -6,6 +6,8 @@ user-invocable: true
 
 # openclew init — Set up project knowledge
 
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
+
 Run this to add structured documentation to your project.
 
 ## What it does
@@ -20,7 +22,7 @@ Run this to add structured documentation to your project.
 ## Command
 
 ```bash
-npx openclew init
+openclew init
 ```
 
 ## Options
@@ -32,10 +34,10 @@ npx openclew init
 
 Your agent will now run `openclew peek` to discover docs before starting tasks. To add knowledge:
 
-- `npx openclew add ref "Title"` — Create a reference doc (architecture, conventions, decisions)
-- `npx openclew add log "Title"` — Create a session log (frozen facts)
-- `npx openclew search "query"` — Search existing docs
-- `npx openclew checkout` — End-of-session summary
+- `openclew add ref "Title"` — Create a reference doc (architecture, conventions, decisions)
+- `openclew add log "Title"` — Create a session log (frozen facts)
+- `openclew search "query"` — Search existing docs
+- `openclew checkout` — End-of-session summary
 
 ## How it works with OpenClaw
 

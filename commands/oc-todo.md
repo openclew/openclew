@@ -1,6 +1,8 @@
 <!-- openclew-managed -->
 # oc-todo — Add a TODO
 
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
+
 Two formats coexist:
 
 | Format | Where | When to use |
@@ -39,7 +41,7 @@ Append a line to `TODO.md` at the project root:
 Use when the TODO needs a real description, decisions, or links to several refs.
 
 ```bash
-npx openclew add todo "$ARGUMENTS"
+openclew add todo "$ARGUMENTS"
 ```
 
 Creates `doc/todo/YYYY-MM-DD_slug.md`. Fill in:
@@ -61,4 +63,4 @@ Creates `doc/todo/YYYY-MM-DD_slug.md`. Fill in:
 - `/oc-peek` — Cartographer docs before starting
 - `/oc-search "query"` — Find related TODOs, refs, or logs
 - `/oc-checkout` — Phase TODO closes open TODOs at end of session
-- `npx openclew status` — Surfaces TODOs missing from/closed markers
+- `openclew status` — Surfaces TODOs missing from/closed markers

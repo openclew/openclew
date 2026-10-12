@@ -1,6 +1,8 @@
 <!-- openclew-managed -->
 # oc-checkout — End-of-session summary
 
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
+
 Generates a structured summary of the session and persists it as a log.
 
 **Usage:** `/oc-checkout` (no arguments, uses the current project)
@@ -28,7 +30,7 @@ Generates a structured summary of the session and persists it as a log.
 ### Phase 1: Collection (silent)
 
 Execute silently — go straight to the Phase 2 table:
-1. Run `npx openclew checkout` to collect git activity and display the CLI summary
+1. Run `openclew checkout` to collect git activity and display the CLI summary
 2. List session actions (features, bugs, refactors...)
 3. Check which files are documented (`doc/log/*.md`, `doc/_*.md`)
 4. Check git status of each file (committed or not)

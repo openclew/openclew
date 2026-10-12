@@ -55,7 +55,7 @@ pub fn generate_index(doc_dir: &Path, timestamp: &str) -> String {
     lines.push("## Refs".into());
     lines.push(String::new());
     if refs.is_empty() {
-        lines.push("_No refs yet. Create one with `npx openclew add ref \"Title\"`._".into());
+        lines.push("_No refs yet. Create one with `openclew add ref \"Title\"`._".into());
     } else {
         lines.push("| Document | Subject | Status | Category |".into());
         lines.push("|----------|---------|--------|----------|".into());
@@ -98,7 +98,7 @@ pub fn generate_index(doc_dir: &Path, timestamp: &str) -> String {
     lines.push("## Recent logs".into());
     lines.push(String::new());
     if logs.is_empty() {
-        lines.push("_No logs yet. Create one with `npx openclew add log \"Title\"`._".into());
+        lines.push("_No logs yet. Create one with `openclew add log \"Title\"`._".into());
     } else {
         lines.push("| Date | Subject | Status | Category |".into());
         lines.push("|------|---------|--------|----------|".into());

@@ -2,7 +2,9 @@
 description: "Set up openclew in the current project"
 ---
 
-Run `npx openclew init` to set up structured documentation.
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
+
+Run `openclew init` to set up structured documentation.
 
 Display what was created. Then propose filling in `doc/_ARCHITECTURE.md` based on the current project structure (main directories, stack, key files).
 

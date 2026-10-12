@@ -2,7 +2,9 @@
 description: "Documentation health dashboard"
 ---
 
-Run `npx openclew status` to display documentation health.
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
+
+Run `openclew status` to display documentation health.
 
 If issues are found, propose actions:
 - Missing doc_brief: offer to fill them in

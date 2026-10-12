@@ -2,7 +2,7 @@
 description: "End-of-session summary — collect actions, propose logs, commit"
 ---
 
-Run `npx openclew checkout` to collect git activity.
+Run `openclew checkout` to collect git activity.
 
 Then generate a structured summary:
 
@@ -30,6 +30,8 @@ openclew@0.5.3 · date: YYYY-MM-DD · type: Log · status: Done · category: <ca
 
 <!-- L2_START -->
 # L2 - Summary
+
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
 
 ## What happened
 - Bullet points of concrete actions

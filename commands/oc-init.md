@@ -1,13 +1,15 @@
 <!-- openclew-managed -->
 # oc-init — Set up openclew in the current project
 
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
+
 Initialize structured documentation so AI agents and humans navigate project knowledge efficiently.
 
 **Usage:** `/oc-init`
 
 ## Sequence
 
-1. Run `npx openclew init`
+1. Run `openclew init`
 2. Display what was created
 3. Read the generated guide (`doc/_USING_OPENCLEW.md`) to understand the setup
 4. Propose creating a first architecture doc:
@@ -16,12 +18,12 @@ Initialize structured documentation so AI agents and humans navigate project kno
 
 ## After setup
 
-The agent will now run `npx openclew peek` to discover docs before starting tasks. Available commands:
+The agent will now run `openclew peek` to discover docs before starting tasks. Available commands:
 
 - `/oc-search <query>` — Search existing docs
 - `/oc-status` — Health dashboard
 - `/oc-checkout` — End-of-session summary
 
 To add knowledge manually:
-- `npx openclew add ref "Title"` — Create a reference doc
-- `npx openclew add log "Title"` — Create a session log
+- `openclew add ref "Title"` — Create a reference doc
+- `openclew add log "Title"` — Create a session log

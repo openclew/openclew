@@ -6,6 +6,8 @@ user-invocable: true
 
 # openclew todo — from/closed traceability
 
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
+
 A TODO must always state **where it came from** (`from`) and, when checked, **where it got closed** (`closed`). Two-way link with session logs via `targets_todos:`.
 
 ## Two formats
@@ -28,7 +30,7 @@ A TODO must always state **where it came from** (`from`) and, when checked, **wh
 ## File format
 
 ```bash
-npx openclew add todo "Title"
+openclew add todo "Title"
 ```
 
 Fill **Why it matters** + **Done looks like** (1–2 lines each). Set L1 `from:` at creation. `closed:` stays empty until closure. Spec: `doc/ref/FORMAT.md`.
@@ -59,4 +61,4 @@ For trivial checkboxes → flat.
 - `/oc-peek` — Cartographer docs before starting
 - `/oc-search "query"` — Find related TODOs, refs, or logs
 - `/oc-checkout` — Phase TODO closes open items + writes the two-way link
-- `npx openclew status` — Surfaces TODOs missing from/closed markers
+- `openclew status` — Surfaces TODOs missing from/closed markers

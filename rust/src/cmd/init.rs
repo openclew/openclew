@@ -460,9 +460,9 @@ pub fn run(opts: InitOptions) -> Result<(), String> {
     println!("  1. Open doc/ref/ARCHITECTURE.md and describe YOUR project");
     println!("     That's your first ref — the clew your future self will grab.\n");
     println!("  2. Create your first log:");
-    println!("     npx openclew add log \"What I worked on today\"\n");
+    println!("     openclew add log \"What I worked on today\"\n");
     println!("  3. Check your docs:");
-    println!("     npx openclew peek\n");
+    println!("     openclew peek\n");
     println!("  That's it. Your agent will find these docs automatically next session.");
     println!();
     Ok(())

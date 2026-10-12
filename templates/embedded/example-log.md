@@ -1,7 +1,7 @@
 clw_log@{{VER}} · date: {{DATE}} · type: Doc · status: Done · category: Setup · keywords: [openclew, init, first-log]
 
 - **subject:** First session — openclew setup
-- **doc_brief:** This is your first log. It was created by `openclew init` to show the format. Edit it to describe what you actually did today, then create a real one with `npx openclew add log "title"`.
+- **doc_brief:** This is your first log. It was created by `openclew init` to show the format. Edit it to describe what you actually did today, then create a real one with `openclew add log "title"`.
 
 ---
 
@@ -28,7 +28,7 @@ clw_log@{{VER}} · date: {{DATE}} · type: Doc · status: Done · category: Setu
 A log captures what happened in one session. It's frozen — you never edit it later.
 
 For knowledge that evolves (architecture, conventions, decisions), use refs:
-`npx openclew add ref "Title"`
+`openclew add ref "Title"`
 
 Each doc has 4 layers:
 - **Metadata** (line 1) — for machines and indexing

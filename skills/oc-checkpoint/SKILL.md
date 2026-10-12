@@ -6,12 +6,14 @@ user-invocable: true
 
 # openclew checkpoint — End-of-session summary
 
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
+
 Run this at the end of a work session to capture what happened.
 
 ## Command
 
 ```bash
-npx openclew checkout
+openclew checkout
 ```
 
 ## What it does
@@ -30,7 +32,7 @@ npx openclew checkout
 
 ## Other useful commands
 
-- `npx openclew add ref "Title"` — Create a reference doc for lasting knowledge
-- `npx openclew add log "Title"` — Create a log manually (for mid-session notes)
-- `npx openclew status` — Health dashboard (missing briefs, stale docs)
-- `npx openclew search "query"` — Find docs by keyword
+- `openclew add ref "Title"` — Create a reference doc for lasting knowledge
+- `openclew add log "Title"` — Create a log manually (for mid-session notes)
+- `openclew status` — Health dashboard (missing briefs, stale docs)
+- `openclew search "query"` — Find docs by keyword

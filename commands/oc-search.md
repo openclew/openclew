@@ -1,13 +1,15 @@
 <!-- openclew-managed -->
 # oc-search — Search project documentation
 
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
+
 Search your project's knowledge base by keyword.
 
 **Usage:** `/oc-search <query>`
 
 ## Sequence
 
-1. Run `npx openclew search "$ARGUMENTS"` to get results
+1. Run `openclew search "$ARGUMENTS"` to get results
 2. Display results to the user
 3. If results found: propose to read the most relevant doc(s) at L2 level
 4. If no results: suggest alternative keywords or propose creating a new doc

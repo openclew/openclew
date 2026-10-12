@@ -1,6 +1,8 @@
 <!-- openclew-managed -->
 # oc-peek — Discover project knowledge before working
 
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
+
 First reflex before exploring a project: shows the instruction file and lists all available docs.
 
 **Usage:** `/oc-peek` (no arguments, uses the current project)
@@ -10,7 +12,7 @@ First reflex before exploring a project: shows the instruction file and lists al
 ### Step 1: Run the CLI
 
 ```bash
-npx openclew peek
+openclew peek
 ```
 
 This lists:

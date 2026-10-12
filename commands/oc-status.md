@@ -1,13 +1,15 @@
 <!-- openclew-managed -->
 # oc-status — Documentation health dashboard
 
+> If the `openclew` command is not found, run it through npx: `npx openclew <command>`.
+
 Display the health status of project documentation.
 
 **Usage:** `/oc-status`
 
 ## Sequence
 
-1. Run `npx openclew status` to get the dashboard
+1. Run `openclew status` to get the dashboard
 2. Display results to the user
 3. If issues found, propose actions:
    - **Missing doc_brief**: "These docs have empty briefs — want me to fill them in?"
