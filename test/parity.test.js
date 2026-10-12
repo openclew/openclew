@@ -15,6 +15,23 @@ const path = require("path");
 
 const { collectDocs, searchDocs } = require("../lib/search");
 const { extractLevel } = require("../lib/mcp-server");
+const { walkDir } = require("../lib/search");
+const { parseLegacyDoc } = require("../lib/migrate");
+const { parseFlatTodos } = require("../lib/todo-flat");
+const { formatSessionHeader } = require("../lib/session-header");
+
+/** formatSessionHeader prints instead of returning: capture its console.log */
+function sessionHeaderLine({ name, tags, date }) {
+  const log = console.log;
+  let line = "";
+  console.log = (s) => { line = s; };
+  try {
+    formatSessionHeader(name, tags.split(",").map((t) => t.trim()).filter(Boolean), date);
+  } finally {
+    console.log = log;
+  }
+  return line;
+}
 const { refContent, logContent, todoDocContent, slugify, slugifyLog, today, ocVersion } = require("../lib/templates");
 
 const PARITY_DIR = path.join(__dirname, "fixtures", "parity");
@@ -26,6 +43,18 @@ const SLUG_TITLES = ["Auth Design", "  hello world  ", "a -- b", "Fix: cafÃ© crÃ
 const SEARCH_QUERIES = ["auth", "search", "ci", "setup", "Legacy guide", "nomatch"];
 const LEVEL_DOCS = ["ref/ARCHITECTURE.md", "ref/api/AUTH.md", "_LEGACY_GUIDE.md", "ref/NOT_OPENCLEW.md"];
 const LEVELS = ["L1", "L2", "L3", "l2", "full", "X"];
+const SESSION_HEADERS = [
+  { name: "Refonte checkout", tags: "voice, stt,,voxtral", date: "2026-03-28" },
+  { name: "No tags", tags: "", date: "2026-03-27" },
+];
+
+/** Every .md under parity/doc, sorted, `/`-separated (legacy detection covers all of them) */
+function allFixtureDocs() {
+  return walkDir(DOC_DIR)
+    .filter((f) => f.endsWith(".md"))
+    .map(relDoc)
+    .sort();
+}
 
 function sortedMeta(meta) {
   return Object.fromEntries(Object.keys(meta).sort().map((k) => [k, meta[k]]));
@@ -61,6 +90,19 @@ function generatedSnapshot() {
       const content = fs.readFileSync(path.join(DOC_DIR, doc), "utf-8");
       return LEVELS.map((level) => ({ doc, level, content: extractLevel(content, level) }));
     }),
+    legacy: allFixtureDocs().map((doc) => ({
+      doc,
+      is_legacy: parseLegacyDoc(fs.readFileSync(path.join(DOC_DIR, doc), "utf-8")).isLegacy,
+    })),
+    flat_todos: parseFlatTodos(path.join(PARITY_DIR, "TODO.md")).map((t) => ({
+      line_num: t.lineNum,
+      done: t.status === "done",
+      title: t.title,
+      description: t.description,
+      from: t.from,
+      closed: t.closed,
+    })),
+    session_headers: SESSION_HEADERS.map((h) => ({ ...h, line: sessionHeaderLine(h) })),
   };
 }
 

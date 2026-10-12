@@ -86,6 +86,10 @@
           "score": 10.5
         },
         {
+          "path": "_FM_LEGACY.md",
+          "score": 4.5
+        },
+        {
           "path": "_OLD_KV.md",
           "score": 4.5
         }
@@ -216,6 +220,120 @@
       "doc": "ref/NOT_OPENCLEW.md",
       "level": "X",
       "content": "# Plain markdown\n\nNo metadata line, no L1.\n"
+    }
+  ],
+  "legacy": [
+    {
+      "doc": "_FM_LEGACY.md",
+      "is_legacy": true
+    },
+    {
+      "doc": "_INDEX.md",
+      "is_legacy": false
+    },
+    {
+      "doc": "_LEGACY_GUIDE.md",
+      "is_legacy": true
+    },
+    {
+      "doc": "_MARKER_KV.md",
+      "is_legacy": true
+    },
+    {
+      "doc": "_OLD_KV.md",
+      "is_legacy": true
+    },
+    {
+      "doc": "log/2026-04-10_initial.md",
+      "is_legacy": false
+    },
+    {
+      "doc": "log/2026-04-12_fix-search.md",
+      "is_legacy": false
+    },
+    {
+      "doc": "notes/_IGNORED_NOTE.md",
+      "is_legacy": false
+    },
+    {
+      "doc": "ref/ARCHITECTURE.md",
+      "is_legacy": false
+    },
+    {
+      "doc": "ref/NOT_OPENCLEW.md",
+      "is_legacy": false
+    },
+    {
+      "doc": "ref/api/AUTH.md",
+      "is_legacy": false
+    },
+    {
+      "doc": "todo/2026-04-11_setup-ci.md",
+      "is_legacy": false
+    }
+  ],
+  "flat_todos": [
+    {
+      "line_num": 3,
+      "done": false,
+      "title": "Traced task",
+      "description": "Has an origin.",
+      "from": "doc/log/2026-04-10_initial.md",
+      "closed": ""
+    },
+    {
+      "line_num": 4,
+      "done": false,
+      "title": "Cold idea",
+      "description": "Free-text origin.",
+      "from": "2026-04-29 — cold idea",
+      "closed": ""
+    },
+    {
+      "line_num": 5,
+      "done": false,
+      "title": "Untraced",
+      "description": "Missing from marker.",
+      "from": "",
+      "closed": ""
+    },
+    {
+      "line_num": 6,
+      "done": true,
+      "title": "Done traced",
+      "description": "Closed properly (2026-04-12).",
+      "from": "doc/log/a.md",
+      "closed": "doc/log/b.md"
+    },
+    {
+      "line_num": 7,
+      "done": true,
+      "title": "Done untraced",
+      "description": "Missing closed (2026-04-13).",
+      "from": "doc/log/a.md",
+      "closed": ""
+    },
+    {
+      "line_num": 8,
+      "done": false,
+      "title": "",
+      "description": "Nested without title, very long description that goes on and on beyond sixty characters for sure",
+      "from": "",
+      "closed": ""
+    }
+  ],
+  "session_headers": [
+    {
+      "name": "Refonte checkout",
+      "tags": "voice, stt,,voxtral",
+      "date": "2026-03-28",
+      "line": "📅 2026-03-28 🏷️  Refonte checkout -----  #voice #stt #voxtral"
+    },
+    {
+      "name": "No tags",
+      "tags": "",
+      "date": "2026-03-27",
+      "line": "📅 2026-03-27 🏷️  No tags -----"
     }
   ]
 }

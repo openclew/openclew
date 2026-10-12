@@ -1,6 +1,9 @@
 pub mod add;
+pub mod checkout;
 pub mod index;
 pub mod init;
 pub mod mcp;
 pub mod peek;
 pub mod search;
+pub mod session_header;
+pub mod status;

@@ -1,5 +1,13 @@
 [
   {
+    "path": "_FM_LEGACY.md",
+    "kind": "ref",
+    "meta": {
+      "status": "Actif",
+      "subject": "Frontmatter legacy doc"
+    }
+  },
+  {
     "path": "_LEGACY_GUIDE.md",
     "kind": "ref",
     "meta": {
@@ -9,6 +17,14 @@
       "subject": "Legacy guide",
       "type": "Guide",
       "version": "0.5.0"
+    }
+  },
+  {
+    "path": "_MARKER_KV.md",
+    "kind": "ref",
+    "meta": {
+      "doc_brief": "Old R.AlphA.Doc layout, needs migrate",
+      "subject": "Marker block with plain key-values"
     }
   },
   {

@@ -16,6 +16,7 @@ const EXAMPLE_REF_SEED: &str = include_str!("../../templates/embedded/example-re
 const EXAMPLE_LOG: &str = include_str!("../../templates/embedded/example-log.md");
 const TODO_ROOT: &str = include_str!("../../templates/embedded/todo-root.md");
 const INJECT_BLOCK: &str = include_str!("../../templates/embedded/inject-block.md");
+const CHECKOUT_LOG: &str = include_str!("../../templates/embedded/checkout-log.md");
 
 /// Substitute {{DATE}}, {{VER}} and the given extra placeholders
 fn render(template: &str, vars: &[(&str, &str)]) -> String {
@@ -70,6 +71,14 @@ pub fn example_log_content() -> String {
 
 pub fn todo_root_content() -> String {
     render(TODO_ROOT, &[])
+}
+
+/// Session log pre-filled by `checkout` (vars substituted in the same order as Node)
+pub fn checkout_log_content(log_type: &str, keywords: &str, title: &str, brief: &str, commits: &str) -> String {
+    render(
+        CHECKOUT_LOG,
+        &[("TYPE", log_type), ("KEYWORDS", keywords), ("TITLE", title), ("BRIEF", brief), ("COMMITS", commits)],
+    )
 }
 
 /// Block injected into the instruction file, between openclew markers

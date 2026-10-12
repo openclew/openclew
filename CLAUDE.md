@@ -75,7 +75,7 @@ openclew doit être **proactif** : c'est l'agent (via le bloc injecté) qui sugg
 | `skills/oc-*/` | Skills OpenClaw (SKILL.md) pour onboarding agents |
 | `examples/{simple-project,with-claudemd}/` | Exemples |
 | `templates/embedded/` | **SSOT textes générés** (refs, logs, todos, guide, bloc injecté, hook) — partagé Node/Rust |
-| `rust/` | Port Rust (init/index/mcp/add/search/peek) — cible : remplacer Node |
+| `rust/` | Port Rust : toutes les commandes sauf `migrate` (Node-only) — cible : remplacer Node |
 | `UPGRADING.md` | Guide upgrade user-facing |
 | `R.AlphA.Doc/doc/_OPENCLEW_ONBOARDING_TEST.md` | **Grille QA principale** (4 colonnes Impl/Raphaël/Victor/Autres) |
 | `R.AlphA.Doc/doc/_OPENCLEW_INSTALL_TEST_PROCEDURE.md` | Procédure pas-à-pas install + test projet vierge |
@@ -86,7 +86,7 @@ openclew doit être **proactif** : c'est l'agent (via le bloc injecté) qui sugg
 |---|---|
 | Hook pre-commit ancien appelle Python | `init` nettoie auto `doc/generate-index.py` legacy |
 | `npm publish` demande 2 auth (login + OTP 2FA) | `rocpublish` (alias zsh) — 2 validations navigateur normales |
-| Node.js et Rust binary coexistent | `openclew --version` affiche `(node)` ou `(rust)`. Rust = init/index/mcp/add/search/peek |
+| Node.js et Rust binary coexistent | `openclew --version` affiche `(node)` ou `(rust)`. Rust = tout sauf `migrate` |
 | Hook pre-commit bridge_check pas actif après clone | `git config core.hooksPath .githooks` (local, non commité) |
 | Version désync `package.json` ↔ `Cargo.toml` | `scripts/bump.sh X.Y.Z` (atomique). Hook pre-commit bloque tout drift. Process : `doc/ref/RELEASE.md` |
 

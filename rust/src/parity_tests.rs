@@ -7,7 +7,10 @@ use std::path::{Path, PathBuf};
 
 use serde_json::Value;
 
+use crate::cmd::session_header::format_session_header;
 use crate::parse::l1::extract_level;
+use crate::parse::legacy::is_legacy;
+use crate::parse::todo_flat::parse_flat_todos;
 use crate::parse::search::search_docs;
 use crate::template;
 use crate::util::{oc_version, slugify, slugify_log, today};
@@ -55,6 +58,43 @@ fn test_read_doc_levels_parity() {
             case["content"].as_str().unwrap(),
             "extract_level({doc}, {level})"
         );
+    }
+}
+
+#[test]
+fn test_legacy_detection_parity() {
+    let doc_dir = parity_dir().join("doc");
+    for case in golden()["legacy"].as_array().unwrap() {
+        let doc = case["doc"].as_str().unwrap();
+        let content = fs::read_to_string(doc_dir.join(doc)).unwrap();
+        assert_eq!(is_legacy(&content), case["is_legacy"].as_bool().unwrap(), "is_legacy({doc})");
+    }
+}
+
+#[test]
+fn test_flat_todos_parity() {
+    let content = fs::read_to_string(parity_dir().join("TODO.md")).unwrap();
+    let actual: Vec<Value> = parse_flat_todos(&content)
+        .into_iter()
+        .map(|t| {
+            serde_json::json!({
+                "line_num": t.line_num, "done": t.done, "title": t.title,
+                "description": t.description, "from": t.from, "closed": t.closed,
+            })
+        })
+        .collect();
+    assert_eq!(Value::Array(actual), golden()["flat_todos"]);
+}
+
+#[test]
+fn test_session_header_parity() {
+    for case in golden()["session_headers"].as_array().unwrap() {
+        let line = format_session_header(
+            case["name"].as_str().unwrap(),
+            case["tags"].as_str().unwrap(),
+            case["date"].as_str(),
+        );
+        assert_eq!(line, case["line"].as_str().unwrap());
     }
 }
 

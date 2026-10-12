@@ -52,6 +52,25 @@ enum Commands {
     /// List instruction file + all refs + open TODOs
     Peek,
 
+    /// End-of-session summary + pre-filled session log
+    Checkout,
+
+    /// Documentation health dashboard
+    Status,
+
+    /// Format session header line
+    SessionHeader {
+        /// Session title
+        #[arg(long, default_value = "")]
+        name: String,
+        /// Comma-separated tags
+        #[arg(long, default_value = "")]
+        tags: String,
+        /// Date (default: today)
+        #[arg(long)]
+        date: Option<String>,
+    },
+
     /// Regenerate doc/_INDEX.md
     Index {
         /// doc/ directory (default: ./doc)
@@ -95,6 +114,9 @@ fn main() {
         },
         Commands::Search { query } => cmd::search::run(&query.join(" ")),
         Commands::Peek => cmd::peek::run(),
+        Commands::Checkout => cmd::checkout::run(),
+        Commands::Status => cmd::status::run(),
+        Commands::SessionHeader { name, tags, date } => cmd::session_header::run(&name, &tags, date.as_deref()),
         Commands::Index { doc_dir } => cmd::index::run(doc_dir),
         Commands::Mcp => cmd::mcp::run(),
     };
