@@ -1,0 +1,103 @@
+[
+  {
+    "path": "_LEGACY_GUIDE.md",
+    "kind": "ref",
+    "meta": {
+      "doc_brief": "Old comment-marker format, still parsed.",
+      "format": "openclew",
+      "status": "Active",
+      "subject": "Legacy guide",
+      "type": "Guide",
+      "version": "0.5.0"
+    }
+  },
+  {
+    "path": "_OLD_KV.md",
+    "kind": "ref",
+    "meta": {
+      "format": "openclew",
+      "subject": "Key value legacy",
+      "summary": "Pre-bold L1 format",
+      "version": "0.4.0"
+    }
+  },
+  {
+    "path": "ref/ARCHITECTURE.md",
+    "kind": "ref",
+    "meta": {
+      "category": "Architecture",
+      "created": "2026-04-10",
+      "doc_brief": "CLI dispatcher plus lib modules; zero dependencies.",
+      "doc_version": "1.1.0",
+      "format": "clw_ref",
+      "keywords": "[stack, entry]",
+      "status": "Active",
+      "subject": "Architecture overview",
+      "type": "Reference",
+      "updated": "2026-04-12",
+      "version": "0.7.0"
+    }
+  },
+  {
+    "path": "ref/api/AUTH.md",
+    "kind": "ref",
+    "meta": {
+      "category": "",
+      "created": "2026-04-11",
+      "doc_brief": "Token-based auth, refresh every hour.",
+      "format": "clw_ref",
+      "keywords": "[auth, token]",
+      "status": "Draft",
+      "subject": "Auth flow",
+      "type": "Reference",
+      "version": "0.7.0"
+    }
+  },
+  {
+    "path": "log/2026-04-12_fix-search.md",
+    "kind": "log",
+    "meta": {
+      "category": "Search",
+      "date": "2026-04-12",
+      "doc_brief": "Exact-word bonus now case-insensitive.",
+      "format": "clw_log",
+      "keywords": "[search]",
+      "status": "Done",
+      "subject": "Fix search scoring",
+      "type": "Fix",
+      "version": "0.7.0"
+    }
+  },
+  {
+    "path": "log/2026-04-10_initial.md",
+    "kind": "log",
+    "meta": {
+      "category": "CLI",
+      "date": "2026-04-10",
+      "doc_brief": "Created doc structure and index.",
+      "format": "clw_log",
+      "keywords": "[init]",
+      "status": "Done",
+      "subject": "Initial setup",
+      "targets_todos": "setup-ci",
+      "type": "Feature",
+      "version": "0.7.0"
+    }
+  },
+  {
+    "path": "todo/2026-04-11_setup-ci.md",
+    "kind": "todo",
+    "meta": {
+      "category": "CI",
+      "closed": "doc/log/2026-04-12_fix-search.md",
+      "created": "2026-04-11",
+      "format": "clw_todo",
+      "from": "doc/log/2026-04-10_initial.md",
+      "keywords": "[ci]",
+      "priority": "High",
+      "status": "Done",
+      "subject": "Set up CI",
+      "version": "0.7.0"
+    }
+  }
+]

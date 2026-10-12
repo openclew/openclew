@@ -59,7 +59,20 @@ pub fn parse_l1(content: &str) -> Metadata {
             .insert("doc_brief".to_string(), caps[1].trim().to_string());
     }
 
+    // Traceability fields (TODO/log linking) - HTML comments stripped from values
+    for key in ["from", "closed", "targets_todos"] {
+        let re = Regex::new(&format!(r"\*\*{key}:\*\*\s*(.+)")).unwrap();
+        if let Some(caps) = re.captures(&block) {
+            meta.fields.insert(key.to_string(), strip_comment(&caps[1]));
+        }
+    }
+
     meta
+}
+
+fn strip_comment(value: &str) -> String {
+    let re = Regex::new(r"<!--[\s\S]*?-->").unwrap();
+    re.replace_all(value, "").trim().to_string()
 }
 
 /// Parse L1 block with legacy format: `key: value` lines
@@ -152,6 +165,15 @@ mod tests {
         let content = "openclew@0.5.0 · type: Reference\n\n**subject:** Something\n\n---\n";
         let meta = parse_l1(content);
         assert_eq!(meta.subject(), "Something");
+    }
+
+    #[test]
+    fn test_l1_traceability_fields() {
+        let content = "clw_todo@0.7.0 · status: Done\n\n- **subject:** Fix X\n- **from:** doc/log/a.md <!-- origin -->\n- **closed:** doc/log/b.md\n- **targets_todos:** T1, T2\n\n---\n";
+        let meta = parse_l1(content);
+        assert_eq!(meta.get("from"), Some("doc/log/a.md"));
+        assert_eq!(meta.get("closed"), Some("doc/log/b.md"));
+        assert_eq!(meta.get("targets_todos"), Some("T1, T2"));
     }
 
     #[test]

@@ -5,7 +5,7 @@ use std::path::PathBuf;
 
 use serde_json::{json, Value};
 
-use crate::parse::collect::{collect_docs, DocKind};
+use crate::parse::collect::collect_docs;
 use crate::parse::l1::extract_level;
 use crate::parse::search::search_docs;
 use crate::template::{log as log_tpl, refs as ref_tpl};
@@ -102,9 +102,8 @@ fn tool_list_docs(params: &Value) -> Value {
     let items: Vec<Value> = docs
         .iter()
         .filter(|d| match kind_filter {
-            Some("ref") => d.kind == DocKind::Ref,
-            Some("log") => d.kind == DocKind::Log,
-            _ => true,
+            Some(k) => d.kind.as_str() == k,
+            None => true,
         })
         .map(|d| {
             let rel = d.filepath.strip_prefix(&root).unwrap_or(&d.filepath);
@@ -235,7 +234,7 @@ const TOOLS: &str = r#"[
     "inputSchema": {
       "type": "object",
       "properties": {
-        "kind": { "type": "string", "enum": ["ref", "log"], "description": "Filter by type. Omit to list all." }
+        "kind": { "type": "string", "enum": ["ref", "log", "todo"], "description": "Filter by type. Omit to list all." }
       }
     }
   },

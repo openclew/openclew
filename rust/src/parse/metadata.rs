@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 /// Parsed metadata from line 1 of a doc.
-/// Accepts prefixes: `openclew@`, `clw_ref@`, `clw_log@`
+/// Accepts prefixes: `openclew@`, `clw_ref@`, `clw_log@`, `clw_todo@`
 #[derive(Debug, Default, Clone)]
 pub struct Metadata {
     pub version: Option<String>,
@@ -54,7 +54,7 @@ impl Metadata {
     }
 }
 
-const VALID_PREFIXES: &[&str] = &["openclew@", "clw_ref@", "clw_log@"];
+const VALID_PREFIXES: &[&str] = &["openclew@", "clw_ref@", "clw_log@", "clw_todo@"];
 
 /// Parse the metadata line (line 1) of a doc.
 /// Format: `prefix@VERSION · key:value · key:value · ...`
@@ -62,20 +62,19 @@ pub fn parse_metadata_line(content: &str) -> Metadata {
     let mut meta = Metadata::default();
     let first_line = content.lines().next().unwrap_or("").trim();
 
-    let prefix = VALID_PREFIXES.iter().find(|p| first_line.starts_with(**p));
-    let Some(prefix) = prefix else {
+    if !VALID_PREFIXES.iter().any(|p| first_line.starts_with(*p)) {
         return meta;
-    };
+    }
 
     let parts: Vec<&str> = first_line.split(" · ").collect();
     for part in &parts {
         let trimmed = part.trim();
 
-        // Version from prefix
-        if trimmed.starts_with(prefix) {
-            if let Some(ver) = trimmed.strip_prefix(prefix) {
-                meta.version = Some(ver.to_string());
-            }
+        // Format + version from prefix (`clw_ref@0.7.0` -> format `clw_ref`, version `0.7.0`)
+        if let Some(pfx) = VALID_PREFIXES.iter().find(|p| trimmed.starts_with(**p)) {
+            meta.fields
+                .insert("format".to_string(), pfx.trim_end_matches('@').to_string());
+            meta.version = Some(trimmed[pfx.len()..].to_string());
             continue;
         }
 
@@ -122,6 +121,15 @@ mod tests {
         assert_eq!(meta.version.as_deref(), Some("0.6.0"));
         assert_eq!(meta.doc_type(), "Feature");
         assert_eq!(meta.status(), "In progress");
+    }
+
+    #[test]
+    fn test_parse_clw_todo_prefix() {
+        let content = "clw_todo@0.7.0 · created: 2026-04-17 · status: Open · priority: Normal";
+        let meta = parse_metadata_line(content);
+        assert_eq!(meta.version.as_deref(), Some("0.7.0"));
+        assert_eq!(meta.get("format"), Some("clw_todo"));
+        assert_eq!(meta.status(), "Open");
     }
 
     #[test]
