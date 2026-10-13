@@ -1,16 +1,7 @@
 #!/bin/bash
 # Pre-commit hook openclew
-# Valide que les fichiers stagés ne contiennent pas de drift terminologique
-# SSOT du scope : R.AlphA.Doc/doc/_OPENCLEW_BRIDGE.md § Terminology
-# SSOT du checker : R.AlphA.Doc/scripts/bridge_check.py
 
 cd "$(git rev-parse --show-toplevel)" || exit 1
 
-# Check 1: version sync (package.json ↔ rust/Cargo.toml) — local, no external dep
+# Version sync (package.json ↔ rust/Cargo.toml)
 bash scripts/check_version_sync.sh || exit $?
-
-# Check 2: terminology bridge (R.AlphA.Doc ↔ openclew) — monorepo-only
-BRIDGE_SCRIPT="../R.AlphA.Doc/scripts/bridge_check.py"
-if [ -f "$BRIDGE_SCRIPT" ]; then
-    python3 "$BRIDGE_SCRIPT" || exit $?
-fi

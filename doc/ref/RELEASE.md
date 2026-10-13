@@ -1,103 +1,104 @@
-clw_ref@0.9.1 · created: 2026-04-17 · updated: 2026-04-17 · type: Reference · status: Active · category: CLI · keywords: [release, version, bump, publish, npm, cargo]
+clw_ref@0.9.1 · created: 2026-04-17 · updated: 2026-10-13 · type: Reference · status: Active · category: CLI · keywords: [release, version, bump, publish, npm, cargo]
 
-- **subject:** Release process — version bump, build, publish (npm + Rust binary)
-- **doc_brief:** Reference for cutting a new openclew release. Covers the atomic version bump (`scripts/bump.sh`), the pre-commit version-drift guard, and the publish steps for both the npm package (current primary distribution) and the Rust binary (planned no-Node distribution once parity is reached).
+- **subject:** Processus de release — bump de version, build, publication (npm + binaire Rust)
+- **doc_brief:** Référence pour produire une nouvelle release d'openclew. Couvre le bump de version atomique (`scripts/bump.sh`), la garde pre-commit contre la dérive de version, et les étapes de publication du package npm (distribution principale actuelle) et du binaire Rust (distribution sans Node prévue une fois la parité atteinte).
 
 ---
 
 # Summary
 
-## Objective
-Keep openclew releases reproducible and the two manifests (`package.json` + `rust/Cargo.toml`) atomically in sync, so users installing from npm or from a Rust binary always get consistent versions.
+## Objectif
+Garder les releases d'openclew reproductibles et les deux manifestes (`package.json` + `rust/Cargo.toml`) synchronisés de façon atomique, afin que les utilisateurs qui installent depuis npm ou depuis un binaire Rust obtiennent toujours des versions cohérentes.
 
-## Key points
-- Version lives in `package.json` (SSOT). `rust/Cargo.toml` + `rust/Cargo.lock` mirror it.
-- **Always** bump via `scripts/bump.sh X.Y.Z` — never edit the manifests by hand.
-- A pre-commit hook (`scripts/check_version_sync.sh`) blocks any commit with drift.
-- npm is the current primary channel. Rust binary distribution is planned (see TODO "Parité port Rust").
+## Points clés
+- La version vit dans `package.json` (SSOT). `rust/Cargo.toml` + `rust/Cargo.lock` la reflètent.
+- **Toujours** bumper via `scripts/bump.sh X.Y.Z` — ne jamais éditer les manifestes à la main.
+- Un hook pre-commit (`scripts/check_version_sync.sh`) bloque tout commit présentant une dérive.
+- npm est le canal principal actuel. La distribution du binaire Rust est prévue (voir le TODO « Parité port Rust »).
 
 ---
 
 # Details
 
-## 1. Bump the version
+## 1. Bumper la version
 
 ```bash
 scripts/bump.sh 0.9.2
 ```
 
-What it does:
-- Rewrites `package.json` `version`
-- Rewrites the `[package] version` line in `rust/Cargo.toml`
-- Updates `rust/Cargo.lock` (via `cargo update -p openclew --precise`)
-- Runs `check_version_sync.sh` to verify
+Ce que fait le script :
+- Réécrit `version` dans `package.json`
+- Réécrit la ligne `[package] version` dans `rust/Cargo.toml`
+- Met à jour `rust/Cargo.lock` (via `cargo update -p openclew --precise`)
+- Lance `check_version_sync.sh` pour vérifier
 
-Semver guidance:
-- **patch** (0.9.1 → 0.9.2): bug fixes, doc-only changes, opt-in flags
-- **minor** (0.9.1 → 0.10.0): new commands, new features, non-breaking behavior changes
-- **major** (0.9.1 → 1.0.0): breaking CLI changes, format changes without backward-compat parser
+Repères semver :
+- **patch** (0.9.1 → 0.9.2) : corrections de bugs, changements de doc uniquement, flags opt-in
+- **minor** (0.9.1 → 0.10.0) : nouvelles commandes, nouvelles fonctionnalités, changements de comportement non cassants
+- **major** (0.9.1 → 1.0.0) : changements cassants du CLI, changements de format sans parser rétrocompatible
 
-## 2. Rebuild the Rust binary (when Rust code changed)
+## 2. Reconstruire le binaire Rust (si le code Rust a changé)
 
 ```bash
 cd rust && cargo build --release
 ./target/release/openclew --version   # sanity check
 ```
 
-## 3. Update release notes
+## 3. Mettre à jour les notes de release
 
-- Add a section to `UPGRADING.md` under `## Behavior change — oc_X.Y.Z` (or `## Vocabulary changes — oc_X.Y.Z` for renames)
-- Describe what changed, why, and what (if anything) existing projects need to do
+- Ajouter une section dans `UPGRADING.md` sous `## Behavior change — oc_X.Y.Z` (ou `## Vocabulary changes — oc_X.Y.Z` pour les renommages)
+- Décrire ce qui a changé, pourquoi, et ce que les projets existants doivent faire (le cas échéant)
 
-## 4. Commit
+## 4. Commiter
 
 ```bash
 git add package.json rust/Cargo.toml rust/Cargo.lock UPGRADING.md <other files>
 git commit -m "@X.Y.Z feat(scope): description"
 ```
 
-The pre-commit hook verifies version sync. If it fails, `scripts/bump.sh` was not run — fix and re-commit.
+Le hook pre-commit vérifie la synchronisation des versions. S'il échoue, c'est que `scripts/bump.sh` n'a pas été lancé — corriger et recommiter.
 
-Convention for the commit title: `@X.Y.Z <type>(<scope>): <description>` (≤ 50 chars). See `R.AlphA.Doc/shared/COMMIT_CONVENTION.md`.
+Convention du titre de commit : `@X.Y.Z <type>(<scope>): <description>` (≤ 50 caractères), avec les types usuels `feat`, `fix`, `refactor`, `docs`, `test`, `build`, `chore`, `release`, et sans numéro d'issue dans le titre.
 
-## 5. Publish to npm
+## 5. Publier sur npm
 
 ```bash
 rocpublish   # zsh alias: cd + npm login + npm publish
 ```
 
-Requires two browser validations (npm login + OTP 2FA) — normal behavior.
+Requiert deux validations dans le navigateur (npm login + OTP 2FA) — comportement normal.
 
-Alternative if the alias is unavailable:
+Alternative si l'alias n'est pas disponible :
 ```bash
 npm login
 npm publish
 ```
 
-## 6. Rust binary distribution (not yet active)
+## 6. Distribution du binaire Rust (pas encore active)
 
-Blocked by parity work — see TODO "Parité port Rust". Planned approach:
-- `cargo-dist` for multi-OS release artifacts (mac/linux/windows, arm64 + x64)
-- GitHub Releases as the distribution channel
-- `curl -fsSL https://openclew.dev/install.sh | sh` installer
+Bloquée par le travail de parité — voir le TODO « Parité port Rust ». Approche prévue :
+- `cargo-dist` pour des artefacts de release multi-OS (mac/linux/windows, arm64 + x64)
+- GitHub Releases comme canal de distribution
+- Installeur `curl -fsSL https://openclew.dev/install.sh | sh`
 
-Until parity: npm is the only supported channel.
+Jusqu'à la parité : npm est le seul canal supporté.
 
-## Troubleshooting
+## Dépannage
 
-**Hook blocks the commit with "Version drift"**
-→ run `scripts/bump.sh X.Y.Z` (even if you were only fixing a typo; the hook checks every commit).
+**Le hook bloque le commit avec « Version drift »**
+→ lancer `scripts/bump.sh X.Y.Z` (même pour corriger une simple coquille ; le hook vérifie chaque commit).
 
-**`cargo update` fails during bump**
-→ the script falls back to `cargo build --quiet` to refresh the lock file. If both fail, run `cd rust && cargo build` manually and commit the lock.
+**`cargo update` échoue pendant le bump**
+→ le script se rabat sur `cargo build --quiet` pour rafraîchir le fichier lock. Si les deux échouent, lancer `cd rust && cargo build` manuellement et commiter le lock.
 
-**npm publish asks for OTP twice**
-→ expected. npm login + npm publish each require one 2FA validation. Use `rocpublish` to pipeline both.
+**npm publish demande l'OTP deux fois**
+→ attendu. npm login et npm publish requièrent chacun une validation 2FA. Utiliser `rocpublish` pour enchaîner les deux.
 
 ---
 
 ## Changelog
 
-| Date | Change |
+| Date | Changement |
 |------|--------|
-| 2026-04-17 | Initial creation — codifies the bump/publish process after Cargo drift incident (0.6.0 → 0.9.1, 10 days undetected) |
+| 2026-04-17 | Création initiale — formalise le processus bump/publish après l'incident de dérive Cargo (0.6.0 → 0.9.1, 10 jours sans détection) |
+| 2026-10-13 | Traduction en français |

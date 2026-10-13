@@ -1,75 +1,76 @@
-clw_ref@0.9.1 · created: 2026-04-17 · updated: 2026-04-17 · type: Reference · status: Active · category: CLI · keywords: [init, setup, flags, gitignore, logs]
+clw_ref@0.9.1 · created: 2026-04-17 · updated: 2026-10-13 · type: Reference · status: Active · category: CLI · keywords: [init, setup, flags, gitignore, logs]
 
-- **subject:** `openclew init` — setup flow, flags, and conventions (shared logs by default)
-- **doc_brief:** Reference for `openclew init`: what it creates, flags (`--hook`, `--no-inject`, `--private-logs`), and why logs are versioned by default. Explains the 2026-04-17 behavior change (stopped adding `doc/log/` to `.gitignore`) and the opt-in for public repos.
+- **subject:** `openclew init` — déroulé du setup, flags et conventions (logs partagés par défaut)
+- **doc_brief:** Référence de `openclew init` : ce qu'il crée, ses flags (`--hook`, `--no-inject`, `--private-logs`), et pourquoi les logs sont versionnés par défaut. Explique le changement de comportement du 2026-04-17 (arrêt de l'ajout de `doc/log/` au `.gitignore`) et l'opt-in pour les dépôts publics.
 
 ---
 
 # Summary
 
-## Objective
-Document the contract of `openclew init` so users (and agents) know exactly what the command touches, what's opt-in, and why logs are a **shared knowledge layer** rather than a private notebook.
+## Objectif
+Documenter le contrat de `openclew init` pour que les utilisateurs (et les agents) sachent exactement ce que la commande touche, ce qui est opt-in, et pourquoi les logs sont une **couche de connaissance partagée** plutôt qu'un carnet privé.
 
-## Key points
-- `init` is idempotent: re-running it never loses data, it only fills gaps.
-- `init` does **not** gitignore `doc/log/` anymore. Logs are committed by default — that's what makes them useful across sessions and agents.
-- `--private-logs` flag restores the old behavior for public repos where personal/WIP notes should stay local.
-- Both the Node CLI (`lib/init.js`) and the Rust port (`rust/src/cmd/init.rs`) honor the same flags.
+## Points clés
+- `init` est idempotent : le relancer ne perd jamais de données, il ne fait que combler les manques.
+- `init` n'ajoute **plus** `doc/log/` au gitignore. Les logs sont commités par défaut — c'est ce qui les rend utiles d'une session et d'un agent à l'autre.
+- Le flag `--private-logs` restaure l'ancien comportement pour les dépôts publics où les notes personnelles/en cours doivent rester locales.
+- Le CLI Node (`lib/init.js`) et le port Rust (`rust/src/cmd/init.rs`) honorent les mêmes flags.
 
 ---
 
 # Details
 
-## What `init` creates
+## Ce que crée `init`
 
-| Path | Purpose | Always? |
+| Chemin | Rôle | Toujours ? |
 |------|---------|---------|
-| `~/.openclew/config.json` | Global config (version, install date) | Yes |
-| `~/.claude/commands/oc-*.md` | User-level Claude Code slash commands | Yes |
-| `.github/prompts/oc-*.prompt.md` | Project-level Copilot prompts | If in a project |
-| `doc/ref/` | Refs dir | If in a project |
-| `doc/log/` | Logs dir | If in a project |
-| `doc/todo/` | TODO docs dir (one task per file) | If in a project |
-| `doc/ref/USING_OPENCLEW.md` | Onboarding guide | If in a project |
-| `doc/ref/ARCHITECTURE.md` | Seed architecture ref | If in a project |
-| `doc/log/YYYY-MM-DD_setup-openclew.md` | Example log | If in a project |
-| `doc/_INDEX.md` | Auto-generated index | If in a project |
-| Entry point (`AGENTS.md` etc.) | Injected openclew block | If in a project (unless `--no-inject`) |
-| `.openclew.json` | Project config (entry point pointer) | If in a project |
-| `.vscode/openclew-preview.css` + `settings.json` | Markdown preview styling | If in a project |
-| `TODO.md` | Seed TODO file | If in a project |
-| `.git/hooks/pre-commit` | Index auto-regen hook | Only with `--hook` |
-| `.gitignore` (adds `doc/log/`) | Gitignore logs | Only with `--private-logs` |
+| `~/.openclew/config.json` | Config globale (version, date d'installation) | Oui |
+| `~/.claude/commands/oc-*.md` | Slash commands Claude Code au niveau utilisateur | Oui |
+| `.github/prompts/oc-*.prompt.md` | Prompts Copilot au niveau projet | Si dans un projet |
+| `doc/ref/` | Dossier des refs | Si dans un projet |
+| `doc/log/` | Dossier des logs | Si dans un projet |
+| `doc/todo/` | Dossier des docs TODO (une tâche par fichier) | Si dans un projet |
+| `doc/ref/USING_OPENCLEW.md` | Guide d'onboarding | Si dans un projet |
+| `doc/ref/ARCHITECTURE.md` | Ref d'architecture initiale | Si dans un projet |
+| `doc/log/YYYY-MM-DD_setup-openclew.md` | Log d'exemple | Si dans un projet |
+| `doc/_INDEX.md` | Index auto-généré | Si dans un projet |
+| Point d'entrée (`AGENTS.md` etc.) | Bloc openclew injecté | Si dans un projet (sauf `--no-inject`) |
+| `.openclew.json` | Config projet (pointeur vers le point d'entrée) | Si dans un projet |
+| `.vscode/openclew-preview.css` + `settings.json` | Style de l'aperçu Markdown | Si dans un projet |
+| `TODO.md` | Fichier TODO initial | Si dans un projet |
+| `.git/hooks/pre-commit` | Hook de régénération auto de l'index | Seulement avec `--hook` |
+| `.gitignore` (ajoute `doc/log/`) | Ignorer les logs dans git | Seulement avec `--private-logs` |
 
 ## Flags
 
-| Flag | Effect |
+| Flag | Effet |
 |------|--------|
-| `--hook` | Install the pre-commit hook that regenerates `doc/_INDEX.md` on every commit |
-| `--no-inject` | Skip injection of the openclew block into the entry point file |
-| `--private-logs` | Append `doc/log/` to `.gitignore` (opt-in — for public repos where session logs should stay local) |
+| `--hook` | Installe le hook pre-commit qui régénère `doc/_INDEX.md` à chaque commit |
+| `--no-inject` | Saute l'injection du bloc openclew dans le fichier point d'entrée |
+| `--private-logs` | Ajoute `doc/log/` au `.gitignore` (opt-in — pour les dépôts publics où les logs de session doivent rester locaux) |
 
-## Why logs are versioned by default
+## Pourquoi les logs sont versionnés par défaut
 
-openclew's promise is **long-life memory for LLMs**. Logs are immutable frozen facts from past sessions. Their value comes from being **readable by the next agent, on any machine, from a fresh clone**. If logs are gitignored, the memory doesn't survive a `git clone` — which defeats the tool.
+La promesse d'openclew est une **mémoire longue durée pour les LLM**. Les logs sont des faits figés et immuables issus des sessions passées. Leur valeur vient de ce qu'ils sont **lisibles par l'agent suivant, sur n'importe quelle machine, depuis un clone neuf**. Si les logs sont ignorés par git, la mémoire ne survit pas à un `git clone` — ce qui annule l'intérêt de l'outil.
 
-The `--private-logs` flag exists for one case: an open-source repo where the maintainer doesn't want personal development notes published alongside the code. In that scenario, logs stay local and serve as a private notebook.
+Le flag `--private-logs` existe pour un seul cas : un dépôt open source dont le mainteneur ne veut pas publier ses notes de développement personnelles à côté du code. Dans ce scénario, les logs restent locaux et servent de carnet privé.
 
-## Migration from earlier versions
+## Migration depuis les versions antérieures
 
-Projects initialized before 2026-04-17 may have `doc/log/` in their `.gitignore` (added automatically by `init` at the time). To adopt the new default:
+Les projets initialisés avant le 2026-04-17 peuvent avoir `doc/log/` dans leur `.gitignore` (ajouté automatiquement par `init` à l'époque). Pour adopter le nouveau défaut :
 
-1. Remove the `doc/log/` line from `.gitignore`.
-2. `git add doc/log/` to start tracking existing logs.
-3. Commit.
+1. Retirer la ligne `doc/log/` du `.gitignore`.
+2. `git add doc/log/` pour commencer à suivre les logs existants.
+3. Commiter.
 
-Nothing is done automatically — the decision is project-specific.
+Rien n'est fait automatiquement — la décision est propre à chaque projet.
 
 ---
 
 ## Changelog
 
-| Date | Change |
+| Date | Changement |
 |------|--------|
-| 2026-04-17 | Initial creation — documents flags and the `--private-logs` opt-in behavior change |
-| 2026-04-17 | Added `doc/todo/` to the list of directories created by `init` (paired with `/oc-todo` skill) |
+| 2026-04-17 | Création initiale — documente les flags et le changement de comportement opt-in `--private-logs` |
+| 2026-04-17 | Ajout de `doc/todo/` à la liste des dossiers créés par `init` (couplé au skill `/oc-todo`) |
+| 2026-10-13 | Traduction en français |

@@ -37,6 +37,7 @@ const COMMANDS: &[(&str, &str)] = &[
     ("oc-checkout.md", include_str!("../../../commands/oc-checkout.md")),
     ("oc-init.md", include_str!("../../../commands/oc-init.md")),
     ("oc-peek.md", include_str!("../../../commands/oc-peek.md")),
+    ("oc-raise.md", include_str!("../../../commands/oc-raise.md")),
     ("oc-search.md", include_str!("../../../commands/oc-search.md")),
     ("oc-status.md", include_str!("../../../commands/oc-status.md")),
     ("oc-todo.md", include_str!("../../../commands/oc-todo.md")),

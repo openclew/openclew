@@ -1,66 +1,66 @@
 clw_log@0.9.1 · date: 2026-04-17 · type: Feature · status: Done · category: CLI · keywords: [todo, skill, slash-command, index, peek]
 
-- **subject:** Added /oc-todo skill — one TODO per doc in doc/todo/ with auto-generated index
-- **doc_brief:** Introduced a third doc kind alongside refs and logs. Each TODO lives in `doc/todo/YYYY-MM-DD_slug.md` with a minimal template (Why it matters / Done looks like). The flat root `TODO.md` stays untouched — the new structure supersedes it without overwriting. Index, search, and peek all recognize the new kind.
+- **subject:** Ajout du skill /oc-todo — un TODO par doc dans doc/todo/ avec index auto-généré
+- **doc_brief:** Introduction d'un troisième type de doc à côté des refs et des logs. Chaque TODO vit dans `doc/todo/YYYY-MM-DD_slug.md` avec un template minimal (Why it matters / Done looks like). Le `TODO.md` plat à la racine reste intact — la nouvelle structure le supplante sans l'écraser. L'index, la recherche et peek reconnaissent tous le nouveau type.
 - **related_docs:** doc/ref/FORMAT.md, doc/ref/INIT.md
 
 ---
 
 # Summary
 
-## Objective
+## Objectif
 
-Give each task its own doc so it can carry subject, brief, and rationale — not just a checkbox. Keeps the TODO discoverable in the index alongside refs and logs.
+Donner à chaque tâche son propre doc pour qu'elle puisse porter un subject, un brief et une justification — pas seulement une case à cocher. Le TODO reste ainsi découvrable dans l'index à côté des refs et des logs.
 
-## Problem
+## Problème
 
-The flat `TODO.md` at project root is fine for trivial checkboxes, but it can't carry context. A task like "fix search relevance scoring" needs rationale and a definition of done that a checkbox doesn't support. Users were either forgetting why a TODO mattered, or reinventing a separate doc convention per project.
+Le `TODO.md` plat à la racine du projet convient pour des cases à cocher triviales, mais il ne peut pas porter de contexte. Une tâche comme « corriger le scoring de pertinence de la recherche » a besoin d'une justification et d'une définition du « fini » qu'une case à cocher ne supporte pas. Les utilisateurs oubliaient pourquoi un TODO comptait, ou réinventaient une convention de doc séparée dans chaque projet.
 
 ## Solution
 
-- **New kind**: `clw_todo@VERSION` marker on line 1, parallel to `clw_ref@` / `clw_log@`.
-- **New directory**: `doc/todo/YYYY-MM-DD_slug.md` — one file per task.
-- **Minimal template**: L1 subject + doc_brief, then two short sections (`Why it matters`, `Done looks like`). Intentionally short — implementation details belong in a log when work starts.
-- **Slash-command-first UX**: `/oc-todo "Title"` is the entry point. Users never type `openclew add todo` themselves.
-- **Index**: `doc/_INDEX.md` gains a **## TODOs** section. Open/In progress sorted first, Done at the bottom.
-- **Peek**: lists Open TODOs so agents see them when cartographing before work.
-- **Search**: parses `clw_todo@`, scans `doc/todo/`, displays `☐` icon.
+- **Nouveau type** : marqueur `clw_todo@VERSION` en ligne 1, parallèle à `clw_ref@` / `clw_log@`.
+- **Nouveau dossier** : `doc/todo/YYYY-MM-DD_slug.md` — un fichier par tâche.
+- **Template minimal** : subject + doc_brief en L1, puis deux sections courtes (`Why it matters`, `Done looks like`). Volontairement court — les détails d'implémentation vont dans un log quand le travail démarre.
+- **UX centrée sur la slash command** : `/oc-todo "Title"` est le point d'entrée. Les utilisateurs ne tapent jamais `openclew add todo` eux-mêmes.
+- **Index** : `doc/_INDEX.md` gagne une section **## TODOs**. Open/In progress triés en premier, Done en bas.
+- **Peek** : liste les TODOs Open pour que les agents les voient en cartographiant avant de travailler.
+- **Recherche** : parse `clw_todo@`, scanne `doc/todo/`, affiche l'icône `☐`.
 
-The existing `TODO.md` at project root is **not** touched. Both can coexist — projects migrate at their own pace.
+Le `TODO.md` existant à la racine n'est **pas** touché. Les deux peuvent coexister — les projets migrent à leur rythme.
 
 ---
 
 # Details
 
-## Files created
+## Fichiers créés
 
-| File | Role |
+| Fichier | Rôle |
 |------|------|
-| `lib/new-todo.js` | Creates `doc/todo/YYYY-MM-DD_slug.md` from template |
-| `skills/oc-todo/SKILL.md` | User-invocable skill with short documenting guidance |
-| `commands/oc-todo.md` | Claude Code slash command `/oc-todo "Title"` |
-| `templates/todo.md` | Reference template (parallel to `templates/ref.md` / `log.md`) |
+| `lib/new-todo.js` | Crée `doc/todo/YYYY-MM-DD_slug.md` à partir du template |
+| `skills/oc-todo/SKILL.md` | Skill invocable par l'utilisateur avec de courtes consignes de documentation |
+| `commands/oc-todo.md` | Slash command Claude Code `/oc-todo "Title"` |
+| `templates/todo.md` | Template de référence (parallèle à `templates/ref.md` / `log.md`) |
 
-## Files modified
+## Fichiers modifiés
 
-| File | Change |
+| Fichier | Changement |
 |------|--------|
-| `lib/templates.js` | Added `todoDocContent(title)` |
-| `lib/search.js` | `parseMetadataLine()` recognizes `clw_todo@`, `collectDocs()` scans `doc/todo/`, icon `☐` |
-| `lib/index-gen.js` | New `## TODOs` section, tri-kind stats (refs / todos / logs), Open-first sort |
-| `lib/peek.js` | Reports Open/In progress TODOs |
-| `lib/init.js` | Creates `doc/todo/` alongside `doc/ref/` and `doc/log/` |
-| `bin/openclew.js` | Dispatches `add todo` and bare `todo` commands |
+| `lib/templates.js` | Ajout de `todoDocContent(title)` |
+| `lib/search.js` | `parseMetadataLine()` reconnaît `clw_todo@`, `collectDocs()` scanne `doc/todo/`, icône `☐` |
+| `lib/index-gen.js` | Nouvelle section `## TODOs`, stats sur trois types (refs / todos / logs), tri Open en premier |
+| `lib/peek.js` | Rapporte les TODOs Open/In progress |
+| `lib/init.js` | Crée `doc/todo/` à côté de `doc/ref/` et `doc/log/` |
+| `bin/openclew.js` | Dispatche les commandes `add todo` et `todo` seule |
 
-## Status lifecycle
+## Cycle de vie des statuts
 
-- `Open` — not started
-- `In progress` — work underway (a log should be created when this transitions)
-- `Done` — completed; the file stays in `doc/todo/` and sorts to the bottom of the index
+- `Open` — non commencé
+- `In progress` — travail en cours (un log doit être créé lors de cette transition)
+- `Done` — terminé ; le fichier reste dans `doc/todo/` et se trie en bas de l'index
 
-Done TODOs stay put (not moved to `doc/log/`) — simpler, keeps the trace alongside the origin.
+Les TODOs Done restent en place (pas déplacés vers `doc/log/`) — plus simple, la trace reste à côté de son origine.
 
-## Template contract
+## Contrat du template
 
 ```
 clw_todo@VERSION · created: YYYY-MM-DD · status: Open · priority: Normal · category: · keywords: []
@@ -76,18 +76,18 @@ clw_todo@VERSION · created: YYYY-MM-DD · status: Open · priority: Normal · c
 ## Done looks like
 ```
 
-The guidance is "fill in 2 short sections, 1-2 lines each." If the doc grows beyond ~20 lines, it's probably a ref, not a TODO.
+La consigne est « remplir 2 sections courtes, 1-2 lignes chacune ». Si le doc dépasse ~20 lignes, c'est probablement une ref, pas un TODO.
 
-## Isolation test
+## Test en isolation
 
-- `/tmp/openclew-todo-test/` — 3 TODOs created with varied statuses
-- Index generated: `0 refs, 3 todos, 0 logs`, Open/In progress first, Done last
-- `peek` reports 2 Open TODOs (excludes the Done one)
-- `search "search"` matches both semantic + relevance TODOs
-- Filename collision returns exit 1 with a clear message
+- `/tmp/openclew-todo-test/` — 3 TODOs créés avec des statuts variés
+- Index généré : `0 refs, 3 todos, 0 logs`, Open/In progress en premier, Done en dernier
+- `peek` rapporte 2 TODOs Open (exclut celui en Done)
+- `search "search"` trouve les deux TODOs sémantique + pertinence
+- Une collision de nom de fichier renvoie exit 1 avec un message clair
 
-## Open items
+## Points ouverts
 
-- Slash command not yet propagated to `~/.claude/commands/` — users re-running `openclew init` in any project will get it installed (handled by `installSlashCommands()` in `lib/init.js`, which copies everything in `commands/*.md`)
-- No Rust port yet — same as other new commands
-- No migration tool from `TODO.md` flat list → `doc/todo/*.md` one-per-task. Manual migration on demand
+- Slash command pas encore propagée dans `~/.claude/commands/` — les utilisateurs qui relancent `openclew init` dans n'importe quel projet l'obtiendront (géré par `installSlashCommands()` dans `lib/init.js`, qui copie tout `commands/*.md`)
+- Pas encore de port Rust — comme pour les autres nouvelles commandes
+- Pas d'outil de migration de la liste plate `TODO.md` → `doc/todo/*.md` une tâche par fichier. Migration manuelle à la demande

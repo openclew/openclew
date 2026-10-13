@@ -57,8 +57,8 @@ describe("MCP document levels", () => {
     const response = readDoc("doc/ref/INIT.md", "L2");
     assert.equal(response.isError, undefined);
     const doc = JSON.parse(response.content[0].text);
-    assert.match(doc.content, /shared knowledge layer/);
-    assert.doesNotMatch(doc.content, /Migration from earlier versions/);
+    assert.match(doc.content, /couche de connaissance partagée/);
+    assert.doesNotMatch(doc.content, /Migration depuis les versions antérieures/);
     assert.doesNotMatch(doc.content, /---$/);
   });
 

@@ -1,7 +1,7 @@
 clw_log@0.9.1 · date: 2026-04-27 · type: Feature · status: Done · category: Format · keywords: [todo, entry_log, exit_log, targets_todos, traceability]
 
-- **subject:** Added entry_log/exit_log to TODOs and targets_todos to logs — two-way traceability
-- **doc_brief:** TODOs gained two optional L1 fields linking them to surrounding work — `entry_log` (where the idea came from) and `exit_log` (where it was resolved). Logs gained `targets_todos` (which TODOs the session worked on). All optional. `status` warns on Done TODOs without `exit_log`. `oc-checkout` gains a Phase TODO sweep.
+- **subject:** Ajout d'entry_log/exit_log aux TODOs et de targets_todos aux logs — traçabilité dans les deux sens
+- **doc_brief:** Les TODOs gagnent deux champs L1 optionnels qui les relient au travail environnant — `entry_log` (d'où vient l'idée) et `exit_log` (où elle a été résolue). Les logs gagnent `targets_todos` (sur quels TODOs la session a travaillé). Tous optionnels. `status` avertit sur les TODOs Done sans `exit_log`. `oc-checkout` gagne une phase de balayage des TODOs.
 - **related_docs:** doc/ref/FORMAT.md, doc/log/2026-04-17_oc-todo-skill.md
 - **targets_todos:** TODO.md line 17 (TODOs ↔ sessions: lien manquant dans les deux sens)
 
@@ -9,52 +9,52 @@ clw_log@0.9.1 · date: 2026-04-27 · type: Feature · status: Done · category: 
 
 # Summary
 
-## Objective
+## Objectif
 
-TODOs were islands. Looking at a TODO, you couldn't tell which session resolved it. Looking at a session log, you couldn't tell which TODOs it advanced. Audit on R.AlphA.IDE (44 open TODOs, ~3 already resolved in code but never closed) made the cost concrete.
+Les TODOs étaient des îlots. En regardant un TODO, impossible de savoir quelle session l'avait résolu. En regardant un log de session, impossible de savoir quels TODOs elle avait fait avancer. Un audit sur un projet réel (44 TODOs ouverts, ~3 déjà résolus dans le code mais jamais fermés) a rendu le coût concret.
 
 ## Solution
 
-Three optional L1 fields, no breaking changes:
+Trois champs L1 optionnels, aucun changement cassant :
 
-| Field | Doc kind | Role |
+| Champ | Type de doc | Rôle |
 |-------|----------|------|
-| `entry_log` | TODO | Log/ref that motivated this TODO. Filled at creation if context exists |
-| `exit_log` | TODO | Log path **or** free-text session reference. Filled at closing |
-| `targets_todos` | Log | TODOs this session worked on |
+| `entry_log` | TODO | Log/ref qui a motivé ce TODO. Rempli à la création si un contexte existe |
+| `exit_log` | TODO | Chemin de log **ou** référence de session en texte libre. Rempli à la fermeture |
+| `targets_todos` | Log | TODOs sur lesquels cette session a travaillé |
 
-Free-text exit_log values (`2026-04-27 session — handled inline`) are accepted — not every closure deserves a dedicated log.
+Les valeurs d'exit_log en texte libre (`2026-04-27 session — handled inline`) sont acceptées — toute fermeture ne mérite pas un log dédié.
 
-## Behavior changes
+## Changements de comportement
 
-- `lib/templates.js` + `templates/todo.md` + `templates/log.md`: new fields in template
-- `lib/search.js` `parseL1()`: parses the 3 new fields, strips inline HTML comments
-- `lib/status.js`: new section flagging `Done` TODOs without `exit_log`
-- `commands/oc-todo.md` + `skills/oc-todo/SKILL.md`: agent guidance on filling entry_log
-- `commands/oc-checkout.md`: new Phase 3bis (TODO sweep) — list open TODOs, ask user, write exit_log + targets_todos two-way
-- `doc/ref/FORMAT.md`: documented the new fields, bumped doc_version 1.1.0 → 1.2.0
+- `lib/templates.js` + `templates/todo.md` + `templates/log.md` : nouveaux champs dans les templates
+- `lib/search.js` `parseL1()` : parse les 3 nouveaux champs, retire les commentaires HTML en ligne
+- `lib/status.js` : nouvelle section signalant les TODOs `Done` sans `exit_log`
+- `commands/oc-todo.md` + `skills/oc-todo/SKILL.md` : consignes pour l'agent sur le remplissage d'entry_log
+- `commands/oc-checkout.md` : nouvelle Phase 3bis (balayage des TODOs) — lister les TODOs ouverts, demander à l'utilisateur, écrire exit_log + targets_todos dans les deux sens
+- `doc/ref/FORMAT.md` : nouveaux champs documentés, doc_version bumpée 1.1.0 → 1.2.0
 
 ---
 
 # Details
 
-## Decisions
+## Décisions
 
-- **Optional, not strict**: forcing entry_log at creation would break cold-idea TODOs. `status` warns instead of blocking.
-- **exit_log is free-form**: a path is best, but a short session reference is enough when the work was incidental. Avoids forcing a dedicated log for trivial closures.
-- **Two-way link**: when checkout closes a TODO, it appends the TODO path to the log's `targets_todos` AND writes the log path to the TODO's `exit_log`. Symmetry matters — either direction must lead to the other.
+- **Optionnel, pas strict** : imposer entry_log à la création casserait les TODOs « idée à froid ». `status` avertit au lieu de bloquer.
+- **exit_log en forme libre** : un chemin est l'idéal, mais une courte référence de session suffit quand le travail était incident. Évite d'imposer un log dédié pour des fermetures triviales.
+- **Lien bidirectionnel** : quand checkout ferme un TODO, il ajoute le chemin du TODO au `targets_todos` du log ET écrit le chemin du log dans l'`exit_log` du TODO. La symétrie compte — chaque direction doit mener à l'autre.
 
-## Test in isolation
+## Test en isolation
 
-`/tmp/oc-todo-test/` with two TODOs status=Done (one with exit_log, one without). `openclew status` correctly flagged only the missing one:
+`/tmp/oc-todo-test/` avec deux TODOs en status=Done (un avec exit_log, un sans). `openclew status` a correctement signalé uniquement celui qui en manquait :
 
 ```
 Done TODOs missing exit_log (1):
   - doc/todo/2026-04-26_done-without-exit.md  (A done todo without exit_log)
 ```
 
-## Open items
+## Points ouverts
 
-- Rust port: not updated (status command not yet ported anyway)
-- No automated migration of existing TODOs — fields are simply absent (treated as optional)
-- `oc-checkout` Phase TODO is documented in the slash command but the auto-detection (grep TODO subject keywords against git diff) is left to the agent's discretion
+- Port Rust : non mis à jour (la commande status n'est de toute façon pas encore portée)
+- Pas de migration automatique des TODOs existants — les champs sont simplement absents (traités comme optionnels)
+- La phase TODO d'`oc-checkout` est documentée dans la slash command, mais l'auto-détection (grep des mots-clés du subject des TODOs contre le git diff) est laissée à la discrétion de l'agent

@@ -1,154 +1,162 @@
-clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-06-06 · doc_version: 1.4.0 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser, doc_version, from, closed, targets_todos, flat_todo, purge, archive
-- **subject:** openclew document format specification
-- **doc_brief:** Every openclew doc is built in 4 progressive layers — metadata for machines, L1 as the clew to grasp the subject at a glance, L2 for a one-screen summary, and L3 for the full details. You only go deeper when you need to.
+clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-10-13 · doc_version: 1.4.0 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser, doc_version, from, closed, targets_todos, flat_todo, purge, archive
+- **subject:** Spécification du format de document openclew
+- **doc_brief:** Chaque doc openclew est construit en 4 couches progressives — les métadonnées pour les machines, L1 comme fil d'Ariane pour saisir le sujet d'un coup d'œil, L2 pour un résumé tenant en un écran, et L3 pour le détail complet. On ne descend plus profond que lorsqu'on en a besoin.
 
 ---
 
 # Summary
 
-## Objective
-Never get lost in your own docs. Every document carries its own clew (L1): in a few words, a human grasps the subject at a glance — and only digs deeper when needed. AI agents benefit too, but the primary reader is human.
+## Objectif
+Ne jamais se perdre dans sa propre doc. Chaque document porte son propre fil (L1) : en quelques mots, un humain saisit le sujet d'un coup d'œil — et ne creuse que si nécessaire. Les agents IA en profitent aussi, mais le lecteur principal est humain.
 
-## Key points
-- **Line 1** — condensed metadata (`key: value` separated by ` · `). For machines and indexing, not for reading.
-- **L1 = the clew** — `**subject:**` + `**doc_brief:**` between line 1 and first `---`. ~40 tokens. Answers: "does this concern me?" A human scanning 20 docs only reads the L1s. If the brief is good, they know in 3 seconds where to dig.
-- **L2** — summary in one screen (~40 lines). Enough context for most decisions, without diving into details.
-- **L3** — everything else. Code, examples, deep dives. You only go there when you need to.
-- **doc_brief rule**: state what is true/decided, not what the document contains. If it starts with "this document describes…", it's meta — rewrite.
+## Points clés
+- **Ligne 1** — métadonnées condensées (`key: value` séparés par ` · `). Pour les machines et l'indexation, pas pour la lecture.
+- **L1 = le fil** — `**subject:**` + `**doc_brief:**` entre la ligne 1 et le premier `---`. ~40 tokens. Répond à : « est-ce que ça me concerne ? » Un humain qui parcourt 20 docs ne lit que les L1. Si le brief est bon, il sait en 3 secondes où creuser.
+- **L2** — résumé tenant en un écran (~40 lignes). Assez de contexte pour la plupart des décisions, sans plonger dans les détails.
+- **L3** — tout le reste. Code, exemples, approfondissements. On n'y va que lorsqu'on en a besoin.
+- **Règle du doc_brief** : énoncer ce qui est vrai/décidé, pas ce que contient le document. S'il commence par « ce document décrit… », c'est du méta — réécrire.
 
-## Line 1 prefix
+## Préfixe de la ligne 1
 
-| Prefix | Doc type | Example |
+| Préfixe | Type de doc | Exemple |
 |--------|----------|---------|
 | `clw_ref@VERSION` | Ref | `clw_ref@0.7.0 · created: 2026-04-10 · ... · doc_version: 1.0.0 · ...` |
 | `clw_log@VERSION` | Log | `clw_log@0.7.0 · date: 2026-04-10 · ...` |
-| `clw_todo@VERSION` | TODO doc | `clw_todo@0.9.1 · created: 2026-04-17 · status: Open · ...` |
-| `openclew@VERSION` | Legacy (both) | Supported by parser, not generated |
+| `clw_todo@VERSION` | Doc TODO | `clw_todo@0.9.1 · created: 2026-04-17 · status: Open · ...` |
+| `openclew@VERSION` | Legacy (les deux) | Supporté par le parser, non généré |
 
-## File naming
+## Nommage des fichiers
 
-| Type | Location | Convention |
+| Type | Emplacement | Convention |
 |------|----------|------------|
-| Refs | `doc/ref/SUBJECT.md` | UPPER_SNAKE_CASE, no prefix |
-| Refs (legacy) | `doc/_SUBJECT.md` | UPPER_SNAKE_CASE, prefixed `_` |
-| Logs | `doc/log/YYYY-MM-DD_subject.md` | lowercase-with-hyphens, dated |
-| TODOs | `doc/todo/YYYY-MM-DD_subject.md` | lowercase-with-hyphens, dated |
-| Index | `doc/_INDEX.md` | Auto-generated, never edit |
+| Refs | `doc/ref/SUBJECT.md` | UPPER_SNAKE_CASE, sans préfixe |
+| Refs (legacy) | `doc/_SUBJECT.md` | UPPER_SNAKE_CASE, préfixé `_` |
+| Logs | `doc/log/YYYY-MM-DD_subject.md` | minuscules-avec-tirets, daté |
+| TODOs | `doc/todo/YYYY-MM-DD_subject.md` | minuscules-avec-tirets, daté |
+| Index | `doc/_INDEX.md` | Auto-généré, ne jamais éditer |
 
-## Watch out
-- Line 1 **must** start with `clw_ref@`, `clw_log@`, `clw_todo@`, or `openclew@` — other prefixes are ignored by parsers
-- L1 block is **positional**: lines between line 1 and first `---` separator
-- Legacy div markers (`<div class="oc-l1">`) and comment markers (`<!-- L1_START -->`) still supported as fallback
+## Points d'attention
+- La ligne 1 **doit** commencer par `clw_ref@`, `clw_log@`, `clw_todo@` ou `openclew@` — les autres préfixes sont ignorés par les parsers
+- Le bloc L1 est **positionnel** : les lignes entre la ligne 1 et le premier séparateur `---`
+- Les marqueurs div legacy (`<div class="oc-l1">`) et les marqueurs en commentaire (`<!-- L1_START -->`) restent supportés en repli
 
 ---
 
 # Details
 
-## L1 fields (between line 1 and first `---`)
+## Champs L1 (entre la ligne 1 et le premier `---`)
 
-| Field | Ref | Log | TODO | Description |
+| Champ | Ref | Log | TODO | Description |
 |-------|:---:|:---:|:----:|-------------|
-| `subject` | yes | yes | yes | One-line title — what the doc is about |
-| `doc_brief` | yes | yes | yes | One-line conclusion — what's true/decided |
-| `related_docs` | optional | optional | — | Comma-separated list of related ref/log paths |
-| `targets_todos` | — | optional | — | TODOs (`doc/todo/*.md`) this session worked on. **Entry link** for those TODOs |
-| `from` | — | — | **required** | Log/ref or free-text reference for where the idea came from (replaces legacy `entry_log`) |
-| `closed` | — | — | **required when Done** | Log or session reference where the TODO was resolved (replaces legacy `exit_log`) |
+| `subject` | oui | oui | oui | Titre en une ligne — de quoi parle le doc |
+| `doc_brief` | oui | oui | oui | Conclusion en une ligne — ce qui est vrai/décidé |
+| `related_docs` | optionnel | optionnel | — | Liste de chemins de refs/logs liés, séparés par des virgules |
+| `targets_todos` | — | optionnel | — | TODOs (`doc/todo/*.md`) sur lesquels cette session a travaillé. **Lien d'entrée** pour ces TODOs |
+| `from` | — | — | **requis** | Log/ref ou référence en texte libre indiquant d'où vient l'idée (remplace le legacy `entry_log`) |
+| `closed` | — | — | **requis si Done** | Log ou référence de session où le TODO a été résolu (remplace le legacy `exit_log`) |
 
-**Same rule applies to flat `TODO.md`:**
+**La même règle s'applique au `TODO.md` plat :**
 
-| Field | When required |
+| Champ | Quand requis |
 |---|---|
-| `from`   | Always — at creation. Free-text accepted (e.g. `2026-04-29 — cold idea`). Never omit. |
-| `closed` | When the TODO is checked / `status: Done`. Free-text accepted (e.g. `2026-04-29 session — handled inline`). |
+| `from`   | Toujours — à la création. Texte libre accepté (ex. `2026-04-29 — cold idea`). Ne jamais omettre. |
+| `closed` | Quand le TODO est coché / `status: Done`. Texte libre accepté (ex. `2026-04-29 session — handled inline`). |
 
-`openclew status` warns (does not block) on TODOs missing `from`, and on closed TODOs missing `closed`.
+`openclew status` avertit (sans bloquer) sur les TODOs sans `from`, et sur les TODOs fermés sans `closed`.
 
-## Flat TODO.md format
+## Format du TODO.md plat
 
-Most projects keep a flat `TODO.md` at the root. Each line follows:
+La plupart des projets gardent un `TODO.md` plat à la racine. Chaque ligne suit :
 
 ```markdown
 - [ ] **Title** : Description. <!-- from: doc/log/2026-04-26_audit.md -->
 - [x] **Done title** : Description (2026-04-29). <!-- from: doc/log/2026-04-26_audit.md --> <!-- closed: doc/log/2026-04-29_session.md -->
 ```
 
-- HTML comments are invisible at render time but parseable.
-- Order of `from` / `closed` markers is free; both can sit anywhere on the line.
-- Parser: `lib/todo-flat.js` (`parseFlatTodos`, `validateFlatTodos`, `setMarkers`).
+- Les commentaires HTML sont invisibles au rendu mais parsables.
+- L'ordre des marqueurs `from` / `closed` est libre ; les deux peuvent se placer n'importe où sur la ligne.
+- Parser : `lib/todo-flat.js` (`parseFlatTodos`, `validateFlatTodos`, `setMarkers`).
 
-The file format (`doc/todo/*.md`) remains opt-in for TODOs needing real subject/brief/context. Both formats coexist; the from/closed rule is identical.
+Le format fichier (`doc/todo/*.md`) reste opt-in pour les TODOs qui ont besoin d'un vrai subject/brief/contexte. Les deux formats coexistent ; la règle from/closed est identique.
 
-### Purge — manual, archive, never delete
+### Purge — manuelle, archivage, jamais de suppression
 
-`openclew status` reports pending/done counts and **flags** completed `[x]` items older than **7 days** (threshold keyed off the `(YYYY-MM-DD)` completion date). It only flags — purging is a deliberate **manual** action, never automatic.
+`openclew status` rapporte les compteurs en attente/faits et **signale** les éléments `[x]` terminés depuis plus de **7 jours** (seuil calculé sur la date de complétion `(YYYY-MM-DD)`). Il ne fait que signaler — la purge est une action **manuelle** délibérée, jamais automatique.
 
-When purging, **move** each stale line to an archive file instead of deleting it — the same tombstone principle as `Archived` refs, so inbound references stay resolvable. The archive groups entries in dated sections and keeps each line **verbatim** (checkbox, date, `from`/`closed` markers intact):
+Lors d'une purge, **déplacer** chaque ligne périmée vers un fichier d'archive au lieu de la supprimer — même principe de pierre tombale que pour les refs `Archived`, afin que les références entrantes restent résolubles. L'archive regroupe les entrées en sections datées et conserve chaque ligne **telle quelle** (case à cocher, date, marqueurs `from`/`closed` intacts) :
 
 ```markdown
 ### Purge YYYY-MM-DD
 - [x] **Done title** : Description (2026-04-29). <!-- from: ... --> <!-- closed: ... -->
 ```
 
-The archive **file name is the consumer's choice** (openclew is tool-agnostic). R.AlphA uses `doc/claude_purge.md` via its `/ra-purge` command; openclew fixes the *shape*, not the path.
+Le **nom du fichier d'archive est au choix du consommateur** (openclew est agnostique de l'outil), par exemple `doc/claude_purge.md` ; openclew fixe la *forme*, pas le chemin.
 
-## Line 1 fields
+## Champs de la ligne 1
 
-| Field | Ref | Log | TODO | Description |
+| Champ | Ref | Log | TODO | Description |
 |-------|:------:|:---:|:----:|-------------|
-| `clw_ref@` / `clw_log@` / `clw_todo@VERSION` | yes | yes | yes | **openclew format version** the doc conforms to. Immutable except on format migration. Do **not** bump when editing content. |
-| `created` | yes | — | yes | Creation date |
-| `updated` | yes | — | — | Last update date |
-| `doc_version` | yes | — | — | **Document content version** (semver). Bump on significant edits. Starts at `1.0.0`. Distinct from `clw_ref@`. |
-| `date` | — | yes | — | Session date |
-| `type` | yes | yes | — | Document type |
-| `status` | yes | yes | yes | Document status |
-| `priority` | — | — | yes | TODO urgency (Low / Normal / High) |
-| `category` | yes | yes | yes | Main domain (free text) |
-| `keywords` | yes | yes | yes | Tags for search (comma-separated) |
+| `clw_ref@` / `clw_log@` / `clw_todo@VERSION` | oui | oui | oui | **Version du format openclew** à laquelle le doc se conforme. Immuable sauf migration de format. Ne **pas** incrémenter lors d'une édition de contenu. |
+| `created` | oui | — | oui | Date de création |
+| `updated` | oui | — | — | Date de dernière mise à jour |
+| `doc_version` | oui | — | — | **Version du contenu du document** (semver). Incrémenter lors d'éditions significatives. Commence à `1.0.0`. Distincte de `clw_ref@`. |
+| `date` | — | oui | — | Date de la session |
+| `type` | oui | oui | — | Type de document |
+| `status` | oui | oui | oui | Statut du document |
+| `priority` | — | — | oui | Urgence du TODO (Low / Normal / High) |
+| `category` | oui | oui | oui | Domaine principal (texte libre) |
+| `keywords` | oui | oui | oui | Tags pour la recherche (séparés par des virgules) |
 
 ## Types
 
 | Type | Usage |
 |------|-------|
-| `Reference` | Durable knowledge (architecture, conventions, decisions) |
-| `Architecture` | Structural design document |
-| `Guide` | How-to, onboarding, process explanation |
-| `Analysis` | Investigation, comparison, study |
-| `Bug` | Bug investigation and fix |
-| `Feature` | New functionality |
-| `Refactor` | Code restructuring |
-| `Doc` | Documentation-only change |
-| `Deploy` | Deployment or release |
+| `Reference` | Connaissance durable (architecture, conventions, décisions) |
+| `Architecture` | Document de conception structurelle |
+| `Guide` | Mode d'emploi, onboarding, explication de processus |
+| `Analysis` | Investigation, comparaison, étude |
+| `Bug` | Investigation et correction de bug |
+| `Feature` | Nouvelle fonctionnalité |
+| `Refactor` | Restructuration du code |
+| `Doc` | Changement de documentation uniquement |
+| `Deploy` | Déploiement ou release |
 
-## Statuses
+## Statuts
 
-| Status | Ref | Log | TODO | Description |
+| Statut | Ref | Log | TODO | Description |
 |--------|:------:|:---:|:----:|-------------|
-| `Active` | yes | — | — | Living document, actively maintained |
-| `Stable` | yes | — | — | Mature, rarely updated |
-| `Archived` | yes | — | — | No longer relevant, kept for history |
-| `Open` | — | — | yes | TODO not started |
-| `In progress` | — | yes | yes | Work ongoing |
-| `Blocked` | — | — | yes | TODO waiting on external input |
-| `Done` | — | yes | yes | Work completed |
-| `Abandoned` | — | yes | — | Work stopped, approach not viable |
+| `Active` | oui | — | — | Document vivant, activement maintenu |
+| `Stable` | oui | — | — | Mature, rarement mis à jour |
+| `Archived` | oui | — | — | Plus pertinent, conservé pour l'historique |
+| `Open` | — | — | oui | TODO non commencé |
+| `In progress` | — | oui | oui | Travail en cours |
+| `Blocked` | — | — | oui | TODO en attente d'une entrée externe |
+| `Done` | — | oui | oui | Travail terminé |
+| `Abandoned` | — | oui | — | Travail arrêté, approche non viable |
 
-## Parser behavior (`lib/search.js`)
+## Comportement du parser (`lib/search.js`)
 
-1. `parseMetadataLine()`: reads line 1, matches prefix (`clw_ref@`, `clw_log@`, `clw_todo@`, `openclew@`), splits on ` · `, parses `key: value` pairs
-2. `findL1Block()`: 3-level fallback — div → comment markers → positional (between line 1 and first `---`)
-3. `parseL1()`: regex extracts `**subject:**` and `**doc_brief:**` from L1 block
-4. Legacy fallback: if no `**subject:**` found, tries plain `key: value` lines
+1. `parseMetadataLine()` : lit la ligne 1, reconnaît le préfixe (`clw_ref@`, `clw_log@`, `clw_todo@`, `openclew@`), découpe sur ` · `, parse les paires `key: value`
+2. `findL1Block()` : repli à 3 niveaux — div → marqueurs en commentaire → positionnel (entre la ligne 1 et le premier `---`)
+3. `parseL1()` : une regex extrait `**subject:**` et `**doc_brief:**` du bloc L1
+4. Repli legacy : si aucun `**subject:**` n'est trouvé, essaie des lignes `key: value` simples
 
-## Relation to templates
+## Relation aux templates
 
-| Source | Role |
+| Source | Rôle |
 |--------|------|
-| `templates/FORMAT.md` | **SSOT** — canonical spec (this file) |
-| `templates/ref.md` | Template for `openclew add ref` |
-| `templates/log.md` | Template for `openclew add log` |
-| `templates/todo.md` | Template for `openclew add todo` (also `/oc-todo`) |
-| `lib/templates.js` | Embedded templates (standalone CLI, no filesystem read) |
+| `templates/FORMAT.md` | **SSOT** — spécification canonique (ce fichier) |
+| `templates/ref.md` | Template pour `openclew add ref` |
+| `templates/log.md` | Template pour `openclew add log` |
+| `templates/todo.md` | Template pour `openclew add todo` (aussi `/oc-todo`) |
+| `lib/templates.js` | Templates embarqués (CLI autonome, sans lecture du système de fichiers) |
 
-This document (`doc/ref/FORMAT.md`) is a ref **about** the format, written **in** the format — dogfooding.
+Ce document (`doc/ref/FORMAT.md`) est une ref **sur** le format, écrite **dans** le format — dogfooding.
+
+---
+
+## Changelog
+
+| Date | Changement |
+|------|------------|
+| 2026-10-13 | Traduction en français |

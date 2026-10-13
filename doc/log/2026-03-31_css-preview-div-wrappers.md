@@ -1,41 +1,41 @@
 openclew@0.6.0 · date: 2026-03-31 · type: Feature · status: Done · category: Format · keywords: [css, preview, markdown, div, l1, l2, l3, vscode, positional-parser]
 
-- **subject:** L1 format evolution — from HTML comments to divs to pure Markdown
-- **doc_brief:** Tested `<div class="oc-l1">` wrappers to make L1 CSS-targetable in VS Code preview. Worked, but introduced a blank-line pitfall and HTML that bots don't produce naturally. Replaced with pure Markdown (list items between line 1 and first `---`). Parser supports all 3 formats via positional fallback.
+- **subject:** Évolution du format L1 — des commentaires HTML aux divs puis au Markdown pur
+- **doc_brief:** Des wrappers `<div class="oc-l1">` ont été testés pour rendre L1 ciblable en CSS dans l'aperçu VS Code. Cela fonctionnait, mais introduisait un piège de ligne vide et du HTML que les bots ne produisent pas naturellement. Remplacés par du Markdown pur (éléments de liste entre la ligne 1 et le premier `---`). Le parser supporte les 3 formats via un repli positionnel.
 
 ---
 
 # Summary
 
-## Objective
-Make openclew docs readable in VS Code Markdown preview. L1 metadata was collapsing into a wall of text because HTML comments are stripped from the DOM and single line breaks are ignored by Markdown.
+## Objectif
+Rendre les docs openclew lisibles dans l'aperçu Markdown de VS Code. Les métadonnées L1 s'écrasaient en un mur de texte, car les commentaires HTML sont retirés du DOM et les retours à la ligne simples sont ignorés par Markdown.
 
-## Problem
-- `<!-- L1_START -->` comments are invisible in rendered Markdown — no styling hook
-- `**subject:** ...` paragraphs merged into a single block in preview
-- No way to visually distinguish L1/L2/L3 sections
+## Problème
+- Les commentaires `<!-- L1_START -->` sont invisibles dans le Markdown rendu — aucune prise pour le style
+- Les paragraphes `**subject:** ...` fusionnaient en un seul bloc dans l'aperçu
+- Aucun moyen de distinguer visuellement les sections L1/L2/L3
 
-## Approach 1: div wrappers (tested, not retained)
-- Replaced HTML comments with `<div class="oc-l1/l2/l3">` wrappers — CSS-targetable
-- L1 fields switched to Markdown list syntax (`- **subject:** ...`) — each field on its own line
-- CSS (`openclew-preview.css`): `.oc-l1` = blue card, `.oc-l2` = green border, `.oc-l3` = gray border
+## Approche 1 : wrappers div (testée, non retenue)
+- Commentaires HTML remplacés par des wrappers `<div class="oc-l1/l2/l3">` — ciblables en CSS
+- Champs L1 passés en syntaxe de liste Markdown (`- **subject:** ...`) — chaque champ sur sa propre ligne
+- CSS (`openclew-preview.css`) : `.oc-l1` = carte bleue, `.oc-l2` = bordure verte, `.oc-l3` = bordure grise
 
-**Why it was interesting:**
-- CSS could target specific sections for visual styling
-- Gave clear visual hierarchy in VS Code preview
+**Pourquoi c'était intéressant :**
+- Le CSS pouvait cibler des sections précises pour le style visuel
+- Donnait une hiérarchie visuelle claire dans l'aperçu VS Code
 
-**Why it was dropped:**
-- **Blank line pitfall**: CommonMark requires a blank line after `<div>` and before `</div>` for Markdown inside to be parsed. Easy to forget, silent failure — the content renders as raw text.
-- **Bots write Markdown, not HTML**: openclew targets AI agents as primary users. Asking them to produce `<div class="oc-l1">` adds friction for no structural benefit.
-- **The real fix was the list syntax**, not the divs. Switching from paragraphs (`**subject:** ...`) to list items (`- **subject:** ...`) is what solved the wall-of-text problem. The divs were just a vehicle.
+**Pourquoi c'a été abandonné :**
+- **Piège de la ligne vide** : CommonMark exige une ligne vide après `<div>` et avant `</div>` pour que le Markdown à l'intérieur soit parsé. Facile à oublier, échec silencieux — le contenu s'affiche en texte brut.
+- **Les bots écrivent du Markdown, pas du HTML** : openclew cible les agents IA comme utilisateurs principaux. Leur demander de produire `<div class="oc-l1">` ajoute de la friction sans bénéfice structurel.
+- **Le vrai correctif était la syntaxe de liste**, pas les divs. Passer de paragraphes (`**subject:** ...`) à des éléments de liste (`- **subject:** ...`) est ce qui a résolu le problème du mur de texte. Les divs n'étaient qu'un véhicule.
 
-## Approach 2: pure Markdown (retained)
-- No wrappers at all — L1 = list items between line 1 (metadata) and first `---`
-- `# Summary` and `# Details` headings (no "L2"/"L3" prefix)
-- Parser uses positional extraction: `findL1Block()` with 3-level fallback (div → comments → positional)
-- CSS preview still works for any existing docs with div wrappers (backward compat)
+## Approche 2 : Markdown pur (retenue)
+- Aucun wrapper — L1 = éléments de liste entre la ligne 1 (métadonnées) et le premier `---`
+- Titres `# Summary` et `# Details` (sans préfixe « L2 »/« L3 »)
+- Le parser utilise une extraction positionnelle : `findL1Block()` avec repli à 3 niveaux (div → commentaires → positionnel)
+- L'aperçu CSS fonctionne toujours pour les docs existants avec wrappers div (rétrocompatibilité)
 
-## Final format
+## Format final
 ```markdown
 openclew@VERSION · date: YYYY-MM-DD · type: Feature · ...
 
@@ -57,24 +57,24 @@ openclew@VERSION · date: YYYY-MM-DD · type: Feature · ...
 
 # Details
 
-## Parser: findL1Block() — 3-level fallback
-1. `<div class="oc-l1">...</div>` — div format (legacy)
-2. `<!-- L1_START -->...<!-- L1_END -->` — comment format (oldest)
-3. **Positional** — lines between line 0 (metadata) and first `---` (current default)
+## Parser : findL1Block() — repli à 3 niveaux
+1. `<div class="oc-l1">...</div>` — format div (legacy)
+2. `<!-- L1_START -->...<!-- L1_END -->` — format commentaire (le plus ancien)
+3. **Positionnel** — lignes entre la ligne 0 (métadonnées) et le premier `---` (défaut actuel)
 
-Both `parseL1` (bold `**key:**` syntax) and `parseL1Legacy` (plain `key: value`) delegate to `findL1Block`.
+`parseL1` (syntaxe en gras `**key:**`) et `parseL1Legacy` (`key: value` simple) délèguent tous deux à `findL1Block`.
 
-## Files changed in final version
+## Fichiers modifiés dans la version finale
 
-| File | Change |
+| Fichier | Changement |
 |------|--------|
-| `lib/search.js` | `findL1Block()` with 3 fallbacks, exported |
-| `lib/templates.js` | 6 functions: divs removed, `# Summary` / `# Details` |
-| `lib/migrate.js` | Output without divs, `# Summary` / `# Details` |
-| `templates/FORMAT.md` | SSOT updated to pure Markdown |
-| `templates/refdoc.md` | Template without divs |
-| `templates/log.md` | Template without divs |
-| `test/search.test.js` | +3 positional tests (61 total) |
+| `lib/search.js` | `findL1Block()` avec 3 replis, exportée |
+| `lib/templates.js` | 6 fonctions : divs retirées, `# Summary` / `# Details` |
+| `lib/migrate.js` | Sortie sans divs, `# Summary` / `# Details` |
+| `templates/FORMAT.md` | SSOT mis à jour en Markdown pur |
+| `templates/refdoc.md` | Template sans divs |
+| `templates/log.md` | Template sans divs |
+| `test/search.test.js` | +3 tests positionnels (61 au total) |
 
-## CSS (unchanged)
-`openclew init` still installs `openclew-preview.css` with `.oc-l1/l2/l3` classes. These target existing div-wrapped docs for backward compat. New docs don't use divs but still render cleanly — the list syntax and `---` separators provide sufficient visual structure.
+## CSS (inchangé)
+`openclew init` installe toujours `openclew-preview.css` avec les classes `.oc-l1/l2/l3`. Elles ciblent les docs existants à wrappers div pour la rétrocompatibilité. Les nouveaux docs n'utilisent pas de divs mais s'affichent tout de même proprement — la syntaxe de liste et les séparateurs `---` fournissent une structure visuelle suffisante.
