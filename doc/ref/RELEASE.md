@@ -40,7 +40,9 @@ Commit : `<type>(<scope>): <description>` (≤ 50 caractères), sans numéro d'i
 
 ## 3. Construire les artefacts
 
-`dist plan` liste tout ce qui sera produit. Sorties dans `target/distrib/`.
+Prérequis : `cargo install cargo-dist --version 0.32.0 --locked` (version de `dist-workspace.toml`). `dist plan` liste tout ce qui sera produit. Sorties dans `target/distrib/`.
+
+**Construire depuis un checkout propre du tag** (`git worktree add --detach <dossier> vX.Y.Z`) : cargo-dist embarque dans les archives tout fichier racine qui ressemble à une licence ou un README, y compris les fichiers non suivis (ex. une copie `LICENSE 2`). Vérifier les `[misc]` de `dist plan`.
 
 | Où | Commande | Produit |
 |---|---|---|
@@ -86,6 +88,10 @@ Login npm + validation 2FA dans le navigateur. Vérifier : `npm view openclew ve
 
 **`dist build` refuse une cible** (« Cross-compilation … is not supported ») → construire cette cible sur son OS (macOS sur un Mac, Linux via Docker).
 
+**Archives absentes de `target/distrib/`** → un `.cargo/config.toml` dans un dossier parent redirige `target-dir` ; lancer `CARGO_TARGET_DIR=target dist build …`.
+
+**Binaire x86_64 macOS non testable** sur un Mac Apple Silicon sans Rosetta (retirée de macOS 27) : vérifier au moins `file` (Mach-O x86_64) et le tester sur un Mac Intel si possible.
+
 **`npm publish` refusé** → vérifier `npm whoami` et que la version n'est pas déjà publiée (npm refuse de republier une version).
 
 **Modifier la distribution** (cibles, installeurs) → éditer `dist-workspace.toml`.
@@ -99,3 +105,4 @@ Login npm + validation 2FA dans le navigateur. Vérifier : `npm view openclew ve
 | 2026-04-17 | Création initiale — formalise le processus bump/publish après l'incident de dérive Cargo (0.6.0 → 0.9.1, 10 jours sans détection) |
 | 2026-10-13 | Traduction en français |
 | 2026-10-14 | Binaire Rust via cargo-dist, release entièrement locale (aucune CI), npm publié en dernier ; workspace Cargo à la racine ; Homebrew reporté (log : `doc/log/2026-10-14_release-oc-0-11-0.md`) |
+| 2026-10-14 | Build macOS : prérequis cargo-dist, checkout propre du tag, `CARGO_TARGET_DIR`, x86_64 sans Rosetta (log : `doc/log/2026-10-14_binaires-macos-0-11-0.md`) |
