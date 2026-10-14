@@ -1,7 +1,7 @@
-clw_ref@0.10.1 · created: 2026-10-13 · updated: 2026-10-13 · doc_version: 1.0.0 · type: Reference · status: Active · category: Architecture · keywords: [rust, binary, parity, mcp, distribution, include_str, cargo-dist]
+clw_ref@0.10.1 · created: 2026-10-13 · updated: 2026-10-14 · doc_version: 1.1.0 · type: Reference · status: Active · category: Architecture · keywords: [rust, binary, parity, mcp, distribution, include_str, cargo-dist]
 
 - **subject:** Port Rust d'openclew — binaire standalone sans Node.js
-- **doc_brief:** Le binaire Rust (`rust/`) porte toutes les commandes du CLI Node sauf `migrate` et l'update-notifier ; la parité est garantie par des goldens partagés (`test/fixtures/parity/`) vérifiés par `node --test` et `cargo test`, et les textes générés viennent de `templates/embedded/` via `include_str!`. Reste à construire la chaîne de distribution (releases multi-OS, installeurs, gestionnaires de paquets) avant de retirer `lib/`.
+- **doc_brief:** Le binaire Rust (`rust/`) porte toutes les commandes du CLI Node sauf l'update-notifier (`migrate` est désactivée des deux côtés depuis 0.11.0) ; la parité est garantie par des goldens partagés (`test/fixtures/parity/`) vérifiés par `node --test` et `cargo test`, et les textes générés viennent de `templates/embedded/` via `include_str!`. Reste à construire la chaîne de distribution (releases multi-OS, installeurs, gestionnaires de paquets) avant de retirer `lib/`.
 
 ---
 
@@ -11,7 +11,7 @@ clw_ref@0.10.1 · created: 2026-10-13 · updated: 2026-10-13 · doc_version: 1.0
 Supprimer le prérequis Node.js. `npx openclew init` échoue sur une machine sans Node (« npx is not recognized » sous Windows ; même après installation de Node, il faut relancer le terminal pour que le PATH soit pris en compte). Un binaire unique = télécharger et exécuter, zéro runtime.
 
 ## Points clés
-- **Périmètre** : toutes les commandes sauf `migrate` (Node-only, via `npx openclew migrate`) et l'update-notifier (il exigerait un client HTTPS + TLS dans le binaire ; les mises à jour passeront par le gestionnaire de paquets).
+- **Périmètre** : toutes les commandes sauf l'update-notifier ; `migrate` est obsolète et désactivée en Node comme en Rust (renvoi vers `npx openclew@0.9.0 migrate`) (il exigerait un client HTTPS + TLS dans le binaire ; les mises à jour passeront par le gestionnaire de paquets).
 - **Parité testée** : mêmes goldens pour Node et Rust (`test/fixtures/parity/`), exécutés en CI sur Linux, macOS et Windows.
 - **SSOT des textes** : `templates/embedded/*.md`, lus par `lib/templates.js` et embarqués dans Rust via `include_str!`. Aucun texte de template n'est réécrit dans le code.
 - **Coexistence** : `openclew --version` affiche `(node)` ou `(rust)`. Le hook pre-commit et le bloc injecté appellent `openclew` d'abord, `npx` en repli.
@@ -47,7 +47,7 @@ Dépendances : `clap`, `serde` + `serde_json`, `regex`, `chrono`, `dirs`. Pas de
 | `session-header` | Oui | |
 | `index` | Oui | Appelé par le hook pre-commit |
 | `mcp` | Oui | Voir ci-dessous |
-| `migrate` (toutes variantes) | **Non** | Node-only, à porter seulement si un besoin apparaît |
+| `migrate` (toutes variantes) | Désactivée | Obsolète depuis 0.11.0 : même message qu'en Node (`templates/embedded/migrate-deprecated.txt`) |
 | Update-notifier | **Non** | Pas de client HTTPS dans le binaire |
 
 ## Parité Node ↔ Rust
@@ -90,7 +90,7 @@ Les `create_*` économisent des tokens : l'agent envoie quelques champs, le serv
 | 2. Installeurs one-liner | `curl -fsSL … \| sh` (macOS/Linux), `irm … \| iex` (Windows) |
 | 3. Paquet npm | Le paquet npm livre le binaire natif par plateforme (modèle esbuild / biome) |
 | 4. Gestionnaires de paquets | Tap Homebrew, manifest winget, bucket Scoop |
-| 5. Retrait de `lib/` | Une fois le binaire distribué partout ; `migrate` porté ou abandonné d'ici là |
+| 5. Retrait de `lib/` | Une fois le binaire distribué partout  |
 
 Points d'attention :
 - Build macOS arm64 sur runner natif (pas de cross depuis Linux).
@@ -113,3 +113,4 @@ Points d'attention :
 | Date | Change |
 |------|--------|
 | 2026-10-13 | Création (rapatriée depuis la doc interne) |
+| 2026-10-14 | `migrate` désactivée : le binaire couvre tout le CLI |

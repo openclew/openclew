@@ -3,7 +3,7 @@
 openclew evolves. When the format changes, your existing docs still work — parsers
 are backward-compatible. But new features expect the current format.
 
-`openclew migrate` bridges the gap.
+`openclew migrate` bridges the gap. **Since 0.11.0 it is disabled in current releases** (not ported to the Rust binary): run it once from the last release that ships it, `npx openclew@0.9.0 migrate`.
 
 ---
 
@@ -65,7 +65,7 @@ Phase 2 of the `refdoc` → `ref` rename: internal code now matches the user-fac
 
 **Nothing to do on existing projects.** Parsers and `migrate` still recognize `refdoc` everywhere — in front matter, prose, related_docs, and legacy file paths. Your existing docs keep working as-is.
 
-If you want to align your own prose with the new vocabulary, a future `openclew migrate --prose` flag will offer opt-in rewriting. Until then, the rename is purely cosmetic for downstream projects.
+If you want to align your own prose with the new vocabulary, edit it by hand: the rename is purely cosmetic for downstream projects.
 
 **What moved** :
 - `templates/refdoc.md` → `templates/ref.md` (the shipped reference template)
@@ -83,8 +83,8 @@ If you want to align your own prose with the new vocabulary, a future `openclew 
 ```bash
 npm install -g openclew@latest   # or: npx openclew@latest
 openclew status                  # shows legacy doc count
-openclew migrate                 # dry-run: what would change
-openclew migrate --write         # apply
+npx openclew@0.9.0 migrate                 # dry-run: what would change
+npx openclew@0.9.0 migrate --write         # apply
 git diff                         # review
 git add doc/ && git commit -m "chore: migrate docs to openclew format"
 ```
@@ -94,10 +94,10 @@ git add doc/ && git commit -m "chore: migrate docs to openclew format"
 ## When to upgrade
 
 After updating openclew, run `openclew status`. If it reports legacy docs,
-run `openclew migrate` to see what needs changing.
+run `npx openclew@0.9.0 migrate` to see what needs changing.
 
 ```bash
-openclew migrate
+npx openclew@0.9.0 migrate
 # → 12 to migrate, 45 already current, 0 errors (57 total)
 ```
 
@@ -171,8 +171,8 @@ If you move a file (e.g. `doc/_AUTH.md` → `doc/ref/AUTH.md`), references in
 other docs' `related_docs` break. Use `--repoint` to update them:
 
 ```bash
-openclew migrate --repoint doc/_AUTH.md doc/ref/AUTH.md          # dry-run
-openclew migrate --repoint doc/_AUTH.md doc/ref/AUTH.md --write   # apply
+npx openclew@0.9.0 migrate --repoint doc/_AUTH.md doc/ref/AUTH.md          # dry-run
+npx openclew@0.9.0 migrate --repoint doc/_AUTH.md doc/ref/AUTH.md --write   # apply
 ```
 
 ---
@@ -206,7 +206,7 @@ Look for the "Legacy format" line. If it says 0, you're done.
 ### 4. Preview changes
 
 ```bash
-openclew migrate
+npx openclew@0.9.0 migrate
 ```
 
 Lists every file that would be converted. No files are modified.
@@ -214,7 +214,7 @@ Lists every file that would be converted. No files are modified.
 ### 5. Apply
 
 ```bash
-openclew migrate --write
+npx openclew@0.9.0 migrate --write
 ```
 
 Each converted file is printed with `✓`.
@@ -231,7 +231,7 @@ git add doc/ && git commit -m "chore: migrate docs to openclew format"
 
 ```bash
 openclew status             # should show 0 legacy docs
-openclew migrate            # should show "0 to migrate"
+npx openclew@0.9.0 migrate            # should show "0 to migrate"
 ```
 
 ---
@@ -255,7 +255,7 @@ openclew migrate            # should show "0 to migrate"
 
 1. **Prefix change**: `openclew@` → `clw_ref@` (refs) / `clw_log@` (logs).
    The categorical prefix encodes document type directly. Old `openclew@` docs
-   still parse correctly but `openclew migrate --write` converts them.
+   still parse correctly but `npx openclew@0.9.0 migrate --write` converts them.
 
 2. **Pure Markdown L1**: L1 blocks are now plain Markdown list items
    (`- **subject:** ...`) instead of HTML div wrappers or comment markers.
@@ -269,7 +269,7 @@ openclew migrate            # should show "0 to migrate"
    in your instruction file — old blocks still tell agents to read `_INDEX.md`.
 
 5. **`migrate` command included**: Previously excluded from npm. Now ships with
-   the package. Run `openclew migrate` after upgrading.
+   the package. Run `npx openclew@0.9.0 migrate` after upgrading.
 
 6. **Naming convention**: Refs move from `doc/_SUBJECT.md` to
    `doc/ref/SUBJECT.md`. This is a convention change, not enforced — migrate

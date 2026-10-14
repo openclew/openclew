@@ -79,6 +79,13 @@ enum Commands {
 
     /// Start MCP server (JSON-RPC over stdio)
     Mcp,
+
+    /// Deprecated and disabled: prints where to run it instead
+    #[command(hide = true)]
+    Migrate {
+        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
+        args: Vec<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -119,6 +126,11 @@ fn main() {
         Commands::SessionHeader { name, tags, date } => cmd::session_header::run(&name, &tags, date.as_deref()),
         Commands::Index { doc_dir } => cmd::index::run(doc_dir),
         Commands::Mcp => cmd::mcp::run(),
+        Commands::Migrate { .. } => {
+            // Message SSOT shared with Node
+            eprint!("{}", include_str!("../../templates/embedded/migrate-deprecated.txt"));
+            std::process::exit(1);
+        }
     };
 
     if let Err(e) = result {

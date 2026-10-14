@@ -1,7 +1,7 @@
-clw_ref@0.10.1 · created: 2026-10-13 · updated: 2026-10-13 · doc_version: 1.0.0 · type: Reference · status: Active · category: Migration · keywords: [migrate, upgrade, legacy, repoint, todo, status, UPGRADING, clw_ref, clw_log]
+clw_ref@0.10.1 · created: 2026-10-13 · updated: 2026-10-14 · doc_version: 1.1.0 · type: Reference · status: Active · category: Migration · keywords: [migrate, upgrade, legacy, repoint, todo, status, UPGRADING, clw_ref, clw_log]
 
 - **subject:** Mise à niveau des projets créés avec une ancienne version d'openclew
-- **doc_brief:** `openclew migrate` convertit les docs legacy vers le format courant (`clw_ref@` / `clw_log@`, L1 en liste Markdown, `# Summary` / `# Details`) ; il est en dry-run par défaut, n'écrit qu'avec `--write`, est idempotent et ne touche jamais au corps L2/L3. `--repoint` réécrit les chemins après un déplacement de fichier, `--todo` extrait une section TODO du fichier d'instructions vers `TODO.md`. `status` compte les docs legacy et renvoie vers `migrate`. `UPGRADING.md` est le guide utilisateur ; `migrate` existe seulement dans l'implémentation Node.
+- **doc_brief:** **Obsolète et désactivée depuis 0.11.0** (non portée en Rust) : `openclew migrate` affiche un renvoi vers `npx openclew@0.9.0 migrate`, dernière version qui la livre ; ce qui suit décrit son comportement dans cette version. `openclew migrate` convertit les docs legacy vers le format courant (`clw_ref@` / `clw_log@`, L1 en liste Markdown, `# Summary` / `# Details`) ; il est en dry-run par défaut, n'écrit qu'avec `--write`, est idempotent et ne touche jamais au corps L2/L3. `--repoint` réécrit les chemins après un déplacement de fichier, `--todo` extrait une section TODO du fichier d'instructions vers `TODO.md`. `status` compte les docs legacy et renvoie vers `migrate`. `UPGRADING.md` est le guide utilisateur ; `migrate` existe seulement dans l'implémentation Node.
 
 ---
 
@@ -120,3 +120,4 @@ Cherche une section `## TODO` contenant des cases à cocher dans l'entry point (
 | Date | Change |
 |------|--------|
 | 2026-10-13 | Création (condensé de l'historique interne) |
+| 2026-10-14 | `migrate` obsolète et désactivée depuis 0.11.0 ; renvoi vers `npx openclew@0.9.0 migrate` (message SSOT `templates/embedded/migrate-deprecated.txt`) |

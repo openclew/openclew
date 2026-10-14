@@ -4,6 +4,9 @@ All notable changes to openclew are documented here.
 
 ## [Unreleased]
 
+### Deprecated
+- **`openclew migrate` disabled** — deprecated and not ported to the Rust binary. Both implementations now print where to run it instead (`npx openclew@0.9.0 migrate`, the last release that ships it) and exit 1. Removed from `help --all`. Message SSOT: `templates/embedded/migrate-deprecated.txt`. `status` legacy hints point to the same command; `add ref` on a legacy path now says to move the file by hand.
+
 ### Added
 - **`/oc-raise` slash command** — reports an openclew friction as a GitHub Issue on `openclew/openclew` (`gh issue create`, link fallback), after stripping private context and asking the user to confirm the draft. Installed by `init` like the other `oc-*` commands.
 - **L1 field `doc_version` (refs only)** — new semver field tracking the **content version** of a ref, distinct from the `clw_ref@X.Y.Z` prefix which tracks the **format version**. `clw_ref@` is now explicitly immutable except on format migration; `doc_version` is bumped by the author on significant content edits. Starts at `1.0.0`. Logs remain immutable and have no `doc_version`. Updated: `templates/FORMAT.md`, `templates/ref.md`, `lib/templates.js` (all ref-emitting templates), `rust/src/template/refs.rs`, `rust/src/template/guide.rs`, `doc/ref/FORMAT.md`. Parser is unchanged — `doc_version` is automatically indexed as a generic `key: value` pair.

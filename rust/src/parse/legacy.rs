@@ -1,5 +1,5 @@
 //! Legacy-format detection (mirrors `isLegacy` of lib/migrate.js parseLegacyDoc).
-//! Migration itself stays Node-only (`npx openclew migrate`) — user decision 2026-10-12.
+//! Migration itself is deprecated and disabled since 0.11.0 (not ported) â€” user decision 2026-10-14.
 
 use regex::Regex;
 

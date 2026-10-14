@@ -1,0 +1,4 @@
+`openclew migrate` is deprecated and disabled since 0.11.0.
+To convert docs from an older openclew format, run it once from the last release that ships it:
+  npx openclew@0.9.0 migrate            (preview)
+  npx openclew@0.9.0 migrate --write    (apply)

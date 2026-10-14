@@ -57,7 +57,7 @@ The line 1 prefix encodes the document type for fast grep-based discovery:
 
 This replaces the previous `openclew@VERSION` prefix. The prefix encodes the document category (ref vs log), while the `type:` field encodes the semantic type (Reference, Bug, Feature...). The prefix is greppable in one shot regardless of where the file is stored.
 
-**Legacy compatibility**: files starting with `openclew@` are still parsed correctly. Use `openclew migrate` to convert.
+**Legacy compatibility**: files starting with `openclew@` are still parsed correctly. Use `npx openclew@0.9.0 migrate` to convert (disabled in current releases since 0.11.0).
 
 ### Fields
 
@@ -153,7 +153,7 @@ The parser supports two older formats for backward compatibility:
 </div>
 ```
 
-Both are read correctly by the parser. Use `openclew migrate` to convert legacy docs to the current pure Markdown format.
+Both are read correctly by the parser. Use `npx openclew@0.9.0 migrate` to convert legacy docs to the current pure Markdown format.
 
 ---
 
@@ -233,7 +233,7 @@ When ≥3 refs cover the same domain, group them in a subfolder: `doc/ref/<theme
 
 ### Legacy naming
 
-Previous convention used `doc/_SUBJECT.md` (prefixed `_` at doc root). Use `openclew migrate --move` to relocate files and update all references.
+Previous convention used `doc/_SUBJECT.md` (prefixed `_` at doc root). Move the files into `doc/ref/` by hand and update all references.
 
 ---
 

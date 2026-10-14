@@ -115,7 +115,7 @@ pub fn run() -> Result<(), String> {
         .count();
     if legacy_count > 0 {
         println!("Legacy format: {legacy_count} docs need migration");
-        println!("  Run 'npx openclew migrate' to preview, 'npx openclew migrate --write' to apply.\n");
+        println!("  Run 'npx openclew@0.9.0 migrate' to preview, 'npx openclew@0.9.0 migrate --write' to apply.\n");
     }
 
     coexistence_check();
@@ -202,7 +202,7 @@ pub fn run() -> Result<(), String> {
             if count > 0 && !todo_path.exists() {
                 println!("⚠ Found {count} TODO item(s) in {entry}");
                 println!("  Consider moving them to TODO.md for cleaner instructions.");
-                println!("  Run 'npx openclew migrate --todo' to extract automatically.\n");
+                println!("  Run 'npx openclew@0.9.0 migrate --todo' to extract automatically.\n");
             }
         }
     }

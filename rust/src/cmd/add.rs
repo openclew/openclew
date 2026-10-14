@@ -45,7 +45,7 @@ pub fn create_ref(project_root: &Path, title: &str, filled: Option<Filled>) -> R
     let legacy = doc_dir.join(format!("_{slug}.md"));
     if legacy.exists() {
         return Err(format!(
-            "File already exists at legacy path: doc/_{slug}.md\nUse 'openclew migrate --move doc/_{slug}.md doc/ref/{slug}.md' to relocate it."
+            "File already exists at legacy path: doc/_{slug}.md\nMove it to doc/ref/{slug}.md by hand, then retry."
         ));
     }
     let content = match filled {

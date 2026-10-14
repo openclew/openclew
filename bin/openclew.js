@@ -36,10 +36,6 @@ Usage:
 
 Advanced:
   openclew status                  Documentation health dashboard
-  openclew migrate                 Upgrade legacy docs to current format (dry-run)
-  openclew migrate --write         Apply migration
-  openclew migrate --todo          Extract TODO section from instruction file → TODO.md
-  openclew migrate --repoint A B   Update related_docs paths after file moves
   openclew index                   Regenerate doc/_INDEX.md
   openclew session-header          Format session header line
   openclew mcp                     Start MCP server (stdio JSON-RPC)
@@ -90,7 +86,11 @@ if (command === "add") {
     status: () => require("../lib/status"),
     index: () => require("../lib/index-gen"),
     "session-header": () => require("../lib/session-header"),
-    migrate: () => require("../lib/migrate"),
+    // Deprecated and disabled (not ported to Rust) — message SSOT shared with Rust
+    migrate: () => {
+      process.stderr.write(require("../lib/templates").render("migrate-deprecated.txt"));
+      process.exit(1);
+    },
     mcp: () => require("../lib/mcp-server"),
   };
 

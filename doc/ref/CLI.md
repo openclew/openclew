@@ -16,7 +16,7 @@ Fixer le contrat de chaque commande et les décisions de conception qui les sous
 - **Recherche sans infra** : pas d'embeddings ni de base vectorielle, un scoring pondéré sur L1 + métadonnées, zéro dépendance.
 - **Une source de parsing** : `lib/search.js` (`collectDocs`, `parseFile`) est réutilisé par `index`, `status`, `peek`, `mcp` — un seul scanner récursif (`walkDir`).
 - **L'agent guide l'utilisateur** : chaque sortie dit l'étape suivante ; le bloc injecté pousse l'agent à proposer refs, logs et migrations plutôt que d'attendre qu'on les lui demande.
-- **Parité Node ↔ Rust** : toutes les commandes existent dans les deux implémentations, sauf `migrate` (Node uniquement).
+- **Parité Node ↔ Rust** : toutes les commandes existent dans les deux implémentations ; `migrate` y est désactivée à l'identique (même message, SSOT `templates/embedded/migrate-deprecated.txt`).
 
 ---
 
@@ -34,7 +34,7 @@ Fixer le contrat de chaque commande et les décisions de conception qui les sous
 | `peek` | défaut | Fichier d'instructions + refs + TODO ouverts | Non |
 | `checkout` | défaut | Résumé git du jour + log pré-rempli | Oui (log, index) |
 | `status` | `--all` | Dashboard santé de la doc | Non |
-| `migrate` | `--all` | Mise à niveau du format (voir [MIGRATION.md](MIGRATION.md)) | Avec `--write` |
+| `migrate` | masquée | **Obsolète, désactivée depuis 0.11.0** : affiche un renvoi vers `npx openclew@0.9.0 migrate` (voir [MIGRATION.md](MIGRATION.md)) | Non |
 | `index` | `--all` | Régénère `doc/_INDEX.md` | Oui |
 | `session-header` | `--all` | Formate une ligne d'en-tête de session | Non |
 | `mcp` | `--all` | Serveur MCP stdio | Non |
@@ -132,7 +132,7 @@ openclew ne doit pas attendre que l'utilisateur connaisse ses commandes. Concrè
 
 | Piège | Correction / contournement |
 |---|---|
-| Message d'erreur de `add ref` sur un chemin legacy propose `migrate --move`, option qui n'existe pas | Déplacer le fichier à la main puis `migrate --repoint <ancien> <nouveau> --write` |
+| `add ref` refuse si un doc legacy `doc/_SLUG.md` existe | Déplacer le fichier dans `doc/ref/` à la main (le message le dit), puis relancer |
 | `peek` ne détecte que `CLAUDE.md` / `AGENTS.md`, pas l'entry point de `.openclew.json` | Connu ; les autres fichiers d'instructions ne s'affichent pas dans `peek` |
 | `list_docs` Node n'accepte que `ref` / `log` ; le Rust accepte aussi `todo` | Filtrer côté client ou utiliser le binaire Rust |
 | `--no-inject` sans `.openclew.json` déclenchait un avertissement trompeur dans `add` / `checkout` | Corrigé : `init` écrit `{ entryPoint: null }` dans ce cas |
@@ -145,3 +145,4 @@ openclew ne doit pas attendre que l'utilisateur connaisse ses commandes. Concrè
 | Date | Change |
 |------|--------|
 | 2026-10-13 | Création (condensé de l'historique interne) |
+| 2026-10-14 | `migrate` obsolète et désactivée (Node et Rust) |
