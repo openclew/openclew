@@ -120,4 +120,4 @@ Cherche une section `## TODO` contenant des cases à cocher dans l'entry point (
 | Date | Change |
 |------|--------|
 | 2026-10-13 | Création (condensé de l'historique interne) |
-| 2026-10-14 | `migrate` obsolète et désactivée depuis 0.11.0 ; renvoi vers `npx openclew@0.9.0 migrate` (message SSOT `templates/embedded/migrate-deprecated.txt`) |
+| 2026-10-14 | `migrate` obsolète et désactivée depuis 0.11.0 ; renvoi vers `npx openclew@0.9.0 migrate` (message SSOT `templates/embedded/migrate-deprecated.txt`) (log : `doc/log/2026-10-14_release-oc-0-11-0.md`) |

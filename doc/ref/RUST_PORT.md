@@ -113,4 +113,4 @@ Points d'attention :
 |------|--------|
 | 2026-10-13 | Création (rapatriée depuis la doc interne) |
 | 2026-10-14 | `migrate` désactivée : le binaire couvre tout le CLI |
-| 2026-10-14 | Distribution cargo-dist configurée (0.11.0) |
+| 2026-10-14 | Distribution cargo-dist configurée (0.11.0) (log : `doc/log/2026-10-14_release-oc-0-11-0.md`) |

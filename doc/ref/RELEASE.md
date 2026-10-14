@@ -98,4 +98,4 @@ Login npm + validation 2FA dans le navigateur. Vérifier : `npm view openclew ve
 |------|--------|
 | 2026-04-17 | Création initiale — formalise le processus bump/publish après l'incident de dérive Cargo (0.6.0 → 0.9.1, 10 jours sans détection) |
 | 2026-10-13 | Traduction en français |
-| 2026-10-14 | Binaire Rust via cargo-dist, release entièrement locale (aucune CI), npm publié en dernier ; workspace Cargo à la racine ; Homebrew reporté |
+| 2026-10-14 | Binaire Rust via cargo-dist, release entièrement locale (aucune CI), npm publié en dernier ; workspace Cargo à la racine ; Homebrew reporté (log : `doc/log/2026-10-14_release-oc-0-11-0.md`) |
