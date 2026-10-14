@@ -1,4 +1,4 @@
-clw_ref@0.10.1 · created: 2026-10-13 · updated: 2026-10-14 · doc_version: 1.1.0 · type: Reference · status: Active · category: Architecture · keywords: [rust, binary, parity, mcp, distribution, include_str, cargo-dist]
+clw_ref@0.10.1 · created: 2026-10-13 · updated: 2026-10-14 · doc_version: 1.2.0 · type: Reference · status: Active · category: Architecture · keywords: [rust, binary, parity, mcp, distribution, include_str, cargo-dist]
 
 - **subject:** Port Rust d'openclew — binaire standalone sans Node.js
 - **doc_brief:** Le binaire Rust (`rust/`) porte toutes les commandes du CLI Node sauf l'update-notifier (`migrate` est désactivée des deux côtés depuis 0.11.0) ; la parité est garantie par des goldens partagés (`test/fixtures/parity/`) vérifiés par `node --test` et `cargo test`, et les textes générés viennent de `templates/embedded/` via `include_str!`. Reste à construire la chaîne de distribution (releases multi-OS, installeurs, gestionnaires de paquets) avant de retirer `lib/`.
@@ -12,10 +12,10 @@ Supprimer le prérequis Node.js. `npx openclew init` échoue sur une machine san
 
 ## Points clés
 - **Périmètre** : toutes les commandes sauf l'update-notifier ; `migrate` est obsolète et désactivée en Node comme en Rust (renvoi vers `npx openclew@0.9.0 migrate`) (il exigerait un client HTTPS + TLS dans le binaire ; les mises à jour passeront par le gestionnaire de paquets).
-- **Parité testée** : mêmes goldens pour Node et Rust (`test/fixtures/parity/`), exécutés en CI sur Linux, macOS et Windows.
+- **Parité testée** : mêmes goldens pour Node et Rust (`test/fixtures/parity/`), exécutés en local par `npm test` et `cargo test` (aucune CI depuis le 2026-10-14).
 - **SSOT des textes** : `templates/embedded/*.md`, lus par `lib/templates.js` et embarqués dans Rust via `include_str!`. Aucun texte de template n'est réécrit dans le code.
 - **Coexistence** : `openclew --version` affiche `(node)` ou `(rust)`. Le hook pre-commit et le bloc injecté appellent `openclew` d'abord, `npx` en repli.
-- **Distribution : non faite.** Aujourd'hui le binaire se construit depuis le dépôt (`cargo build --release --manifest-path rust/Cargo.toml`).
+- **Distribution** : cargo-dist depuis 0.11.0 — GitHub Releases, installeurs shell/PowerShell, npm (voir § Distribution et [RELEASE.md](RELEASE.md)).
 
 ---
 
@@ -56,8 +56,7 @@ Dépendances : `clap`, `serde` + `serde_json`, `regex`, `chrono`, `dirs`. Pas de
 - Goldens : `expected.json` (`collectDocs` sur le dossier) et `generated.json` (templates, slugs, classement de recherche, niveaux de `read_doc`, session-header, todos plats).
 - Côté Node : `test/parity.test.js` produit/vérifie les goldens. Côté Rust : `rust/src/parity_tests.rs` lit les **mêmes** entrées depuis `generated.json` (jamais redéfinies côté Rust).
 - Dates et version sont tokenisées (`{{DATE}}`, `{{VER}}`) avant comparaison.
-- Changement de comportement voulu : `UPDATE_GOLDEN=1 node --test test/parity.test.js`, puis `cargo test --manifest-path rust/Cargo.toml` doit passer sans retouche.
-- CI : `.github/workflows/test.yml` lance `npm test` (Node 16/20/22) et `cargo test` sur les 3 OS.
+- Changement de comportement voulu : `UPDATE_GOLDEN=1 node --test test/parity.test.js`, puis `cargo test` doit passer sans retouche.
 
 ## SSOT des textes générés
 
@@ -82,21 +81,21 @@ Les `create_*` économisent des tokens : l'agent envoie quelques champs, le serv
 
 **Écart connu** : le serveur MCP Node (`lib/mcp-server.js`) n'expose que les 3 tools de lecture (`search_docs`, `read_doc`, `list_docs`). Les goldens couvrent la logique partagée (recherche, niveaux), pas la liste des tools MCP.
 
-## Distribution — reste à faire
+## Distribution (depuis 0.11.0)
 
-| Étape | Contenu |
+Outillée avec cargo-dist en local, sans CI (`dist-workspace.toml`, workspace Cargo à la racine du dépôt) ; processus de release : [RELEASE.md](RELEASE.md).
+
+| Étape | État |
 |---|---|
-| 1. Releases | `cargo-dist` → GitHub Releases multi-OS (Linux x64/arm64, macOS arm64/x64, Windows x64), checksums |
-| 2. Installeurs one-liner | `curl -fsSL … \| sh` (macOS/Linux), `irm … \| iex` (Windows) |
-| 3. Paquet npm | Le paquet npm livre le binaire natif par plateforme (modèle esbuild / biome) |
-| 4. Gestionnaires de paquets | Tap Homebrew, manifest winget, bucket Scoop |
-| 5. Retrait de `lib/` | Une fois le binaire distribué partout  |
+| 1. Releases | Windows x64 publié en 0.11.0 ; macOS arm64/x64 (sur Mac) et Linux x64/arm64 (Docker) à construire et téléverser |
+| 2. Installeurs one-liner | Fait : `openclew-installer.sh` (`curl \| sh`), `openclew-installer.ps1` (`irm \| iex`) |
+| 3. Paquet npm | Prêt : installeur npm de cargo-dist (construit en local, à publier une fois les 5 archives en ligne), qui télécharge le binaire de la plateforme depuis la GitHub Release (choisi plutôt que le modèle esbuild : zéro code à maintenir ; limite : téléchargement GitHub au moment de l'install) |
+| 4. Gestionnaires de paquets | À venir : tap Homebrew, bucket Scoop, winget |
+| 5. Retrait de `lib/` | À faire : le paquet npm ne contient plus le code Node, qui ne sert plus qu'aux tests de parité |
 
 Points d'attention :
-- Build macOS arm64 sur runner natif (pas de cross depuis Linux).
-- Installeur Windows : modifier le PATH utilisateur sans écraser les autres entrées.
-- Tant que Node et Rust coexistent : risque de dérive de features (cf. écart MCP ci-dessus) ; fixer une fenêtre de dépréciation du CLI Node.
-- Signature/notarisation macOS : reportée.
+- Installeurs : binaire placé dans `CARGO_HOME/bin` (`~/.cargo/bin`), ajouté au PATH.
+- Signature/notarisation macOS et signature Windows : reportées (le binaire installé par script n'est pas bloqué par Gatekeeper ; une archive téléchargée par navigateur peut l'être).
 
 ## Pièges
 
@@ -114,3 +113,4 @@ Points d'attention :
 |------|--------|
 | 2026-10-13 | Création (rapatriée depuis la doc interne) |
 | 2026-10-14 | `migrate` désactivée : le binaire couvre tout le CLI |
+| 2026-10-14 | Distribution cargo-dist configurée (0.11.0) |

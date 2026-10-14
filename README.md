@@ -88,11 +88,26 @@ Together, they form the thread. The refs tell you where you are. The logs tell y
 
 ### 1. Install
 
+openclew is a single native binary (no runtime needed).
+
+```bash
+# Windows (PowerShell)
+powershell -ExecutionPolicy Bypass -c "irm https://github.com/openclew/openclew/releases/latest/download/openclew-installer.ps1 | iex"
+```
+
+macOS and Linux binaries (and a `curl | sh` installer) are coming. Meanwhile, use the npm package (requires Node.js 16+):
+
 ```bash
 npx openclew init
 ```
 
-Requires Node.js 16+ and npm. `npx` downloads the version currently published on npm, which may lag behind the source repository. To run an unreleased checkout, use `node bin/openclew.js init` from your target project's directory (with the full path to the checkout).
+Binaries are attached to each [GitHub Release](https://github.com/openclew/openclew/releases).
+
+Then, in your project:
+
+```bash
+openclew init
+```
 
 This:
 - Creates `doc/` with a guide, an example doc, and an example log
@@ -128,14 +143,17 @@ openclew mcp                     # Start MCP server (stdio JSON-RPC)
 
 ### Claude Code slash commands
 
-`openclew init` installs 4 slash commands into Claude Code:
+`openclew init` installs these slash commands into Claude Code:
 
 | Command | What it does |
 |---------|-------------|
 | `/oc-checkout` | End-of-session summary — review actions, create log, commit |
 | `/oc-search` | Search project docs by keyword |
+| `/oc-peek` | List the instruction file and all refs |
 | `/oc-init` | Set up openclew in the current project |
 | `/oc-status` | Documentation health dashboard |
+| `/oc-todo` | Add a TODO (flat `TODO.md` or one file per task) |
+| `/oc-raise` | Report an openclew friction as a GitHub Issue |
 
 These work like any Claude Code slash command — type `/oc-` and pick one. No `npx` needed.
 
@@ -209,7 +227,7 @@ doc/
 **What the CLI does for you:**
 - Detects your instruction file (CLAUDE.md, .cursorrules, AGENTS.md, copilot-instructions...)
 - Injects a knowledge block that teaches your agent about the doc structure
-- Generates the index on init; optional `--hook` adds pre-commit regeneration (requires Git and `npx`)
+- Generates the index on init; optional `--hook` adds pre-commit regeneration (requires Git; runs `openclew`, falls back to `npx`)
 - Searches docs by keyword with weighted scoring (`openclew search`)
 - Exposes docs via MCP server for tool-aware agents (`openclew mcp`)
 - Produces a session summary at end of work (`openclew checkout`)

@@ -4,6 +4,12 @@ All notable changes to openclew are documented here.
 
 ## [Unreleased]
 
+## [0.11.0] — 2026-10-14
+
+### Changed
+- **Native binary distribution** — openclew now ships as a single Rust binary, no Node.js required. Binaries are built locally with cargo-dist (`dist-workspace.toml`) and attached to GitHub Releases with a PowerShell installer (Windows x64 first; macOS and Linux archives, the shell installer and the npm package follow). The Cargo workspace now lives at the repo root.
+- **Rust port at full parity** — every command behaves like the Node CLI (shared golden fixtures in `test/fixtures/parity/`, checked by `node --test` and `cargo test`). Agent-facing texts call `openclew` directly, with `npx openclew` as fallback.
+
 ### Deprecated
 - **`openclew migrate` disabled** — deprecated and not ported to the Rust binary. Both implementations now print where to run it instead (`npx openclew@0.9.0 migrate`, the last release that ships it) and exit 1. Removed from `help --all`. Message SSOT: `templates/embedded/migrate-deprecated.txt`. `status` legacy hints point to the same command; `add ref` on a legacy path now says to move the file by hand.
 

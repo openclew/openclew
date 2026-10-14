@@ -1,5 +1,5 @@
 #!/bin/bash
-# Bump openclew version atomically across package.json + rust/Cargo.toml + rust/Cargo.lock.
+# Bump openclew version atomically across package.json + rust/Cargo.toml + Cargo.lock (workspace root).
 # Usage: scripts/bump.sh X.Y.Z
 #
 # Why: version is duplicated across Node and Rust manifests (SSOT violation).
@@ -45,12 +45,12 @@ if [ -f rust/Cargo.toml ]; then
     mv rust/Cargo.toml.tmp rust/Cargo.toml
     echo "✓ rust/Cargo.toml → $NEW_VERSION"
 
-    # 3. rust/Cargo.lock — regenerate the openclew entry
-    if [ -f rust/Cargo.lock ]; then
-        (cd rust && cargo update -p openclew --precise "$NEW_VERSION" 2>/dev/null \
+    # 3. Cargo.lock (workspace root) — regenerate the openclew entry
+    if [ -f Cargo.lock ]; then
+        (cargo update -p openclew --precise "$NEW_VERSION" 2>/dev/null \
             || cargo build --offline --quiet 2>/dev/null \
             || cargo build --quiet 2>/dev/null || true)
-        echo "✓ rust/Cargo.lock"
+        echo "✓ Cargo.lock"
     fi
 fi
 
@@ -58,4 +58,4 @@ fi
 bash scripts/check_version_sync.sh
 
 echo ""
-echo "Next: git add package.json rust/Cargo.toml rust/Cargo.lock && git commit"
+echo "Next: git add package.json rust/Cargo.toml Cargo.lock && git commit"
