@@ -4,6 +4,18 @@ All notable changes to openclew are documented here.
 
 ## [Unreleased]
 
+### Added
+- **`openclew review`** — continuous cleanup of refs, never deleting nor moving a file. Read-only report of candidates: deprecated refs, or refs untouched for more than 90 days (latest of git commit, `updated`, `reviewed`) that are orphan, lingering `Draft`, citing dead paths or sharing a subject; weighted score, Markdown top N (`--top`) or `--json`.
+- **`openclew review --apply [--commit]`** — deterministic gestures: rewrites a dead path whose move is proven (suffix match or legacy `_NAME` → `ref/NAME`, single match only), archives in place a deprecated/redirect ref whose replacement is proven (`status: Archived` + `superseded_by`). Skips refs with uncommitted changes; `--commit` makes a dedicated commit of the touched files.
+- **`openclew review --confirm|--archive <ref> --why <reason>`** — judged gestures for the agent (`--superseded-by` for archive).
+- **Review journal** — `doc/review-journal.md`, append-only: date, `auto`/`agent`, ref, gesture, reason.
+- **`checkout` runs the cleanup** — deterministic pass with its own commit, then the top 3 candidates for the agent; nothing at all when there is nothing to do.
+- Thresholds, weights and skipped dirs: `templates/embedded/review.json`, shared by Node and Rust. The commit title agrees in number and can be replaced per project in `.openclew.json` (`reviewCommit: { one, many }`, `{{COUNT}}` placeholder).
+
+### Fixed
+- **`init` no longer drops `.openclew.json` keys** — writing the config now merges into the existing file instead of replacing it (Node and Rust).
+- **L1 field `reviewed` (refs only)** — date a ref was re-read and confirmed without change; takes it out of the review score for 90 days.
+
 ## [0.11.0] — 2026-10-14
 
 ### Changed

@@ -36,6 +36,9 @@ Usage:
 
 Advanced:
   openclew status                  Documentation health dashboard
+  openclew review                  Refs that may be outdated (--top N, --json)
+                                   --apply [--commit]: safe automatic cleanup
+                                   --confirm|--archive <ref> --why <text>
   openclew index                   Regenerate doc/_INDEX.md
   openclew session-header          Format session header line
   openclew mcp                     Start MCP server (stdio JSON-RPC)
@@ -84,6 +87,7 @@ if (command === "add") {
     peek: () => require("../lib/peek"),
     todo: () => require("../lib/new-todo"),
     status: () => require("../lib/status"),
+    review: () => require("../lib/review"),
     index: () => require("../lib/index-gen"),
     "session-header": () => require("../lib/session-header"),
     // Deprecated and disabled (not ported to Rust) — message SSOT shared with Rust

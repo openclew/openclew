@@ -335,5 +335,186 @@
       "date": "2026-03-27",
       "line": "📅 2026-03-27 🏷️  No tags -----"
     }
-  ]
+  ],
+  "review": {
+    "today": "2026-10-19",
+    "report": {
+      "today": "2026-10-19",
+      "age_days": 90,
+      "refs_scanned": 13,
+      "candidates": [
+        {
+          "path": "doc/ref/REDIRECT_STUB.md",
+          "subject": "Legacy archived REDIRECT_STUB.md",
+          "status": "redirect",
+          "last_touch": "2025-01-01",
+          "age_days": 656,
+          "inbound": 0,
+          "score": 5,
+          "signals": [
+            "deprecated",
+            "orphan"
+          ],
+          "dead_paths": [],
+          "twin_of": []
+        },
+        {
+          "path": "doc/ref/SUPERSEDED_LEGACY.md",
+          "subject": "Legacy archived SUPERSEDED_LEGACY.md",
+          "status": "⏭️ Supersédé",
+          "last_touch": "2025-01-01",
+          "age_days": 656,
+          "inbound": 0,
+          "score": 5,
+          "signals": [
+            "deprecated",
+            "orphan"
+          ],
+          "dead_paths": [],
+          "twin_of": []
+        },
+        {
+          "path": "doc/ref/STALE_DRAFT.md",
+          "subject": "Stale draft",
+          "status": "Draft",
+          "last_touch": "2026-01-01",
+          "age_days": 291,
+          "inbound": 0,
+          "score": 5,
+          "signals": [
+            "orphan",
+            "transient",
+            "dead_paths"
+          ],
+          "dead_paths": [
+            "src/missing.js"
+          ],
+          "twin_of": []
+        },
+        {
+          "path": "doc/ref/TWIN_B.md",
+          "subject": "Duplicate Topic!",
+          "status": "Active",
+          "last_touch": "2026-02-01",
+          "age_days": 260,
+          "inbound": 0,
+          "score": 4,
+          "signals": [
+            "orphan",
+            "twin"
+          ],
+          "dead_paths": [],
+          "twin_of": [
+            "doc/ref/TWIN_A.md"
+          ]
+        },
+        {
+          "path": "doc/_LEGACY_REDIRECT.md",
+          "subject": "Legacy redirect",
+          "status": "Vivant",
+          "last_touch": "2026-10-01",
+          "age_days": 18,
+          "inbound": 0,
+          "score": 3,
+          "signals": [
+            "deprecated"
+          ],
+          "dead_paths": [],
+          "twin_of": []
+        },
+        {
+          "path": "doc/ref/DEPRECATED_NO_TARGET.md",
+          "subject": "Deprecated without target",
+          "status": "Active",
+          "last_touch": "2026-10-01",
+          "age_days": 18,
+          "inbound": 0,
+          "score": 3,
+          "signals": [
+            "deprecated"
+          ],
+          "dead_paths": [],
+          "twin_of": []
+        },
+        {
+          "path": "doc/ref/OLD_API.md",
+          "subject": "Old API",
+          "status": "Deprecated",
+          "last_touch": "2026-10-01",
+          "age_days": 18,
+          "inbound": 0,
+          "score": 3,
+          "signals": [
+            "deprecated"
+          ],
+          "dead_paths": [],
+          "twin_of": []
+        },
+        {
+          "path": "doc/ref/TWIN_A.md",
+          "subject": "Duplicate topic",
+          "status": "Active",
+          "last_touch": "2026-02-01",
+          "age_days": 260,
+          "inbound": 2,
+          "score": 2,
+          "signals": [
+            "twin"
+          ],
+          "dead_paths": [],
+          "twin_of": [
+            "doc/ref/TWIN_B.md"
+          ]
+        }
+      ]
+    },
+    "markdown_top2": "# openclew review — 2026-10-19\n\n8 candidate(s) out of 13 refs (untouched for more than 90 days, with at least one signal).\n\n| Ref | Subject | Age (days) | Signals |\n|---|---|---:|---|\n| `doc/ref/REDIRECT_STUB.md` | Legacy archived REDIRECT_STUB.md | 656 | deprecated · orphan (0 links) |\n| `doc/ref/SUPERSEDED_LEGACY.md` | Legacy archived SUPERSEDED_LEGACY.md | 656 | deprecated · orphan (0 links) |\n\nTop 2 shown: --top 8 for all, --json for details.\n\nGestures are manual and validated by the user as a batch: confirm (`reviewed: 2026-10-19` on line 1), refresh, archive (`status: Archived` + `superseded_by`), merge. Never delete.\n",
+    "checkout_top3": "\n  🧹 Refs to review: 8 candidate(s), top 3\n     - doc/ref/REDIRECT_STUB.md — Legacy archived REDIRECT_STUB.md (656 d: deprecated · orphan (0 links))\n     - doc/ref/SUPERSEDED_LEGACY.md — Legacy archived SUPERSEDED_LEGACY.md (656 d: deprecated · orphan (0 links))\n     - doc/ref/STALE_DRAFT.md — Stale draft (291 d: orphan (0 links) · transient: Draft · dead paths: 1)\n     Read only the L1 of each (subject + doc_brief). Apply 1 to 3 gestures you are sure of:\n       openclew review --confirm <ref> --why \"<reason>\"        (still true: sets reviewed: 2026-10-19)\n       openclew review --archive <ref> [--superseded-by <ref>] --why \"<reason>\"\n     Merge = move the content into the other ref by hand, then --archive with --superseded-by.\n     Report each gesture in one line. Ask the user only when in real doubt. Never delete or move a file.\n",
+    "apply": {
+      "result": {
+        "today": "2026-10-19",
+        "gestures": [
+          {
+            "path": "doc/_LEGACY_REDIRECT.md",
+            "gesture": "archive",
+            "detail": "superseded_by: review-sibling/doc/_LEGACY_REDIRECT.md",
+            "why": "marked deprecated or redirect, replacement exists"
+          },
+          {
+            "path": "doc/ref/MOVED_PATH.md",
+            "gesture": "refresh",
+            "detail": "`deep/helper.js` → `src/deep/helper.js`",
+            "why": "dead path, it was relative to a subfolder"
+          },
+          {
+            "path": "doc/ref/MOVED_PATH.md",
+            "gesture": "refresh",
+            "detail": "`notes/_SETUP.md` → `notes/ref/SETUP.md`",
+            "why": "dead path, legacy _NAME moved to ref/"
+          },
+          {
+            "path": "doc/ref/OLD_API.md",
+            "gesture": "archive",
+            "detail": "superseded_by: review-sibling/doc/ref/OLD_API.md",
+            "why": "marked deprecated or redirect, replacement exists"
+          }
+        ],
+        "touched": [
+          "doc/_LEGACY_REDIRECT.md",
+          "doc/ref/MOVED_PATH.md",
+          "doc/ref/OLD_API.md"
+        ],
+        "committed": null
+      },
+      "summary": "  🧹 Automatic cleanup: 4 gesture(s), not committed (journal: doc/review-journal.md)\n     - doc/_LEGACY_REDIRECT.md: archive superseded_by: review-sibling/doc/_LEGACY_REDIRECT.md\n     - doc/ref/MOVED_PATH.md: refresh `deep/helper.js` → `src/deep/helper.js`\n     - doc/ref/MOVED_PATH.md: refresh `notes/_SETUP.md` → `notes/ref/SETUP.md`\n     - doc/ref/OLD_API.md: archive superseded_by: review-sibling/doc/ref/OLD_API.md\n",
+      "files": {
+        "doc/_LEGACY_REDIRECT.md": "MyDoc@6.0.0\n\n<!-- L1_START -->\ntype: Redirect\nsubject: Legacy redirect\ncreated: 2026-10-01\nupdated: 2026-10-01\ndoc_brief: Redirect. Moved to its own project.\nstatus: Archived\nsuperseded_by: review-sibling/doc/_LEGACY_REDIRECT.md\nrelated_docs: [review-sibling/doc/_LEGACY_REDIRECT.md]\n<!-- L1_END -->\n\nMoved.\n",
+        "doc/ref/MOVED_PATH.md": "clw_ref@0.11.0 · created: 2026-10-01 · updated: 2026-10-01 · type: Reference · status: Active · category: Test · keywords: [review]\n\n- **subject:** Moved paths\n- **doc_brief:** Fixture for openclew review --apply.\n\n---\n\n# Summary\n\nUses `src/deep/helper.js` (relative to `src/`), `lib/dup.js` (two candidates, left alone), `backend/config.py` (same name, other place: left alone) and `notes/ref/SETUP.md` (legacy name, moved to `notes/ref/`).\n",
+        "doc/ref/OLD_API.md": "clw_ref@0.11.0 · created: 2026-10-01 · updated: 2026-10-01 · type: Reference · status: Archived · category: Test · keywords: [review] · superseded_by: review-sibling/doc/ref/OLD_API.md\n\n- **subject:** Old API\n- **doc_brief:** Replaced by the sibling project's API ref.\n\n---\n\nSee `review-sibling/doc/ref/OLD_API.md`.\n",
+        "doc/ref/TWIN_A.md": "clw_ref@0.11.0 · created: 2025-12-01 · updated: 2026-02-01 · type: Reference · status: Active · category: Test · keywords: [review] · reviewed: 2026-10-19\n\n- **subject:** Duplicate topic\n- **doc_brief:** Fixture for openclew review.\n\n---\n\n# Summary\n\nFirst twin.\n",
+        "doc/ref/TWIN_B.md": "clw_ref@0.11.0 · created: 2025-12-01 · updated: 2026-02-01 · type: Reference · status: Archived · category: Test · keywords: [review] · superseded_by: doc/ref/TWIN_A.md\n\n- **subject:** Duplicate Topic!\n- **doc_brief:** Fixture for openclew review.\n\n---\n\n# Summary\n\nSecond twin.\n",
+        "doc/review-journal.md": "# Review journal\n\nGestures applied to refs by `openclew review`. `auto` = deterministic pass (`--apply`), `agent` = judged gesture (`--archive`, `--confirm`). Append-only, never edited by hand. Undo a gesture with `git revert` of its commit, or by editing the ref back. Nothing is ever deleted or moved.\n\n| Date | By | Ref | Gesture | Why |\n|---|---|---|---|---|\n| 2026-10-19 | auto | doc/_LEGACY_REDIRECT.md | archive (superseded_by: review-sibling/doc/_LEGACY_REDIRECT.md) | marked deprecated or redirect, replacement exists |\n| 2026-10-19 | auto | doc/ref/MOVED_PATH.md | refresh (`deep/helper.js` → `src/deep/helper.js`) | dead path, it was relative to a subfolder |\n| 2026-10-19 | auto | doc/ref/MOVED_PATH.md | refresh (`notes/_SETUP.md` → `notes/ref/SETUP.md`) | dead path, legacy _NAME moved to ref/ |\n| 2026-10-19 | auto | doc/ref/OLD_API.md | archive (superseded_by: review-sibling/doc/ref/OLD_API.md) | marked deprecated or redirect, replacement exists |\n| 2026-10-19 | agent | doc/ref/TWIN_A.md | confirm | still accurate |\n| 2026-10-19 | agent | doc/ref/TWIN_B.md | archive (superseded_by: doc/ref/TWIN_A.md) | merged into TWIN_A |\n"
+      }
+    }
+  }
 }

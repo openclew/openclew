@@ -183,6 +183,26 @@ fn session_log_content(date_actions: &[Action]) -> (String, String) {
 }
 
 pub fn run() -> Result<(), String> {
+    run_summary()?;
+    print_review();
+    Ok(())
+}
+
+/// Deterministic cleanup (own commit), then top 3 judged candidates; silent when there is nothing
+fn print_review() {
+    let Ok(root) = std::env::current_dir() else { return };
+    let applied = crate::cmd::review_apply::format_apply(&crate::cmd::review_apply::apply_refs(&root, &today(), true, true));
+    if !applied.is_empty() {
+        print!("\n{applied}");
+    }
+    let report = crate::cmd::review::review_refs(&root, &today(), true);
+    let block = crate::cmd::review::format_checkout(&report, 3);
+    if !block.is_empty() {
+        println!("{block}");
+    }
+}
+
+fn run_summary() -> Result<(), String> {
     let root = std::env::current_dir().map_err(|e| e.to_string())?;
     let doc_dir = root.join("doc");
     let log_dir = doc_dir.join("log");

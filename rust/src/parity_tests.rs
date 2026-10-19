@@ -120,3 +120,51 @@ fn test_search_parity() {
         assert_eq!(actual, expected, "search({query:?})");
     }
 }
+
+#[test]
+fn test_review_parity() {
+    use crate::cmd::review::{format_checkout, format_markdown, review_refs};
+    let g = golden();
+    let case = &g["review"];
+    let root = parity_dir().join("../review");
+    let report = review_refs(&root, case["today"].as_str().unwrap(), false);
+    assert_eq!(serde_json::to_value(&report).unwrap(), case["report"]);
+    assert_eq!(format_markdown(&report, 2), case["markdown_top2"].as_str().unwrap());
+    assert_eq!(format_checkout(&report, 3), case["checkout_top3"].as_str().unwrap());
+}
+
+fn copy_dir(from: &Path, to: &Path) {
+    fs::create_dir_all(to).unwrap();
+    for entry in fs::read_dir(from).unwrap().flatten() {
+        let target = to.join(entry.file_name());
+        if entry.path().is_dir() {
+            copy_dir(&entry.path(), &target);
+        } else {
+            fs::copy(entry.path(), target).unwrap();
+        }
+    }
+}
+
+#[test]
+fn test_review_apply_parity() {
+    use crate::cmd::review_apply::{apply_refs, archive_ref, confirm_ref, format_apply};
+    let g = golden();
+    let case = &g["review"];
+    let today = case["today"].as_str().unwrap();
+    let tmp = std::env::temp_dir().join(format!("oc-parity-rs-{}", std::process::id()));
+    let _ = fs::remove_dir_all(&tmp);
+    for name in ["review", "review-sibling"] {
+        copy_dir(&parity_dir().join("..").join(name), &tmp.join(name));
+    }
+    let root = tmp.join("review");
+    let result = apply_refs(&root, today, false, false);
+    confirm_ref(&root, "doc/ref/TWIN_A.md", "still accurate", today).unwrap();
+    archive_ref(&root, "doc/ref/TWIN_B.md", Some("doc/ref/TWIN_A.md"), "merged into TWIN_A", today).unwrap();
+    let expected = &case["apply"];
+    assert_eq!(serde_json::to_value(&result).unwrap(), expected["result"]);
+    assert_eq!(format_apply(&result), expected["summary"].as_str().unwrap());
+    for (file, content) in expected["files"].as_object().unwrap() {
+        assert_eq!(fs::read_to_string(root.join(file)).unwrap(), content.as_str().unwrap(), "{file}");
+    }
+    let _ = fs::remove_dir_all(&tmp);
+}
