@@ -58,6 +58,34 @@ enum Commands {
     /// Documentation health dashboard
     Status,
 
+    /// Refs that may be outdated; --apply runs the safe automatic cleanup
+    Review {
+        /// Number of candidates shown (default: 10)
+        #[arg(long)]
+        top: Option<usize>,
+        /// Full report as JSON
+        #[arg(long)]
+        json: bool,
+        /// Apply deterministic gestures (refresh moved paths, archive proven redirects)
+        #[arg(long)]
+        apply: bool,
+        /// With --apply: commit the touched refs and the journal in a dedicated commit
+        #[arg(long)]
+        commit: bool,
+        /// Judged gesture: archive this ref in place
+        #[arg(long)]
+        archive: Option<String>,
+        /// With --archive: the ref that replaces it (must exist)
+        #[arg(long)]
+        superseded_by: Option<String>,
+        /// Judged gesture: confirm this ref is still true (sets reviewed:)
+        #[arg(long)]
+        confirm: Option<String>,
+        /// Reason, written to the journal (required with --archive / --confirm)
+        #[arg(long)]
+        why: Option<String>,
+    },
+
     /// Format session header line
     SessionHeader {
         /// Session title
@@ -123,6 +151,9 @@ fn main() {
         Commands::Peek => cmd::peek::run(),
         Commands::Checkout => cmd::checkout::run(),
         Commands::Status => cmd::status::run(),
+        Commands::Review { top, json, apply, commit, archive, superseded_by, confirm, why } => {
+            cmd::review::run(cmd::review::RunOptions { top, json, apply, commit, archive, superseded_by, confirm, why })
+        }
         Commands::SessionHeader { name, tags, date } => cmd::session_header::run(&name, &tags, date.as_deref()),
         Commands::Index { doc_dir } => cmd::index::run(doc_dir),
         Commands::Mcp => cmd::mcp::run(),

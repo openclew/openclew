@@ -17,6 +17,10 @@ const EXAMPLE_LOG: &str = include_str!("../../templates/embedded/example-log.md"
 const TODO_ROOT: &str = include_str!("../../templates/embedded/todo-root.md");
 const INJECT_BLOCK: &str = include_str!("../../templates/embedded/inject-block.md");
 const CHECKOUT_LOG: &str = include_str!("../../templates/embedded/checkout-log.md");
+const REVIEW_CHECKOUT: &str = include_str!("../../templates/embedded/review-checkout.md");
+const REVIEW_FOOTER: &str = include_str!("../../templates/embedded/review-footer.md");
+const REVIEW_JOURNAL: &str = include_str!("../../templates/embedded/review-journal.md");
+pub const REVIEW_CONFIG: &str = include_str!("../../templates/embedded/review.json");
 
 /// Substitute {{DATE}}, {{VER}} and the given extra placeholders
 fn render(template: &str, vars: &[(&str, &str)]) -> String {
@@ -28,6 +32,20 @@ fn render(template: &str, vars: &[(&str, &str)]) -> String {
         out = out.replace(&format!("{{{{{key}}}}}"), value);
     }
     out
+}
+
+/// `{{DATE}}` is the review date (may differ from today in tests), so it is set first
+pub fn review_checkout(count: usize, shown: usize, rows: &str, date: &str) -> String {
+    let (count, shown) = (count.to_string(), shown.to_string());
+    render(&REVIEW_CHECKOUT.replace("{{DATE}}", date), &[("COUNT", &count), ("SHOWN", &shown), ("ROWS", rows)])
+}
+
+pub fn review_footer(date: &str) -> String {
+    render(&REVIEW_FOOTER.replace("{{DATE}}", date), &[])
+}
+
+pub fn review_journal_header() -> String {
+    render(REVIEW_JOURNAL, &[])
 }
 
 pub fn ref_content(title: &str) -> String {

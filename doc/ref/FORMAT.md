@@ -1,4 +1,4 @@
-clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-10-13 · doc_version: 1.4.0 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser, doc_version, from, closed, targets_todos, flat_todo, purge, archive
+clw_ref@0.9.1 · created: 2026-03-30 · updated: 2026-10-19 · doc_version: 1.5.0 · type: Reference · status: Active · category: Format · keywords: spec, L1, L2, L3, metadata, template, parser, doc_version, from, closed, targets_todos, flat_todo, purge, archive
 - **subject:** Spécification du format de document openclew
 - **doc_brief:** Chaque doc openclew est construit en 4 couches progressives — les métadonnées pour les machines, L1 comme fil d'Ariane pour saisir le sujet d'un coup d'œil, L2 pour un résumé tenant en un écran, et L3 pour le détail complet. On ne descend plus profond que lorsqu'on en a besoin.
 
@@ -99,6 +99,7 @@ Le **nom du fichier d'archive est au choix du consommateur** (openclew est agnos
 | `clw_ref@` / `clw_log@` / `clw_todo@VERSION` | oui | oui | oui | **Version du format openclew** à laquelle le doc se conforme. Immuable sauf migration de format. Ne **pas** incrémenter lors d'une édition de contenu. |
 | `created` | oui | — | oui | Date de création |
 | `updated` | oui | — | — | Date de dernière mise à jour |
+| `reviewed` | oui | — | — | **Date de relecture confirmée**, sans modification. Remet à zéro l'âge vu par `openclew review` (la ref sort du score pendant 90 jours) sans toucher `updated` ni `doc_version`. Optionnel. |
 | `doc_version` | oui | — | — | **Version du contenu du document** (semver). Incrémenter lors d'éditions significatives. Commence à `1.0.0`. Distincte de `clw_ref@`. |
 | `date` | — | oui | — | Date de la session |
 | `type` | oui | oui | — | Type de document |
@@ -160,3 +161,4 @@ Ce document (`doc/ref/FORMAT.md`) est une ref **sur** le format, écrite **dans*
 | Date | Changement |
 |------|------------|
 | 2026-10-13 | Traduction en français |
+| 2026-10-19 | Champ `reviewed` (relecture confirmée, lu par `openclew review`) |

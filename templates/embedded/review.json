@@ -1,0 +1,76 @@
+{
+  "age_days": 90,
+  "orphan_max_inbound": 1,
+  "signal_weights": {
+    "deprecated": 3,
+    "orphan": 2,
+    "transient": 2,
+    "twin": 2,
+    "dead_paths": 1
+  },
+  "transient_statuses": [
+    "draft",
+    "wip",
+    "planned",
+    "in progress"
+  ],
+  "archived_statuses": [
+    "archived",
+    "archivé"
+  ],
+  "archive_dirs": [
+    "archive"
+  ],
+  "scan_extensions": [
+    "md",
+    "txt",
+    "js",
+    "mjs",
+    "cjs",
+    "ts",
+    "tsx",
+    "jsx",
+    "svelte",
+    "vue",
+    "py",
+    "rs",
+    "go",
+    "rb",
+    "java",
+    "kt",
+    "sh",
+    "json",
+    "yaml",
+    "yml",
+    "toml",
+    "r",
+    "sql"
+  ],
+  "skip_dirs": [
+    "node_modules",
+    "target",
+    "dist",
+    "build",
+    "vendor",
+    "__pycache__",
+    "venv",
+    "site-packages"
+  ],
+  "max_scan_bytes": 1000000,
+  "top_default": 10,
+  "deprecated_markers": [
+    "deprecated",
+    "déprécié",
+    "superseded",
+    "supersédé",
+    "redirect",
+    "redirection",
+    "obsolete",
+    "obsolète"
+  ],
+  "journal": "doc/review-journal.md",
+  "commit_title": {
+    "one": "docs(review): 1 automatic cleanup gesture",
+    "many": "docs(review): {{COUNT}} automatic cleanup gestures"
+  }
+}

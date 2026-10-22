@@ -4,6 +4,8 @@ pub mod index;
 pub mod init;
 pub mod mcp;
 pub mod peek;
+pub mod review;
+pub mod review_apply;
 pub mod search;
 pub mod session_header;
 pub mod status;

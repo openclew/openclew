@@ -1,7 +1,7 @@
-clw_ref@0.10.1 · created: 2026-10-13 · updated: 2026-10-13 · doc_version: 1.0.0 · type: Reference · status: Active · category: CLI · keywords: [cli, add, search, status, checkout, peek, index, session-header, mcp, help, guidance]
+clw_ref@0.10.1 · created: 2026-10-13 · updated: 2026-10-19 · doc_version: 1.1.0 · type: Reference · status: Active · category: CLI · keywords: [cli, add, search, status, checkout, peek, index, session-header, mcp, help, guidance]
 
 - **subject:** Conception de la CLI openclew — commandes, contrats et principe « l'agent guide l'utilisateur »
-- **doc_brief:** La CLI expose 7 commandes essentielles (`init`, `add ref|log|todo`, `search`, `peek`, `checkout`) et 5 avancées (`status`, `migrate`, `index`, `session-header`, `mcp`) visibles via `help --all`. `search` classe par score pondéré sur L1 et la ligne de métadonnées, `status` mesure la santé de la doc et détecte le legacy, `checkout` pré-remplit un log depuis les commits du jour, `mcp` expose les docs aux agents en JSON-RPC stdio. Chaque commande se termine par un message qui dit quoi faire ensuite.
+- **doc_brief:** La CLI expose 7 commandes essentielles (`init`, `add ref|log|todo`, `search`, `peek`, `checkout`) et 6 avancées (`status`, `review`, `migrate`, `index`, `session-header`, `mcp`) visibles via `help --all`. `search` classe par score pondéré sur L1 et la ligne de métadonnées, `status` mesure la santé de la doc et détecte le legacy, `checkout` pré-remplit un log depuis les commits du jour, `mcp` expose les docs aux agents en JSON-RPC stdio. Chaque commande se termine par un message qui dit quoi faire ensuite.
 
 ---
 
@@ -34,6 +34,7 @@ Fixer le contrat de chaque commande et les décisions de conception qui les sous
 | `peek` | défaut | Fichier d'instructions + refs + TODO ouverts | Non |
 | `checkout` | défaut | Résumé git du jour + log pré-rempli | Oui (log, index) |
 | `status` | `--all` | Dashboard santé de la doc | Non |
+| `review` | `--all` | Refs à revoir (péremption), top N, `--json` | Non |
 | `migrate` | masquée | **Obsolète, désactivée depuis 0.11.0** : affiche un renvoi vers `npx openclew@0.9.0 migrate` (voir [MIGRATION.md](MIGRATION.md)) | Non |
 | `index` | `--all` | Régénère `doc/_INDEX.md` | Oui |
 | `session-header` | `--all` | Formate une ligne d'en-tête de session | Non |
@@ -86,6 +87,19 @@ Dashboard de santé, en lecture seule :
 - **Distributions** par status et par category.
 - **Score de santé** = (docs avec brief + docs avec subject + refs fraîches) / (2 × total + nombre de refs). 100 % = tout est renseigné et aucune ref n'est périmée.
 
+## `review`
+
+Nettoyage continu des refs, sans suppression ni déplacement. Mécanisme complet : [PEREMPTION_DES_REFS.md](PEREMPTION_DES_REFS.md).
+
+| Forme | Effet |
+|---|---|
+| `review [--top N] [--json]` | Lecture seule : candidates triées par score (`deprecated` 3 ; `orphan`, `transient`, `twin` 2 ; `dead_paths` 1), puis par âge |
+| `review --apply [--commit]` | Gestes déterministes : chemin mort au déplacement prouvé → rafraîchi ; redirection au remplaçant prouvé → `status: Archived` + `superseded_by`. Refs non commitées ignorées. `--commit` : commit dédié des seuls fichiers touchés |
+| `review --confirm <ref> --why <texte>` | Geste jugé : pose `reviewed: <date>`, la ref sort du score pendant 90 jours |
+| `review --archive <ref> [--superseded-by <ref>] --why <texte>` | Geste jugé : archive sur place ; le remplaçant doit exister |
+
+Chaque geste s'ajoute au journal `doc/review-journal.md` (date, `auto`/`agent`, ref, geste, raison). Titre du commit dédié : anglais accordé par défaut ; un projet le remplace dans `.openclew.json` par `"reviewCommit": { "one": "…", "many": "… {{COUNT}} …" }` (`init` conserve cette clé). Seuils, poids et dossiers ignorés : `templates/embedded/review.json`.
+
 ## `checkout`
 
 Résumé de fin de session, pensé pour le moment où l'on oublie d'écrire le log :
@@ -94,6 +108,7 @@ Résumé de fin de session, pensé pour le moment où l'on oublie d'écrire le l
 2. Affiche les commits (type extrait des Conventional Commits : feat → Feature, fix → Fix…), les fichiers non commités (10 max), l'état des logs du jour et la liste des refs à vérifier.
 3. S'il y a des commits, crée `doc/log/YYYY-MM-DD_<slug>.md` depuis `templates/embedded/checkout-log.md` : titre dérivé des commits, `keywords` = scopes des commits, `doc_brief` = descriptions concaténées, section « What was done » = liste des commits. Ne réécrit jamais un log existant.
 4. Régénère `doc/_INDEX.md` si un log a été créé.
+5. Lance `review --apply --commit` (gestes déterministes, commit dédié), puis affiche les 3 premières candidates avec la consigne : ne lire que leur L1, appliquer 1 à 3 gestes jugés sûrs (`--confirm`, `--archive`), les signaler en une ligne, ne demander qu'en cas de doute réel. Sans geste ni candidate : aucune ligne.
 
 Le log produit est un brouillon : l'utilisateur ou l'agent doit y ajouter le « pourquoi » et le résultat.
 
@@ -146,3 +161,5 @@ openclew ne doit pas attendre que l'utilisateur connaisse ses commandes. Concrè
 |------|--------|
 | 2026-10-13 | Création (condensé de l'historique interne) |
 | 2026-10-14 | `migrate` obsolète et désactivée (Node et Rust) |
+| 2026-10-19 | Commande `review` (péremption des refs) et top 3 au `checkout` |
+| 2026-10-19 | `review --apply`, `--confirm`, `--archive`, journal ; `checkout` lance la passe déterministe |

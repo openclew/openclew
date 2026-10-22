@@ -70,6 +70,7 @@ This replaces the previous `openclew@VERSION` prefix. The prefix encodes the doc
 | `date` | -- | Y | Session date |
 | `type` | Y | Y | Document type (see below) |
 | `status` | Y | Y | Document status (see below) |
+| `reviewed` | Y | -- | Date the ref was last re-read and confirmed true **without** changing it. Resets its age for `openclew review` (a confirmed ref leaves the score for 90 days) without bumping `updated` or `doc_version`. Optional. |
 | `superseded_by` | Y | -- | Path to the replacing ref. **Required** when `status: Archived` because another ref replaced this one. Omit otherwise. |
 | `category` | Y | Y | Main domain (free text) |
 | `keywords` | Y | Y | Tags for search `[tag1, tag2]` |
@@ -105,6 +106,12 @@ This replaces the previous `openclew@VERSION` prefix. The prefix encodes the doc
 | `Abandoned` | -- | Y | Work stopped, approach not viable |
 
 **Ref status transitions.** `Active` is the default for new refs: a ref is written once its content is true, not as a scratchpad, so it is reference-quality on creation. Promote `Active → Stable` when a ref stops changing across several sessions. When a ref is replaced or goes obsolete, move it to `Archived` **instead of deleting it** — inbound links then resolve to a tombstone rather than breaking. If the archival is due to a replacement ref, set `superseded_by:` to that ref's path (see Fields).
+
+**Continuous cleanup.** `openclew checkout` runs two steps, never deleting nor moving a file:
+1. **Deterministic** (`openclew review --apply --commit`): a dead backticked path whose move is proven (a file ends with the cited path, or legacy `<dir>/_NAME.md` became `<dir>/ref/.../NAME.md`, exactly one match) is rewritten; a ref marked deprecated or redirect whose replacement is proven is set to `status: Archived` + `superseded_by`, in place. Refs with uncommitted changes are skipped; the touched files get their own commit.
+2. **Judged** (agent): the top 3 candidates of `openclew review` (deprecated, or untouched for 90+ days and orphan, lingering `Draft`, dead paths, twin subject). The agent reads only their L1 and applies 1 to 3 gestures it is sure of: `openclew review --confirm <ref> --why …` (sets `reviewed:`) or `--archive <ref> [--superseded-by <ref>] --why …` (merge = move the content by hand, then archive). It asks the user only when in real doubt.
+
+Every gesture is appended to `doc/review-journal.md` (date, `auto`/`agent`, ref, gesture, reason). Thresholds and weights: `templates/embedded/review.json`.
 
 ---
 

@@ -19,6 +19,9 @@ const { walkDir } = require("../lib/search");
 const { parseLegacyDoc } = require("../lib/migrate");
 const { parseFlatTodos } = require("../lib/todo-flat");
 const { formatSessionHeader } = require("../lib/session-header");
+const { reviewRefs, formatMarkdown, formatCheckout } = require("../lib/review");
+const { applyRefs, archiveRef, confirmRef, formatApply } = require("../lib/review-apply");
+const os = require("os");
 
 /** formatSessionHeader prints instead of returning: capture its console.log */
 function sessionHeaderLine({ name, tags, date }) {
@@ -35,6 +38,8 @@ function sessionHeaderLine({ name, tags, date }) {
 const { refContent, logContent, todoDocContent, slugify, slugifyLog, today, ocVersion } = require("../lib/templates");
 
 const PARITY_DIR = path.join(__dirname, "fixtures", "parity");
+const REVIEW_DIR = path.join(__dirname, "fixtures", "review");
+const REVIEW_TODAY = "2026-10-19";
 const DOC_DIR = path.join(PARITY_DIR, "doc");
 
 // Shared inputs — the Rust test reads them from generated.json, never redefines them
@@ -103,6 +108,37 @@ function generatedSnapshot() {
       closed: t.closed,
     })),
     session_headers: SESSION_HEADERS.map((h) => ({ ...h, line: sessionHeaderLine(h) })),
+    review: reviewSnapshot(),
+  };
+}
+
+/** Review over fixtures/review, git ignored (fixture commit dates vary) */
+function reviewSnapshot() {
+  const report = reviewRefs(REVIEW_DIR, { today: REVIEW_TODAY, useGit: false });
+  return {
+    today: REVIEW_TODAY,
+    report,
+    markdown_top2: formatMarkdown(report, 2),
+    checkout_top3: formatCheckout(report, 3),
+    apply: applySnapshot(),
+  };
+}
+
+/** Apply + judged gestures on a temp copy of fixtures/review and its sibling */
+function applySnapshot() {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "oc-parity-"));
+  for (const name of ["review", "review-sibling"]) {
+    fs.cpSync(path.join(__dirname, "fixtures", name), path.join(tmp, name), { recursive: true });
+  }
+  const root = path.join(tmp, "review");
+  const result = applyRefs(root, { today: REVIEW_TODAY, useGit: false });
+  confirmRef(root, "doc/ref/TWIN_A.md", { why: "still accurate", today: REVIEW_TODAY });
+  archiveRef(root, "doc/ref/TWIN_B.md", { supersededBy: "doc/ref/TWIN_A.md", why: "merged into TWIN_A", today: REVIEW_TODAY });
+  const files = [...result.touched, "doc/ref/TWIN_A.md", "doc/ref/TWIN_B.md", "doc/review-journal.md"];
+  return {
+    result,
+    summary: formatApply(result),
+    files: Object.fromEntries(files.map((f) => [f, fs.readFileSync(path.join(root, f), "utf-8")])),
   };
 }
 
